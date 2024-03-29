@@ -17,9 +17,9 @@ const AddAgent = () => {
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
-      <PageHeading title='Enregistrement patient(e)'/>
+      <PageHeading title='Ajouter un Agent'/>
       <PageLayout>
-        <AppBreadcrumb title='Nouvel Agent'/>
+        <AppBreadcrumb title='Ajouter un Agent'/>
         <Link to='/app/agents'><i className='bi bi-box-arrow-in-down-left'/> Retour à la liste</Link>
         <Card className='mt-5'>
           <Card.Body>

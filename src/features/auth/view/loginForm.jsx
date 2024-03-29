@@ -41,12 +41,12 @@ export default function LoginForm() {
         dispatch
       )}>
         <div className='mb-3'>
-          <Form.Label htmlFor='username' className='text-uppercase'>Email ou Username</Form.Label>
+          <Form.Label htmlFor='username' className='text-uppercase'>Username</Form.Label>
           <Form.Control
             autoFocus
             disabled={isLoading}
             autoComplete='off'
-            placeholder="Entrez votre email ou votre nom d'utilisateur"
+            placeholder="Entrez votre nom d'utilisateur"
             id='username'
             name='username'
             value={fields.username}

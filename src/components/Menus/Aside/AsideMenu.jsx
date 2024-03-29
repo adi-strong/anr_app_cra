@@ -26,19 +26,27 @@ export default function AsideMenu() {
             onClick={toggleMenu}
             menuKey={menus[0].key}/>}
         
-        {menus.length > 0 &&
+        {/*menus.length > 0 &&
           <AsideMenuItem
             items={menus}
             index={1}
             onClick={toggleMenu}
-            menuKey={menus[1].key}/>}
+            menuKey={menus[1].key}/>*/}
         
         {menus.length > 0 &&
+          <AsideMenuItem2
+            pathname={pathname}
+            items={menus}
+            index={1}
+            onClick={toggleSubMenu}
+            menuKey={menus[1].key}/>}
+        
+        {/*menus.length > 0 &&
           <AsideMenuItem
             items={menus}
             index={2}
             onClick={toggleMenu}
-            menuKey={menus[2].key}/>}
+            menuKey={menus[2].key}/>*/}
         
         {menus.length > 0 &&
           <AsideMenuItem2

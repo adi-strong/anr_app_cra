@@ -10,10 +10,12 @@ export const nbPageOptions = [
   {label: '100', value: 100},
 ]
 
+export const sexLabel = {H: 'Homme', F: 'Femme'}
+
 export const sexOptions = [
   {label: '-- Sélection du sexe --', value: ''},
-  {label: 'Homme', value: 'h'},
-  {label: 'Femme', value: 'f'},
+  {label: 'Homme', value: 'H'},
+  {label: 'Femme', value: 'F'},
 ]
 
 export const maritalStatusOptions = [
@@ -51,6 +53,9 @@ export const onArrayChange = (e, index, item: string, items = [], state, setStat
     case 'checkbox':
       value = target.checked
       break
+    case 'date':
+      value = target.value
+      break
     case 'number':
       value = isNaN(parseFloat(target.value)) || target.value < 0 ? '' : target.value
       break
@@ -60,7 +65,7 @@ export const onArrayChange = (e, index, item: string, items = [], state, setStat
   }
   
   values[index][target.name] = value
-  setState({...state, [item]: values})
+  setState({...state, [items]: values})
 }
 
 export const onRemoveArrayItem = (index, item: string, items = [], state, setState): void => {

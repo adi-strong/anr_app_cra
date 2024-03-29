@@ -13,14 +13,14 @@ import {
 import {Button, Col, Form, InputGroup, Modal, Row} from "react-bootstrap";
 import {onFieldChange} from "../../../services/form.handler.service";
 
-export default function AddExpenseModal({show, onHide}) {
+export default function AddExpenseModal({show, onHide, onRefresh}) {
   const [fields, setFields] = useState(finFields)
   const [errors, setErrors] = useState(finErrors)
   
   const total = useMemo(() => {
     let sum = 0
-    if (fields.items.length > 0) {
-      const items = fields.items
+    if (fields.operations.length > 0) {
+      const items = fields.operations
       for (const key in items) {
         const item = items[key]
         const qty = isNaN(parseFloat(item.qty)) || item.qty < 0 ? 1 : parseFloat(item.qty)
@@ -75,7 +75,7 @@ export default function AddExpenseModal({show, onHide}) {
           </Row>
           
           <div className='p-2 bg-light mb-3' style={{ border: '1px solid lightgray' }}>
-            {fields.items.length > 0 && fields.items.map((t, i) =>
+            {fields.operations.length > 0 && fields.operations.map((t, i) =>
               <Row key={i} className='mb-2'>
                 <Col className='mb-1'>
                   <Form.Text>Type</Form.Text>
@@ -113,7 +113,7 @@ export default function AddExpenseModal({show, onHide}) {
                     <InputGroup.Text style={{ position: 'relative', top: 22, height: 29.69 }}>
                       FC
                     </InputGroup.Text>
-                    {fields.items.length > 1 &&
+                    {fields.operations.length > 1 &&
                       <Button
                         disabled={false}
                         variant='danger'

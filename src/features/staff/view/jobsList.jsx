@@ -6,7 +6,7 @@ import {Button, Card, Col, Form, Row, Table} from "react-bootstrap";
 import {onSetNbPages} from "../../config/config.slice";
 import {nbPageOptions} from "../../../services";
 import {onFieldChange} from "../../../services/form.handler.service";
-import {serviceItems} from "../model/department.service";
+import {serviceItems} from "../../configurations/model/department.service";
 import JobItem from "./jobItem";
 
 export default function JobsList() {

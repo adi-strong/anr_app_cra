@@ -3,27 +3,32 @@ import {FallBackRender, FeedbackError} from "../../../components";
 import {useState} from "react";
 import {finCategories} from "../model/finances.service";
 import PropTypes from "prop-types";
-import {Button, Form, InputGroup} from "react-bootstrap";
+import {Button, Form, InputGroup, Spinner} from "react-bootstrap";
 import {
   onAddExpenseCatItem, onExpCatReset,
-  onExpCatSubmit,
   onExpenseCatItemChange,
   onRemoveExpenseCatItem
 } from "../model/expense.categoy.service";
+import {onAddDepSubmit} from "../../configurations/model/department.service";
+import {useAddExpTypeMutation} from "../model/exp.type.api.slice";
 
-export default function AddExpenseCategoriesForm({onHide}) {
+export default function AddExpenseCategoriesForm({onHide, pages, onRefresh}) {
   const [validated, setValidated] = useState(false)
   const [fields, setFields] = useState(finCategories)
+  const [addExpType, {isLoading}] = useAddExpTypeMutation()
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <Form
         noValidate
         validated={validated}
-        onSubmit={e => onExpCatSubmit(
+        onSubmit={e => onAddDepSubmit(
           e,
           fields,
           setFields,
+          addExpType,
+          onRefresh,
+          onHide,
           setValidated
         )}>
         
@@ -33,23 +38,23 @@ export default function AddExpenseCategoriesForm({onHide}) {
               <Form.Control
                 required
                 autoFocus
-                disabled={false}
+                disabled={isLoading}
                 autoComplete='off'
                 isInvalid={f.error.name !== null}
                 name='name'
                 value={f.name}
                 onChange={e => onExpenseCatItemChange(e, i, fields, setFields)}
-                placeholder='Nom de la catégorie...'/>
+                placeholder='Type de dépenses...'/>
               {fields.length > 1 &&
                 <Button
-                  disabled={false}
+                  disabled={isLoading}
                   type='button'
                   variant='danger'
                   onClick={() => onRemoveExpenseCatItem(
-                  i,
-                  fields,
-                  setFields
-                )}><i className='bi bi-dash'/></Button>}
+                    i,
+                    fields,
+                    setFields
+                  )}><i className='bi bi-dash'/></Button>}
             </InputGroup>
             <FeedbackError error={f.error.name}/>
           </div>)}
@@ -57,7 +62,7 @@ export default function AddExpenseCategoriesForm({onHide}) {
           <Button
             type='button'
             variant='dark'
-            disabled={false}
+            disabled={isLoading}
             className='d-block w-100'
             onClick={() => onAddExpenseCatItem(
               fields,
@@ -70,12 +75,13 @@ export default function AddExpenseCategoriesForm({onHide}) {
             variant='light'
             className='me-1 mb-1'
             onClick={() => onExpCatReset(fields, setFields)}
-            disabled={false}>
+            disabled={isLoading}>
             <i className='bi bi-trash'/> Effacer
           </Button>
           
-          <Button type='submit' disabled={false} className='mb-1'>
-            Enregistrer
+          <Button type='submit' disabled={isLoading} className='mb-1'>
+            {isLoading && <><Spinner animation='grow' size='sm' className='me-1'/> Veuillez patienter</>}
+            {!isLoading && 'Enregistrer'}
           </Button>
         </div>
       </Form>

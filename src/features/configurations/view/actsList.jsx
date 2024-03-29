@@ -6,8 +6,8 @@ import {Button, Card, Col, Form, Row, Table} from "react-bootstrap";
 import {onSetNbPages} from "../../config/config.slice";
 import {nbPageOptions} from "../../../services";
 import {onFieldChange} from "../../../services/form.handler.service";
-import {typeItems} from "../model/type.service";
-import ConsultationTypeItem from "./ConsultationTypeItem";
+import {provinceItems} from "../model/province.service";
+import ProvinceItem from "./provinceItem";
 import ActsForm from "./actsForm";
 
 export default function ActsList() {
@@ -70,7 +70,7 @@ export default function ActsList() {
         <Table className='text-nowrap'>
           <thead className='table-light'>
           <tr>
-            {typeItems.map(t =>
+            {provinceItems.map(t =>
               <th key={t.label} className='align-middle'>
                 {t.label}
               </th>)}
@@ -79,7 +79,7 @@ export default function ActsList() {
           </thead>
           
           <tbody>
-          <ConsultationTypeItem/>
+          <ProvinceItem/>
           </tbody>
         </Table>
       </div>

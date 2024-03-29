@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {onSetNbPages} from "../../config/config.slice";
 import {nbPageOptions} from "../../../services";
 import {onFieldChange} from "../../../services/form.handler.service";
-import ConsultationTypeItem from "./ConsultationTypeItem";
+import ProvinceItem from "./provinceItem";
 import {bedroomItems} from "../model/bed.service";
 import AddBedsForm from "./addBedsForm";
 
@@ -75,7 +75,7 @@ export default function BedroomsList() {
           </thead>
           
           <tbody>
-          <ConsultationTypeItem/>
+          <ProvinceItem/>
           </tbody>
         </Table>
       </div>

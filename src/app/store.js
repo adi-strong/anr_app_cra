@@ -7,9 +7,14 @@ export const entrypoint = 'https://localhost:8000'
 
 export const apiPath = '/api'
 
-export const patchHeaders = {
+export const patchHead = {
   'Accept': 'application/ld+json',
   'Content-Type': 'application/merge-patch+json',
+}
+
+export const jsonLdHead = {
+  'Accept': 'application/ld+json',
+  'Content-Type': 'application/ld+json',
 }
 
 const baseQuery = fetchBaseQuery({

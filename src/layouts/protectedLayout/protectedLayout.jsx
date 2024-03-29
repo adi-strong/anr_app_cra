@@ -8,6 +8,10 @@ import {useGetUniqueUserQuery} from "../../features/staff/model/user.api.slice";
 import {setAuthUser} from "../../features/auth/services/auth.slice";
 import {onAuthUser} from "../../features/staff/model/user.service";
 import toast from "react-hot-toast";
+import {useGetUniqueCurrencyQuery} from "../../features/configurations/model/currency.api.slice";
+import {useGetExpTypesListQuery} from "../../features/finances/model/exp.type.api.slice";
+import {useGetProvincesListQuery} from "../../features/configurations/model/province.api.slice";
+import {useGetDepartmentsListQuery} from "../../features/configurations/model/department.api.slice";
 
 function ProtectedLayout() {
   const dispatch = useDispatch()
@@ -17,14 +21,35 @@ function ProtectedLayout() {
   
   const {token, user} = useSelector(state => state.auth)
   const {data: session, isError, error} = useGetUniqueUserQuery(user?.id)
+  const {isError: isCurrencyError} = useGetUniqueCurrencyQuery(1)
+  
+  const {nbPages} = useSelector(state => state.config)
+  const {isError: isExpenseTypeError = []} = useGetExpTypesListQuery(nbPages)
+  
+  const {isError: isProvinceError} = useGetProvincesListQuery(nbPages)
+  const {isError: isDepartmentError} = useGetDepartmentsListQuery(nbPages)
   
   useEffect(() => {
     if (session) onAuthUser(session, dispatch, setAuthUser)
     if (isError) {
-      if (error?.error) toast.error(error.error)
+      // if (error?.error) toast.error(error.error)
       if (error?.data && error.data['hydra:description']) toast.error(error.data['hydra:description'])
     }
-  }, [session, dispatch, isError, error])
+    
+    if (isCurrencyError) console.log('############# des devises.')
+    if (isExpenseTypeError)  console.log('############# types de dépenses.')
+    if (isProvinceError)  console.log('############# provinces.')
+    if (isDepartmentError)  console.log('############# départements.')
+  }, [
+    session,
+    dispatch,
+    isError,
+    error,
+    isExpenseTypeError,
+    isCurrencyError,
+    isProvinceError,
+    isDepartmentError
+  ])
   
   function toggleSidebar() {
     const dbWrapper = document.getElementById('db-wrapper')

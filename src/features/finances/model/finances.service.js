@@ -5,6 +5,12 @@ export const finItems = [
   {label: 'DATE', key: 'date', status: 'desc'},
 ]
 
+
+export const expTypeItems = [
+  {title: 'Modifier', event: 'edit'},
+  {title: 'Supprimer', event: 'delete', className: 'text-danger'},
+]
+
 export const entryItems = [
   {label: 'MOTIF', key: 'reason', status: 'desc'},
   {label: 'PORTEUR', key: 'bearer', status: 'desc'},
@@ -24,7 +30,7 @@ export const finFields = {
   agent: null,
   currency: null,
   bearer: '',
-  items: [{name: '', qty: 0, amount: 0}],
+  operations: [{name: '', qty: 0, amount: 0}],
   reason: '',
 }
 
@@ -32,7 +38,7 @@ export const finErrors = {
   agent: null,
   currency: null,
   bearer: null,
-  items: null,
+  operations: null,
   reason: null,
 }
 
@@ -44,26 +50,40 @@ export const onFinReset = (setErrors, setFields) => {
 }
 
 export const onAddExpenseItem = (fields, setFields) => {
-  const items = [...fields.items]
-  items.push({name: '', qty: 0, amount: 0})
-  setFields({...fields, items})
+  const operations = [...fields.operations]
+  operations.push({name: '', qty: 0, amount: 0})
+  setFields({...fields, operations})
 }
 
 export const onRemoveExpenseItem = (index, fields, setFields) => {
-  const items = [...fields.items]
-  items.splice(index, 1)
-  setFields({...fields, items})
+  const operations = [...fields.operations]
+  operations.splice(index, 1)
+  setFields({...fields, operations})
 }
 
 export const onExpenseItemChange = (event, index, fields, setFields) => {
   let value
   const target = event.target
-  const items = [...fields.items]
+  const operations = [...fields.operations]
   if (target.type === 'number') {
     value = isNaN(parseFloat(target.value)) || target.value < 0 ? '' : target.value
   }
   else value = target.value
   
-  items[index][target.name] = value
-  setFields({...fields, items})
+  operations[index][target.name] = value
+  setFields({...fields, operations})
+}
+
+export const onExpTypeActionsFilter = (event, data, navigate, toggleShow, toggleOpen): void => {
+  switch (event) {
+    case 'edit':
+      toggleShow()
+      break
+    case 'delete':
+      toggleOpen()
+      break
+    default:
+      // navigate(`/app/services/${data.id}/${data?.slug}`)
+      break
+  }
 }

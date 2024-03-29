@@ -9,13 +9,26 @@ const menus = [
     isActive: false,
     isOpen: false,
   },
-  {
+  /*{
     label: 'Réception',
     to: '/app/reception',
     key: 'reception',
     icon: 'bi bi-house-door',
     isActive: false,
     isOpen: false,
+  },*/
+  {
+    label: 'Carburants',
+    to: '#!',
+    key: 'fuels',
+    icon: 'bi bi-people',
+    isActive: false,
+    isOpen: false,
+    subItems: [
+      {label: 'Stock', to: '/app/fuels-stock'},
+      {label: 'Sites', to: '/app/fuels-sites'},
+      {label: 'Approvisionnement', to: '/app/fuels-supply'},
+    ],
   },
   {
     label: 'Ordonnaces',
@@ -26,15 +39,15 @@ const menus = [
     isOpen: false,
   },
   {
-    label: 'Patients',
+    label: 'Patrimoines',
     to: '#!',
     key: 'patients',
     icon: 'bi bi-people',
     isActive: false,
     isOpen: false,
     subItems: [
-      {label: 'Liste Patients', to: '/app/patients'},
-      {label: 'Conventions', to: '/app/covenants'},
+      {label: 'Roulant', to: '/app/vehicles'},
+      {label: 'Maison', to: '/app/houses'},
     ],
   },
   {
@@ -45,16 +58,13 @@ const menus = [
     isActive: false,
     isOpen: false,
     subItems: [
-      {label: 'Types de fiches', to: '/app/consultations/types'},
-      {label: 'Traitements', to: '/app/treatments'},
-      {label: 'Actes médicaux', to: '/app/acts'},
-      {label: 'Examens', to: '/app/exams'},
-      {label: 'Chambres / Lits', to: '/app/beds'},
-      {label: 'Paramètres', to: '/app/parameters'},
+      {label: 'Générales', to: '/app/parameters'},
+      {label: 'Provinces', to: '/app/provinces'},
+      {label: 'Départements', to: '/app/departments'},
     ],
   },
   {
-    label: 'Traitements',
+    label: 'Recouvrements',
     to: '#!',
     key: 'consultations',
     icon: 'bi bi-prescription2',
@@ -84,9 +94,9 @@ const menus = [
     isOpen: false,
     subItems: [
       {label: 'Sorties', to: '/app/expenses'},
-      {label: 'Entrées', to: '/app/entries'},
-      {label: 'Factures', to: '/app/invoices'},
-      {label: 'Rapports', to: '/app/finances-reports'},
+      // {label: 'Entrées', to: '/app/entries'},
+      // {label: 'Factures', to: '/app/invoices'},
+      // {label: 'Rapports', to: '/app/finances-reports'},
     ],
   },
   {
@@ -98,10 +108,11 @@ const menus = [
     isOpen: false,
     subItems: [
       {label: 'Agents', to: '/app/agents'},
-      {label: 'Départements', to: '/app/departments'},
-      {label: 'Services', to: '/app/services'},
-      {label: 'Grades', to: '/app/grades'},
-      {label: 'Fonctions', to: '/app/functions'},
+      {label: 'Dossiers', to: '/app/folders'},
+      {label: 'Affectations', to: '/app/assignments'},
+      {label: 'Salaires', to: '/app/salaries'},
+      {label: 'Missions', to: '/app/missions'},
+      {label: 'Fiches médicales', to: '/app/hospital'},
       {label: 'Utilisateurs', to: '/app/users'},
     ],
   },
@@ -110,6 +121,8 @@ const menus = [
 const initialState = {
   menus,
   nbPages: 5,
+  provinceOptions: [],
+  departentOptions: [],
   // currencies,
 }
 
@@ -157,6 +170,33 @@ const configSlice = createSlice({
     },
     onResetConfig: state => {
       state.menus = menus
+      state.provinceOptions = []
+      state.departentOptions = []
+    },
+    handleGetProvinceOptions: (state, action) => {
+      let obj = []
+      const options = action.payload
+      if (options && options?.length > 0) {
+        obj = options?.map(p => ({
+          label: p?.name?.toUpperCase(),
+          value: p['@id']
+        }))
+      }
+      
+      state.provinceOptions = obj
+    },
+    handleGetDepartmentOptions: (state, action) => {
+      let obj = []
+      const options = action.payload
+      if (options && options?.length > 0) {
+        obj = options?.map(p => ({
+          label: p?.name?.toUpperCase(),
+          value: p['@id'],
+          grades: p?.grades && p.grades.length > 0 ? p.grades : [],
+        }))
+      }
+      
+      state.provinceOptions = obj
     },
     onSetNbPages: (state, action) => {
       state.nbPages = action.payload
@@ -165,6 +205,8 @@ const configSlice = createSlice({
 })
 
 export const {
+  handleGetDepartmentOptions,
+  handleGetProvinceOptions,
   onSetNbPages,
   onToggleMenu,
   onResetConfig,

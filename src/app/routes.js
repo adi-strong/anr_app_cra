@@ -59,26 +59,24 @@ const
     lazy(() => import('../features/staff/view/agents')),
   ShowAgent =
     lazy(() => import('../features/staff/view/showAgent')),
+  EditAgent =
+    lazy(() => import('../features/staff/view/editAgent')),
   AddAgent =
     lazy(() => import('../features/staff/view/addAgent')),
   Departments =
-    lazy(() => import('../features/staff/view/departments')),
+    lazy(() => import('../features/configurations/view/departments')),
   ShowDepartment =
-    lazy(() => import('../features/staff/view/showDepartment')),
-  Services =
-    lazy(() => import('../features/staff/view/services')),
+    lazy(() => import('../features/configurations/view/showDepartment')),
   ShowService =
-    lazy(() => import('../features/staff/view/showService')),
-  Grades =
-    lazy(() => import('../features/staff/view/grades')),
+    lazy(() => import('../features/configurations/view/showService')),
   ShowGrade =
-    lazy(() => import('../features/staff/view/showGrade')),
-  Functions =
-    lazy(() => import('../features/staff/view/jobs')),
+    lazy(() => import('../features/configurations/view/showGrade')),
   Users =
     lazy(() => import('../features/staff/view/users')),
-  ConsultationTypes =
-    lazy(() => import('../features/configurations/view/consultationTypes')),
+  Provinces =
+    lazy(() => import('../features/configurations/view/provinces')),
+  ShowProvince =
+    lazy(() => import('../features/configurations/view/showProvince')),
   Treatments =
     lazy(() => import('../features/configurations/view/treatments')),
   Acts =
@@ -86,7 +84,9 @@ const
   Exams =
     lazy(() => import('../features/configurations/view/exams')),
   Beds =
-    lazy(() => import('../features/configurations/view/beds'))
+    lazy(() => import('../features/configurations/view/beds')),
+  Years =
+    lazy(() => import('../features/configurations/view/configs'))
 
 const routes = [
   {
@@ -128,19 +128,19 @@ const routes = [
       {path: 'agents', element: <Agents/>},
       {path: 'agents/add', element: <AddAgent/>},
       {path: 'agents/:id/show', element: <ShowAgent/>},
+      {path: 'agents/:id/edit', element: <EditAgent/>},
       {path: 'departments', element: <Departments/>},
-      {path: 'departments/:id/show', element: <ShowDepartment/>},
-      {path: 'services', element: <Services/>},
-      {path: 'services/:id/show', element: <ShowService/>},
-      {path: 'grades', element: <Grades/>},
-      {path: 'grades/:id/show', element: <ShowGrade/>},
-      {path: 'functions', element: <Functions/>},
+      {path: 'departments/:id/:slug', element: <ShowDepartment/>},
+      {path: 'services/:id/:slug', element: <ShowService/>},
+      {path: 'grades/:id/:slug', element: <ShowGrade/>},
       {path: 'users', element: <Users/>},
-      {path: 'consultations/types', element: <ConsultationTypes/>},
+      {path: 'provinces', element: <Provinces/>},
+      {path: 'provinces/:id/:slug', element: <ShowProvince/>},
       {path: 'treatments', element: <Treatments/>},
       {path: 'acts', element: <Acts/>},
       {path: 'exams', element: <Exams/>},
       {path: 'beds', element: <Beds/>},
+      {path: 'parameters', element: <Years/>},
     ]
   },
 ]

@@ -15,6 +15,6 @@ export default function AppBreadcrumb({title, subTitle}) {
 }
 
 AppBreadcrumb.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string,
+  title: PropTypes.any.isRequired,
+  subTitle: PropTypes.any,
 }

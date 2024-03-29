@@ -12,7 +12,7 @@ export default function Aside() {
           <div className='nav-scroller'>
             <Link className="navbar-brand text-light fw-bold" to='/app/dashboard'>
               <img src={logo} className='me-1' alt=''/>
-              Clinic OFFICE
+              ANR
             </Link>
             
             <AsideMenu/>

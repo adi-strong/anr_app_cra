@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {consultationTypes, onAddTypeItem} from "../model/type.service";
+import {provinceFields, onAddTypeItem} from "../model/province.service";
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender, FeedbackError} from "../../../components";
 import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 export default function ActsForm({onHide}) {
   const [validated/*, setValidated*/] = useState(false)
-  const [fields, setFields] = useState(consultationTypes)
+  const [fields, setFields] = useState(provinceFields)
   // const [currency , setCurrency] = useState(null)
   
   return (
