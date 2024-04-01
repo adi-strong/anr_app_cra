@@ -3,6 +3,7 @@ export const agentItems = [
   {label: 'SEXE', key: 'sex', status: 'desc'},
   {label: 'N° Tél', key: 'left_over', status: 'desc'},
   {label: 'SERVICE', key: 'left_over', status: 'desc'},
+  {label: 'ÉTAT', key: 'left_over', status: 'desc'},
 ]
 
 export const agentFields = {
@@ -77,6 +78,15 @@ export const bloodOptions = [
   {label: 'B', value: 'B'},
   {label: 'O', value: 'O'},
   {label: 'OB', value: 'OB'}
+]
+
+export const agentTabsItems = [
+  {title: 'Aperçu', event: 'overview'},
+  {title: 'Missions', event: 'missions'},
+  {title: 'Salaires', event: 'salaries'},
+  {title: 'Dossiers', event: 'folders'},
+  {title: 'Affectations', event: 'assignments'},
+  {title: 'Fiches médicales', event: 'medical'},
 ]
 
 export const agentActionItems = [

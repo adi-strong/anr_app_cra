@@ -176,7 +176,7 @@ export default function ExpenseCategoriesList() {
               className='bi bi-arrow-clockwise text-primary me-1'
               onClick={onRefresh}
               style={{ cursor: 'pointer' }} />}
-          Liste des provinces
+          Types des dépenses
         </Card.Title>
         
         <Row>

@@ -12,6 +12,10 @@ import {useGetUniqueCurrencyQuery} from "../../features/configurations/model/cur
 import {useGetExpTypesListQuery} from "../../features/finances/model/exp.type.api.slice";
 import {useGetProvincesListQuery} from "../../features/configurations/model/province.api.slice";
 import {useGetDepartmentsListQuery} from "../../features/configurations/model/department.api.slice";
+import {useGetAgentsListQuery} from "../../features/staff/model/agent.api.slice";
+import {useGetFolderTypesListQuery} from "../../features/configurations/model/folder.type.api.slice";
+import {useGetYearsListQuery} from "../../features/configurations/model/year.api.slice";
+import {useGetFuelSitesListQuery} from "../../features/fuels/model/fuel.site.api.service";
 
 function ProtectedLayout() {
   const dispatch = useDispatch()
@@ -24,10 +28,23 @@ function ProtectedLayout() {
   const {isError: isCurrencyError} = useGetUniqueCurrencyQuery(1)
   
   const {nbPages} = useSelector(state => state.config)
+  const {isError: isYearError} = useGetYearsListQuery(nbPages)
   const {isError: isExpenseTypeError = []} = useGetExpTypesListQuery(nbPages)
+  const {isError: isAgentError} = useGetAgentsListQuery(nbPages)
   
   const {isError: isProvinceError} = useGetProvincesListQuery(nbPages)
   const {isError: isDepartmentError} = useGetDepartmentsListQuery(nbPages)
+  const {isError: isFTError} = useGetFolderTypesListQuery(nbPages)
+  const {isError: isFuelSiteError} = useGetFuelSitesListQuery(nbPages)
+  
+  useEffect(() => {
+    if (isAgentError) {
+      if (isAgentError)  console.log('############# Agents.')
+      if (isFTError)  console.log('############# FolderTypes.')
+      if (isYearError)  console.log('############# Years.')
+      if (isFuelSiteError)  console.log('############# FuelSites.')
+    }
+  }, [isAgentError, isFTError, isYearError, isFuelSiteError])
   
   useEffect(() => {
     if (session) onAuthUser(session, dispatch, setAuthUser)

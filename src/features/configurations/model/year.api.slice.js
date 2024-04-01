@@ -40,6 +40,19 @@ const yearApiSlice = api.injectEndpoints({
       }],
     }),
     
+    getLoadYears: build.query({
+      query: name => apiPath+`/years?name=${name}`,
+      providesTags: result => result
+        ? [...result?.map(({ id }) => ({ type: 'LIST', id }))]
+        : ['LIST'],
+      transformResponse: res => {
+        return res['hydra:member'].map(p => ({
+          label: p?.name?.toUpperCase(),
+          value: p['@id']
+        }))
+      }
+    }),
+    
     
     // ****************************************************************************
     
@@ -88,6 +101,7 @@ export const {
   useLazyGetPaginatedYearsListQuery,
   useLazyGetSearchedYearsListQuery,
   useGetUniqueYearQuery,
+  useLazyGetLoadYearsQuery,
   
   useEditYearMutation,
   useAddYearMutation,

@@ -86,7 +86,27 @@ const
   Beds =
     lazy(() => import('../features/configurations/view/beds')),
   Years =
-    lazy(() => import('../features/configurations/view/configs'))
+    lazy(() => import('../features/configurations/view/configs')),
+  Assignments =
+    lazy(() => import('../features/staff/view/assignments')),
+  Salaries =
+    lazy(() => import('../features/salaries/view/salaries')),
+  Fuels =
+    lazy(() => import('../features/fuels/view/fuelStocks')),
+  FuelSupply =
+    lazy(() => import('../features/fuels/view/fuelSupply')),
+  Vehicles =
+    lazy(() => import('../features/vehicles/view/vehicles')),
+  Properties =
+    lazy(() => import('../features/properties/view/properties')),
+  AddProperty =
+    lazy(() => import('../features/properties/view/addProperty')),
+  EditProperty =
+    lazy(() => import('../features/properties/view/editProperty')),
+  Societies =
+    lazy(() => import('../features/recoveries/view/societies')),
+  Recovery =
+    lazy(() => import('../features/recoveries/view/recovery'))
 
 const routes = [
   {
@@ -141,6 +161,16 @@ const routes = [
       {path: 'exams', element: <Exams/>},
       {path: 'beds', element: <Beds/>},
       {path: 'parameters', element: <Years/>},
+      {path: 'assignments', element: <Assignments/>},
+      {path: 'salaries', element: <Salaries/>},
+      {path: 'fuels-stock', element: <Fuels/>},
+      {path: 'fuels-supply', element: <FuelSupply/>},
+      {path: 'vehicles', element: <Vehicles/>},
+      {path: 'properties', element: <Properties/>},
+      {path: 'properties/add', element: <AddProperty/>},
+      {path: 'properties/:id/edit', element: <EditProperty/>},
+      {path: 'societies', element: <Societies/>},
+      {path: 'security-control', element: <Recovery/>},
     ]
   },
 ]

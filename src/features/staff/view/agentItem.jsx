@@ -3,8 +3,8 @@ import {FallBackRender, RemoveModal} from "../../../components";
 import {Link, useNavigate} from "react-router-dom";
 import avatar2 from "../../../assets/images/avatar/default_profile.jpg";
 import {entrypoint} from "../../../app/store";
-import {sexLabel} from "../../../services";
-import {Dropdown} from "react-bootstrap";
+import {sexLabel, stateColor, stateLabel} from "../../../services";
+import {Badge, Dropdown} from "react-bootstrap";
 import {agentActionItems, onAgentActionsFilter} from "../model/agent.service";
 import {useState} from "react";
 import {useDeleteAgentMutation} from "../model/agent.api.slice";
@@ -54,6 +54,9 @@ export default function AgentItem({data, pages, onRefresh}) {
           {data?.service
             ? <Link to={`/app/services/${data.service.id}/${data.service?.slug}`}>{data.service.name}</Link>
             : '-'}
+        </td>
+        <td className="align-middle text-uppercase">
+          {data?.state && <Badge bg={stateColor[data.state]}>{stateLabel[data.state]}</Badge>}
         </td>
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={

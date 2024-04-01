@@ -77,6 +77,16 @@ const expensesApiSlice = api.injectEndpoints({
       invalidatesTags: ['LIST'],
     }),
     
+    addExpense: build.mutation({
+      query: data => ({
+        method: 'POST',
+        headers: jsonLdHead,
+        url: apiPath+'/expenses',
+        body: JSON.stringify(data)
+      }),
+      invalidatesTags: ['LIST'],
+    }),
+    
     deleteDepartment: build.mutation({
       query: ({ id }) => ({
         headers: patchHead,
@@ -118,4 +128,5 @@ export const {
   useEditDepartmentMutation,
   useAddDepartmentMutation,
   useDeleteDepartmentMutation,
+  useAddExpenseMutation,
 } = expensesApiSlice

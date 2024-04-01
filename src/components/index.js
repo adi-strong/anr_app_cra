@@ -13,8 +13,10 @@ import RemoveModal from "./removeModal";
 import APIPagination from "./paginations/APIPagination";
 import ReactSelectField from "./ReactSelectField";
 import UpdateImageFields from "./updateImageFields";
+import RowContent2 from "./RowContent2";
 
 export {
+  RowContent2,
   UpdateImageFields,
   ReactSelectField,
   APIPagination,

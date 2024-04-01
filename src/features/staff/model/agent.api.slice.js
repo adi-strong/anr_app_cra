@@ -50,6 +50,22 @@ const agentApiSlice = api.injectEndpoints({
       }
     }),
     
+    getLoadAgents: build.query({
+      query: name => apiPath+`/search_agents/${name}`,
+      providesTags: result => result,
+      transformResponse: res => {
+        return res?.map(p => ({
+          label: p?.name?.toUpperCase()+' '+(p?.firstName ? p.firstName.toUpperCase()+' ' : ''),
+          value: `/api/agents/${p.id}`,
+          province: p?.province,
+          department: p?.department,
+          grade: p?.grade,
+          service: p?.service,
+          job: p?.job,
+        }))
+      }
+    }),
+    
     
     // ****************************************************************************
     
@@ -172,4 +188,5 @@ export const {
   useGetUniqueAgentQuery,
   useLazyGetPaginatedAgentsListQuery,
   useLazyGetSearchedAgentsListQuery,
+  useLazyGetLoadAgentsQuery,
 } = agentApiSlice

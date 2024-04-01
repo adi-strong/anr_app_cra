@@ -7,6 +7,7 @@ import {Dropdown} from "react-bootstrap";
 import {actionItems} from "../../../services";
 import {onDepActionsFilter} from "../../configurations/model/department.service";
 import {handleRemoveProvince} from "../../configurations/model/province.service";
+import moment from "moment";
 
 export default function ExpenseItem({data, onPaginate, parentID, page, pages, name, isPaginated, isSearched, onSearchQuery, onRefresh, navigate}) {
   const [show, setShow] = useState(false)
@@ -21,13 +22,13 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
         <td className="align-middle">
-          <Link to={`/app/departments/${data.id}/${data?.slug}`}>{data.name}</Link>
+          <Link to={`/app/departments/${data.id}/${data?.slug}`}>{data.object}</Link>
         </td>
         <td className="align-middle">
-          0
+          {data.bearer}
         </td>
-        <td className="align-middle">0</td>
-        <td className="align-middle">0</td>
+        <td className="align-middle">{data.total}</td>
+        <td className="align-middle">{data?.releasedAt && moment(data.releasedAt).format('ll')}</td>
         <td className="align-middle text-end">
           {parentID && <Link to={`/app/departments/${data.id}/${data?.slug}`}><i className='bi bi-link'/></Link>}
           {!parentID &&

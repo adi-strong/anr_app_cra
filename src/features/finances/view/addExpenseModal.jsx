@@ -1,21 +1,26 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {FallBackRender, FeedbackError, FieldsAlert} from "../../../components";
+import {FallBackRender, FeedbackError, FieldsAlert, ReactSelectField} from "../../../components";
 import PropTypes from "prop-types";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {
+  expFields,
   finErrors,
-  finFields,
-  onAddExpenseItem,
   onExpenseItemChange,
-  onFinReset,
   onRemoveExpenseItem
 } from "../model/finances.service";
-import {Button, Col, Form, InputGroup, Modal, Row} from "react-bootstrap";
+import {Button, Col, Form, InputGroup, Modal, Row, Spinner} from "react-bootstrap";
 import {onFieldChange} from "../../../services/form.handler.service";
+import {useGetExpTypesListQuery, useLazyGetLoadExpTypesQuery} from "../model/exp.type.api.slice";
+import toast from "react-hot-toast";
+import {useSelector} from "react-redux";
+import {useGetUniqueCurrencyQuery} from "../../configurations/model/currency.api.slice";
+import {useAddExpenseMutation} from "../model/expenses.api.slice";
 
 export default function AddExpenseModal({show, onHide, onRefresh}) {
-  const [fields, setFields] = useState(finFields)
+  const [fields, setFields] = useState(expFields)
   const [errors, setErrors] = useState(finErrors)
+  const [getLoadExpTypes] = useLazyGetLoadExpTypesQuery()
+  const [addExpense, {isLoading, isError, error}] = useAddExpenseMutation()
   
   const total = useMemo(() => {
     let sum = 0
@@ -32,6 +37,107 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
     return sum
   }, [fields])
   
+  const {nbPages} = useSelector(state => state.config)
+  const {data: types=[], isLoading: isDLoading, isError: isDError, error: dError}
+    = useGetExpTypesListQuery(nbPages)
+  
+  const {data: params, isError: isCError} = useGetUniqueCurrencyQuery(1)
+  
+  let typeOptions, currencyOptions
+  
+  typeOptions = useMemo(() => {
+    let obj = []
+    if (!isDError && types.length > 0) {
+      obj = types.map(p => ({
+        label: p.name.toUpperCase(),
+        value: p['@id']
+      }))
+    }
+    
+    return obj
+  }, [isDError, types])
+  
+  currencyOptions = useMemo(() => {
+    const obj = []
+    if (!isCError && params) {
+      if (params?.first) {
+        obj.push(params.first)
+        setFields(s => ({...s, currency: params.first}))
+      }
+      if (params?.last) obj.push(params.last)
+    }
+    
+    return obj
+  }, [isCError, params])
+  
+  async function onLoadTypes(keywords) {
+    try {
+      const search = await getLoadExpTypes(keywords)
+      if (search?.error) toast.error(search.error.error)
+      else return search?.data
+    } catch (e) { toast.error('Problème de connexion.') }
+  }
+  
+  const onTypeChange = (e, index) => {
+    const operations = [...fields.operations]
+    operations[index]['type'] = e
+    setFields({...fields, operations})
+  }
+  
+  const onCurrencyChange = (e) => {
+    const qty = 0
+    const amount = 0
+    const currency = e
+    if (!currency) toast.error('La Devise est requise.')
+    else {
+      let operations = [...fields.operations]
+      operations = operations.map(o => ({...o, qty, amount}))
+      setFields({...fields, currency, operations})
+    }
+  }
+  
+  const onReset = () => {
+    setErrors(finErrors)
+    setFields(expFields)
+  }
+  
+  const onAddItem = () => {
+    const operations = [...fields.operations]
+    operations.push({type: null, qty: 0, amount: 0})
+    setFields({...fields, operations})
+  }
+  
+  const onSubmit = async () => {
+    setErrors(finErrors)
+    try {
+      const send = await addExpense({...fields, rate: params?.rate?.toString(), total: total?.toString()})
+      if (send?.data) {
+        toast.success('Opération bien efféctuée.')
+        setFields(expFields)
+        setErrors(finErrors)
+        onHide()
+      }
+    } catch (e) {
+      toast.error('Problème de connexion.')
+    }
+  }
+  
+  useEffect(() => {
+    if (isDError) {
+      if (dError?.error) toast.error(dError.error)
+      if (dError?.data && dError.data['hydra:description']) toast.error(dError.data['hydra:description'])
+    }
+  }, [isDError, dError])
+  
+  useEffect(() => {
+    if (isError) {
+      const {violations} = error?.data
+      if (violations) violations.forEach(({ propertyPath, message }) => {
+        setErrors(s => ({...s, [propertyPath]: message}))
+      })
+    }
+  }, [isError, error])
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <Modal show={show} onHide={onHide} size='lg'>
@@ -43,17 +149,17 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
           <FieldsAlert/>
           
           <div className='mb-3'>
-            <Form.Label htmlFor='name'><code>*</code> Motif / Raison</Form.Label>
+            <Form.Label htmlFor='object'><code>*</code> Motif / Raison</Form.Label>
             <Form.Control
               required
               autoFocus
               autoComplete='off'
-              disabled={false}
-              isInvalid={errors.reason !== null}
-              name='reason'
-              value={fields.reason}
+              disabled={isLoading}
+              isInvalid={errors.object !== null}
+              name='object'
+              value={fields.object}
               onChange={e => onFieldChange(e, fields, setFields)}/>
-            <FeedbackError error={errors.reason}/>
+            <FeedbackError error={errors.object}/>
           </div>
           
           <Row>
@@ -62,7 +168,7 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
               <Form.Control
                 required
                 autoComplete='off'
-                disabled={false}
+                disabled={isLoading}
                 isInvalid={errors.bearer !== null}
                 name='bearer'
                 value={fields.bearer}
@@ -71,6 +177,14 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
             </Col>
             <Col>
               <Form.Label htmlFor='currency'><code>*</code> Devise</Form.Label>
+              <ReactSelectField
+                required
+                disabled={isLoading}
+                value={fields.currency}
+                onChange={e => onCurrencyChange(e)}
+                placeholder='-- --'
+                values={currencyOptions}/>
+              {errors.currency && <code><i className='bi bi-exclamation-circle-fill'/> {errors.currency}</code>}
             </Col>
           </Row>
           
@@ -79,21 +193,21 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
               <Row key={i} className='mb-2'>
                 <Col className='mb-1'>
                   <Form.Text>Type</Form.Text>
-                  <Form.Control
-                    autoFocus
-                    autoComplete='off'
-                    size='sm'
-                    disabled={false}
-                    name='name'
-                    value={t.name}
-                    onChange={e => onExpenseItemChange(e, i, fields, setFields)}/>
+                  <ReactSelectField
+                    isAsync
+                    required
+                    disabled={isDLoading}
+                    onChange={e => onTypeChange(e, i)}
+                    value={t.type}
+                    values={typeOptions}
+                    onLoadOptions={onLoadTypes}
+                    placeholder='-- --'/>
                 </Col>
                 <Col className='mb-1'>
                   <Form.Text>Nbre / Qté</Form.Text>
                   <Form.Control
-                    disabled={false}
+                    disabled={isLoading}
                     autoComplete='off'
-                    size='sm'
                     type='number'
                     name='qty'
                     value={t.qty}
@@ -102,22 +216,20 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
                 <Col className='mb-1'>
                   <InputGroup>
                     <Form.Control
-                      disabled={false}
+                      disabled={isLoading}
                       autoComplete='off'
                       style={{ position: 'relative', top: 22 }}
                       type='number'
-                      size='sm'
                       name='amount'
                       value={t.amount}
                       onChange={e => onExpenseItemChange(e, i, fields, setFields)}/>
-                    <InputGroup.Text style={{ position: 'relative', top: 22, height: 29.69 }}>
-                      FC
+                    <InputGroup.Text style={{ position: 'relative', top: 22, }}>
+                      {fields?.currency && fields.currency?.symbol}
                     </InputGroup.Text>
                     {fields.operations.length > 1 &&
                       <Button
-                        disabled={false}
+                        disabled={isLoading}
                         variant='danger'
-                        size='sm'
                         onClick={() => onRemoveExpenseItem(i, fields, setFields)}
                         style={{ position: 'relative', top: 22 }}>
                         <i className='bi bi-dash'/>
@@ -127,11 +239,11 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
               </Row>)}
             
             <Button
-              disabled={false}
+              disabled={isLoading}
               variant='dark'
               size='sm'
               className='w-100 d-block'
-              onClick={() =>onAddExpenseItem(fields, setFields)}>
+              onClick={onAddItem}>
               <i className='bi bi-plus'/>
             </Button>
           </div>
@@ -150,13 +262,14 @@ export default function AddExpenseModal({show, onHide, onRefresh}) {
           <Button
             variant='light'
             className='me-1 mb-1'
-            onClick={() => onFinReset(setErrors, setFields)}
-            disabled={false}>
+            onClick={onReset}
+            disabled={isLoading}>
             <i className='bi bi-trash'/> Effacer
           </Button>
           
-          <Button disabled={false} className='mb-1' onClick={() => {}}>
-            Enregistrer
+          <Button disabled={isLoading} className='mb-1' onClick={onSubmit}>
+            {isLoading && <Spinner animation='grow' size='sm' className='me-1'/>}
+            {!isLoading ? 'Enregistrer' : 'Veuillez patienter'}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -47,7 +47,8 @@ const provinceApiSlice = api.injectEndpoints({
       transformResponse: res => {
         return res['hydra:member'].map(p => ({
           label: p?.name?.toUpperCase(),
-          value: p['@id']
+          value: p['@id'],
+          societies: p?.societies && p.societies?.length > 0 ? p.societies : []
         }))
       }
     }),

@@ -41,6 +41,16 @@ const expTypeApiSlice = api.injectEndpoints({
       }],
     }),
     
+    getLoadExpTypes: build.query({
+      query: name => apiPath+`/expense_types?name=${name}`,
+      transformResponse: res => {
+        return res['hydra:member'].map(p => ({
+          label: p.name.toUpperCase(),
+          value: p['@id']
+        }))
+      }
+    }),
+    
     
     
     // ****************************************************************************
@@ -115,6 +125,7 @@ export const {
   useLazyGetPaginatedExpTypesListQuery,
   useLazyGetSearchedExpTypesListQuery,
   useGetUniqueExpTypeQuery,
+  useLazyGetLoadExpTypesQuery,
   
   useEditExpTypeMutation,
   useAddExpTypeMutation,

@@ -34,12 +34,23 @@ export const finFields = {
   reason: '',
 }
 
+export const expFields = {
+  isSelected: false,
+  agent: null,
+  currency: null,
+  bearer: '',
+  operations: [{type: null, qty: 0, amount: 0}],
+  reason: '',
+  object: '',
+}
+
 export const finErrors = {
   agent: null,
   currency: null,
   bearer: null,
   operations: null,
   reason: null,
+  object: null,
 }
 
 export const finCategories = [{name: '', error: {name: null}}]

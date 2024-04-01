@@ -112,10 +112,10 @@ export default function ExpensesList() {
     let obj = []
     if (!(isError && isPaginatedError)) {
       if (page > 1 && paginatedItems.length > 0 && isPaginated) obj = paginatedItems.filter(p =>
-        p.name.toLowerCase().includes(search.keyword.toLowerCase())
+        p.object.toLowerCase().includes(search.keyword.toLowerCase())
       )
       else if (departments.length > 0) obj = departments.filter(p =>
-        p.name.toLowerCase().includes(search.keyword.toLowerCase())
+        p.object.toLowerCase().includes(search.keyword.toLowerCase())
       )
       else obj = []
     }
@@ -135,7 +135,7 @@ export default function ExpensesList() {
     let obj
     if (!isSearchedError && isSearched) {
       if (searchedItems.length > 0) obj = searchedItems.filter(p =>
-        p.name.toLowerCase().includes(search.keyword.toLowerCase())
+        p.object.toLowerCase().includes(search.keyword.toLowerCase())
       )
       else obj = []
     }
@@ -176,7 +176,7 @@ export default function ExpensesList() {
               className='bi bi-arrow-clockwise text-primary me-1'
               onClick={onRefresh}
               style={{ cursor: 'pointer' }} />}
-          Liste des provinces
+          Liste de dépenses
         </Card.Title>
         
         <Row>
