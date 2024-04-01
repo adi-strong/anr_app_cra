@@ -5,7 +5,6 @@ import {FallBackRender, FeedbackError} from "../../../components";
 import {Button, Form, InputGroup, Spinner} from "react-bootstrap";
 import {
   onAddExpenseCatItem, onExpCatReset,
-  onExpCatSubmit,
   onExpenseCatItemChange,
   onRemoveExpenseCatItem
 } from "../../finances/model/expense.categoy.service";

@@ -1,5 +1,3 @@
-import {setAuthUser} from "../../auth/services/auth.slice";
-
 export const userItems = [
   {label: 'Username', key: 'username', status: 'desc'},
   {label: 'Nom complet', key: 'full_name', status: 'desc'},
