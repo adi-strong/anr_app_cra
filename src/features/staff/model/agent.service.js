@@ -94,6 +94,12 @@ export const agentActionItems = [
   {title: 'Modifier', event: 'edit'},
 ]
 
+export const agentStatItems = [
+  {label: 'MATRICULE'},
+  {label: 'NOM'},
+  {label: 'ÂGE'},
+]
+
 export const onAgentActionsFilter = (event, data, navigate, toggleShow): void => {
   switch (event) {
     case 'edit':

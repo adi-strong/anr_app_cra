@@ -9,13 +9,7 @@ import {setAuthUser} from "../../features/auth/services/auth.slice";
 import {onAuthUser} from "../../features/staff/model/user.service";
 import toast from "react-hot-toast";
 import {useGetUniqueCurrencyQuery} from "../../features/configurations/model/currency.api.slice";
-import {useGetExpTypesListQuery} from "../../features/finances/model/exp.type.api.slice";
-import {useGetProvincesListQuery} from "../../features/configurations/model/province.api.slice";
-import {useGetDepartmentsListQuery} from "../../features/configurations/model/department.api.slice";
-import {useGetAgentsListQuery} from "../../features/staff/model/agent.api.slice";
-import {useGetFolderTypesListQuery} from "../../features/configurations/model/folder.type.api.slice";
 import {useGetYearsListQuery} from "../../features/configurations/model/year.api.slice";
-import {useGetFuelSitesListQuery} from "../../features/fuels/model/fuel.site.api.service";
 
 function ProtectedLayout() {
   const dispatch = useDispatch()
@@ -29,22 +23,10 @@ function ProtectedLayout() {
   
   const {nbPages} = useSelector(state => state.config)
   const {isError: isYearError} = useGetYearsListQuery(nbPages)
-  const {isError: isExpenseTypeError = []} = useGetExpTypesListQuery(nbPages)
-  const {isError: isAgentError} = useGetAgentsListQuery(nbPages)
-  
-  const {isError: isProvinceError} = useGetProvincesListQuery(nbPages)
-  const {isError: isDepartmentError} = useGetDepartmentsListQuery(nbPages)
-  const {isError: isFTError} = useGetFolderTypesListQuery(nbPages)
-  const {isError: isFuelSiteError} = useGetFuelSitesListQuery(nbPages)
   
   useEffect(() => {
-    if (isAgentError) {
-      if (isAgentError)  console.log('############# Agents.')
-      if (isFTError)  console.log('############# FolderTypes.')
-      if (isYearError)  console.log('############# Years.')
-      if (isFuelSiteError)  console.log('############# FuelSites.')
-    }
-  }, [isAgentError, isFTError, isYearError, isFuelSiteError])
+    if (isYearError)  console.log('############# Years.')
+  }, [isYearError])
   
   useEffect(() => {
     if (session) onAuthUser(session, dispatch, setAuthUser)
@@ -54,18 +36,12 @@ function ProtectedLayout() {
     }
     
     if (isCurrencyError) console.log('############# des devises.')
-    if (isExpenseTypeError)  console.log('############# types de dépenses.')
-    if (isProvinceError)  console.log('############# provinces.')
-    if (isDepartmentError)  console.log('############# départements.')
   }, [
     session,
     dispatch,
     isError,
     error,
-    isExpenseTypeError,
     isCurrencyError,
-    isProvinceError,
-    isDepartmentError
   ])
   
   function toggleSidebar() {

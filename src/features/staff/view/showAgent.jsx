@@ -1,5 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading, RemoveModal} from "../../../components";
+import {AppBreadcrumb, AppOffCanvas, FallBackRender, PageHeading, RemoveModal} from "../../../components";
 import {memo, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
@@ -18,6 +18,7 @@ import AgentFolders from "./agentFolders";
 import AgentAssignments from "./agentAssignments";
 import AgentMedicalFiles from "./agentMedicalFiles";
 import toast from "react-hot-toast";
+import AgentStateForm from "./agentStateForm";
 
 const ShowAgent = () => {
   const dispatch = useDispatch()
@@ -29,11 +30,14 @@ const ShowAgent = () => {
   
   const [key, setKey] = useState('overview')
   const [open, setOpen] = useState(false)
+  const [show, setShow] = useState(false)
   const [deleteAgent, {isLoading: isDeLoading}] = useDeleteAgentMutation()
   
   const toggleOpen = () => setOpen(!open)
   const {id} = useParams()
   const {data, isLoading, isFetching, isError, error, refetch} = useGetUniqueAgentQuery(id)
+  
+  const toggleShow = () => setShow(!show)
   
   const onRefresh = async () => await refetch()
   
@@ -116,6 +120,14 @@ const ShowAgent = () => {
                 <div>
                   {!(isError && isLoading) && data && (
                     <div className='d-flex'>
+                      <Button
+                        disabled={isFetching}
+                        variant='warning'
+                        onClick={toggleShow}
+                        className='me-2'>
+                        État <i className='bi bi-chevron-right'/>
+                      </Button>
+                      
                       <Link
                         to={`/app/agents/${data.id}/edit`}
                         className="d-none d-md-block btn btn-outline-primary">
@@ -206,6 +218,13 @@ const ShowAgent = () => {
           show={open}
           onHide={toggleOpen}
           onRefresh={onRefresh}/>}
+      
+      {data &&
+        <AppOffCanvas
+          title="état de l'agent"
+          children={<AgentStateForm data={data} onHide={toggleShow} onRefresh={onRefresh}/>}
+          show={show}
+          onHide={toggleShow}/>}
     </ErrorBoundary>
   )
 }

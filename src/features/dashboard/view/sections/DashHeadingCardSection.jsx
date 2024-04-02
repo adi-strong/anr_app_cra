@@ -1,10 +1,10 @@
-import {Card, Col} from "react-bootstrap";
+import {Card, Col, Spinner} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function DashHeadingCardSection({title, total, nb, show, isVisible, icon, wording}) {
+export default function DashHeadingCardSection({title, total, nb, show, isVisible, icon, wording, md = 12, loader, to='#!'}) {
   return (
-    <Col xl={3} lg={6} md={12} className='col-12 mt-6'>
+    <Col md={md} className='col-12 mt-6'>
       <Card style={{ height: 175 }}>
         <Card.Body>
           <div className='d-flex justify-content-between align-items-center mb-3'>
@@ -28,9 +28,10 @@ export default function DashHeadingCardSection({title, total, nb, show, isVisibl
               
               <span/>
               
-              {isVisible &&
-                <Link to='#!'><i className='bi bi-arrow-90deg-right'/> plus</Link>}
+              {isVisible && to &&
+                <Link to={to}><i className='bi bi-arrow-90deg-right'/> plus</Link>}
             </p>
+            {loader && <Spinner animation='grow' size='sm' className='text-primary'/>}
           </div>
         </Card.Body>
       </Card>
@@ -46,4 +47,5 @@ DashHeadingCardSection.propTypes = {
   nb: PropTypes.number,
   show: PropTypes.bool,
   isVisible: PropTypes.bool,
+  loader: PropTypes.bool,
 }

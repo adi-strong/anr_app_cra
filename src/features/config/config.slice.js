@@ -112,11 +112,11 @@ const menus = [
     isActive: false,
     isOpen: false,
     subItems: [
+      {label: 'Rapports', to: '/app/agents-reports'},
       {label: 'Agents', to: '/app/agents'},
       {label: 'Affectations', to: '/app/assignments'},
       {label: 'Salaires', to: '/app/salaries'},
       {label: 'Utilisateurs', to: '/app/users'},
-      {label: 'Rapports', to: '/app/agents-reports'},
     ],
   },
 ]

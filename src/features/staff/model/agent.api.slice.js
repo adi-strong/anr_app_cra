@@ -174,6 +174,15 @@ const agentApiSlice = api.injectEndpoints({
       }
     }),
     
+    postNewAgentState: build.mutation({
+      query: data => ({
+        url: apiPath+`/agents/state-edit`,
+        method: 'POST',
+        body: data
+      }),
+      invalidatesTags: ['LIST'],
+    }),
+    
   })
 })
 
@@ -183,6 +192,7 @@ export const {
   useDeleteAgentMutation,
   useUpdateAgentProfileMutation,
   useDeleteAgentProfileMutation,
+  usePostNewAgentStateMutation,
   
   useGetAgentsListQuery,
   useGetUniqueAgentQuery,

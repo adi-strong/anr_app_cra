@@ -30,12 +30,24 @@ export const maritalStatusLabel = {
   married: 'Marié(e)',
 }
 
+/*
+  {label: 'Actif', value: 'active'},
+  {label: 'Inactif', value: 'inactive'},
+  {label: 'Suspendue', value: 'suspended'},
+  {label: 'Congé', value: 'leave'},
+  {label: 'Indisponible', value: 'unavailable'},
+  {label: 'Retraité', value: 'retired'},
+  {label: 'Décédé', value: 'dead'},
+ */
 export const stateLabel = {
   active: 'ACTIF',
   unavailable: 'INDISPONIBLE',
+  sick: 'MALADE',
   suspended: 'SUSPENDUE',
   leave: 'CONGÉ',
   inactive: 'INACTIF',
+  retired: 'RETRAITÉ',
+  dead: 'DÉCÉDÉ',
 }
 
 export const stateColor = {
@@ -50,6 +62,18 @@ export const actionItems = [
   {title: 'Voir', event: 'show'},
   {title: 'Modifier', event: 'edit'},
   {title: 'Supprimer', event: 'delete', className: 'text-danger'},
+]
+
+// 'active', 'inactive', 'suspended', 'leave', 'unavailable', 'retired'
+export const agentStateOptions = [
+  {label: 'Actif', value: 'active'},
+  {label: 'Inactif', value: 'inactive'},
+  {label: 'Malade', value: 'sick'},
+  {label: 'Suspendue', value: 'suspended'},
+  {label: 'Congé', value: 'leave'},
+  {label: 'Indisponible', value: 'unavailable'},
+  {label: 'Retraité', value: 'retired'},
+  {label: 'Décédé', value: 'dead'},
 ]
 
 export const monthOptions = [

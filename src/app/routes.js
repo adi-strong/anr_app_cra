@@ -106,7 +106,23 @@ const
   Societies =
     lazy(() => import('../features/recoveries/view/societies')),
   Recovery =
-    lazy(() => import('../features/recoveries/view/recovery'))
+    lazy(() => import('../features/recoveries/view/recovery')),
+  AgentStats =
+    lazy(() => import('../features/staff/view/agentStats')),
+  ActiveAgents =
+    lazy(() => import('../features/staff/view/activeAgents')),
+  InactiveAgents =
+    lazy(() => import('../features/staff/view/inactiveAgents')),
+  SickAgents =
+    lazy(() => import('../features/staff/view/sickAgents')),
+  LeaveAgents =
+    lazy(() => import('../features/staff/view/leaveAgents')),
+  DeadAgents =
+    lazy(() => import('../features/staff/view/deadAgents')),
+  UnavailableAgents =
+    lazy(() => import('../features/staff/view/unavailableAgents')),
+  RetiredAgents =
+    lazy(() => import('../features/staff/view/retiredAgents'))
 
 const routes = [
   {
@@ -171,6 +187,14 @@ const routes = [
       {path: 'properties/:id/edit', element: <EditProperty/>},
       {path: 'societies', element: <Societies/>},
       {path: 'security-control', element: <Recovery/>},
+      {path: 'agents-reports', element: <AgentStats/>},
+      {path: 'active-agents', element: <ActiveAgents/>},
+      {path: 'inactive-agents', element: <InactiveAgents/>},
+      {path: 'sick-agents', element: <SickAgents/>},
+      {path: 'leave-agents', element: <LeaveAgents/>},
+      {path: 'dead-agents', element: <DeadAgents/>},
+      {path: 'unavailable-agents', element: <UnavailableAgents/>},
+      {path: 'retired-agents', element: <RetiredAgents/>},
     ]
   },
 ]
