@@ -4,17 +4,18 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 
 export default function MissionItem({mission}) {
+  const startAt = mission?.startAt ? mission.startAt : null
+  const endAt = mission?.endAt ? mission.endAt : null
+  const duration = (startAt && endAt) ? moment(endAt).diff(startAt, 'days') : null
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
         <th className='align-middle'>{mission.object}</th>
         <td className='align-middle'>{mission?.place}</td>
-        <td>
-          {mission?.startAt && mission?.endAt && (
-            <>
-              {moment(mission.endAt).diff(mission.startAt, 'days')} jour(s)
-            </>
-          )}
+        <td className={duration && duration <= 7 ? 'text-danger' : ''}>
+          {duration && duration <= 7 ? <i className='bi bi-exclamation-circle-fill me-1'/> : ''}
+          {duration ? duration+' jour(s)' : '-'}
         </td>
         
         <td className='align-middle text-end'>

@@ -122,7 +122,17 @@ const
   UnavailableAgents =
     lazy(() => import('../features/staff/view/unavailableAgents')),
   RetiredAgents =
-    lazy(() => import('../features/staff/view/retiredAgents'))
+    lazy(() => import('../features/staff/view/retiredAgents')),
+  SoonRetiredAgents =
+    lazy(() => import('../features/staff/view/soonRetiredAgents')),
+  NearExpMissions =
+    lazy(() => import('../features/staff/view/nearExpMissions')),
+  CurrentMissions =
+    lazy(() => import('../features/staff/view/currentMissions')),
+  CurrentAssignments =
+    lazy(() => import('../features/staff/view/currentAssignments')),
+  NearExpAssignments =
+    lazy(() => import('../features/staff/view/nearExpAssignments'))
 
 const routes = [
   {
@@ -195,6 +205,12 @@ const routes = [
       {path: 'dead-agents', element: <DeadAgents/>},
       {path: 'unavailable-agents', element: <UnavailableAgents/>},
       {path: 'retired-agents', element: <RetiredAgents/>},
+      {path: 'soon-retired-agents', element: <SoonRetiredAgents/>},
+      {path: 'missions-near-expirations', element: <NearExpMissions/>},
+      {path: 'current-missions', element: <CurrentMissions/>},
+      {path: 'current-assignments', element: <CurrentAssignments/>},
+      {path: 'current-assignments', element: <CurrentAssignments/>},
+      {path: 'assignments-near-expirations', element: <NearExpAssignments/>},
     ]
   },
 ]

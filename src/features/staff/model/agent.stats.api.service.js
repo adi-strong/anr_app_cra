@@ -38,6 +38,11 @@ const agentStatsApiService = api.injectEndpoints({
       providesTags: ['LIST'],
     }),
     
+    getSoonRetiredAgents: build.query({
+      query: () => apiPath+'/soon_retired_agents',
+      providesTags: ['LIST'],
+    }),
+    
   })
 })
 
@@ -49,4 +54,5 @@ export const {
   useGetDeadAgentsQuery,
   useGetUnavailableAgentsQuery,
   useGetRetiredAgentsQuery,
+  useGetSoonRetiredAgentsQuery,
 } = agentStatsApiService

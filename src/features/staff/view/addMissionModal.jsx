@@ -247,7 +247,7 @@ export default function AddMissionModal({show, onHide, agent, onRefresh}) {
             <Col className='mb-3'>
               <Form.Label htmlFor='transport'><code>*</code> Moyen de transport</Form.Label>
               <Form.Control
-                isInvalid={errors.startAt !== null}
+                isInvalid={errors.transport !== null}
                 disabled={isLoading}
                 autoComplete='off'
                 id='transport'

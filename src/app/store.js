@@ -5,7 +5,7 @@ import authReducer from '../features/auth/services/auth.slice';
 
 // export const entrypoint = 'https://localhost:8000'
 // https://test-ops-api.mdeservicesdrc.com/
-export const entrypoint = 'https://test-ops-api.mdeservicesdrc.com'
+export const entrypoint = 'https://localhost:8000'
 
 export const apiPath = '/api'
 
