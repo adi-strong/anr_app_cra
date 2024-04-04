@@ -80,6 +80,28 @@ const propertyApiSlice = api.injectEndpoints({
       }
     }),
     
+    disUsedProperty: build.mutation({
+      query: data => ({
+        method: 'PATCH',
+        headers: patchHead,
+        url: apiPath+`/properties/${data.id}`,
+        body: JSON.stringify({agent: null})
+      }),
+      invalidatesTags: ['LIST'],
+      async onQueryStarted(args, {
+        dispatch,
+        queryFulfilled}) {
+        try {
+          const { data: patchResult } = await queryFulfilled
+          
+          dispatch(propertyApiSlice.util.updateQueryData('getUniqueProperty', args?.id?.toString(), draft => {
+            Object.assign(draft, {...patchResult})
+          }))
+        }
+        catch (e) { }
+      }
+    }),
+    
     deleteProperty: build.mutation({
       query: ({ id }) => ({
         headers: patchHead,
@@ -121,4 +143,5 @@ export const {
   usePostNewPropertyMutation,
   useEditPropertyMutation,
   useDeletePropertyMutation,
+  useDisUsedPropertyMutation,
 } = propertyApiSlice

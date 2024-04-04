@@ -23,10 +23,12 @@ export default function FuelItem({data, onRefresh, site}) {
     <ErrorBoundary fallbackRender={FallBackRender}>
       <div className='mb-3'>
         <Link to={`#!`}>
-          <i className='bi bi-tags me-1'/>
+          <i className='bi bi-fuel-pump me-1'/>
           {data.name?.toUpperCase()}
         </Link>
-        : <span className='text-dark'>{data.stock} litre(s)</span>
+        : <span className={data.stock <= 100 ? 'text-danger' : 'text-dark'}>
+        {data.stock} litre(s)
+      </span>
         <i className='bi bi-pencil-square text-dark mx-2 me-2' style={{ cursor: 'pointer' }} onClick={toggleShow}/>
         <i className='bi bi-trash text-danger mx-1' style={{ cursor: 'pointer' }} onClick={toggleOpen}/>
       </div>

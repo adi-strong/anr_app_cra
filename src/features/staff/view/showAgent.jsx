@@ -167,8 +167,11 @@ const ShowAgent = () => {
             
             <div className='py-6'>
               <Row>
-                {key === 'overview' && <AgentOverview agent={data} isError={isError}
-                                                      loader={isLoading}/>}
+                {key === 'overview' &&
+                  <AgentOverview
+                    agent={data}
+                    isError={isError}
+                    loader={isLoading}/>}
                 
                 {key === 'missions' &&
                   <AgentMissions

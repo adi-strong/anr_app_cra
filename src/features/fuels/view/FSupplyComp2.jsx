@@ -45,13 +45,20 @@ export default function FSupplyComp2({state, setState, onAddItem, fields, setFie
     const fuel = null
     const quantity = 0
     
-    const obj = site && site.fuels.length > 0
+    const fuels = site && site.fuels.length > 0
       ? site.fuels.map(f => ({
         label: f?.name?.toUpperCase(),
         value: f?.name?.toUpperCase(),
         id: f.id,
+        isDeleted: !!f?.isDeleted
       }))
       : []
+    
+    const obj = []
+    for (const key in fuels) {
+      const f = fuels[key]
+      if (f.isDeleted === false) obj.push(f)
+    }
     
     setOptions(obj)
     setFields({...fields, id, fuel, site, siteId, quantity})

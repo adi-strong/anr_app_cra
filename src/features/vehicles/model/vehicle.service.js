@@ -24,8 +24,27 @@ export const vehicleErrors = {
   type: null,
 }
 
+export const vehicleAssFields = {
+  comment: '',
+  agent: null,
+  startAt: '',
+  endAt: '',
+  file: '',
+}
+
+export const vehicleAssErrors = {
+  comment: null,
+  agent: null,
+  startAt: null,
+  endAt: null,
+  file: null,
+}
+
 export const onVehicleActionsFilter = (event, data, navigate, toggleShow): void => {
   switch (event) {
+    case 'show':
+      navigate(`/app/vehicles/${data.id}/show`)
+      break
     case 'edit':
       toggleShow()
       break

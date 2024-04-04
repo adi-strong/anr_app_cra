@@ -14,8 +14,10 @@ import APIPagination from "./paginations/APIPagination";
 import ReactSelectField from "./ReactSelectField";
 import UpdateImageFields from "./updateImageFields";
 import RowContent2 from "./RowContent2";
+import MapComponent from "./mapComponent";
 
 export {
+  MapComponent,
   RowContent2,
   UpdateImageFields,
   ReactSelectField,

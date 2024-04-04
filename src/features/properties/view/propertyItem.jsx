@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../../components";
 import {Badge, Dropdown} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {agentActionItems} from "../../staff/model/agent.service";
 import {onPropertyActionsFilter} from "../model/property.service";
 
@@ -11,7 +11,11 @@ export default function PropertyItem({data}) {
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className='align-middle text-uppercase'>{data?.type ? data.type.name : '-'}</td>
+        <td className='align-middle text-uppercase'>
+          {data?.type 
+            ? <Link to={`/app/properties/${data.id}/show`} className='fw-bold'>{data.type.name}</Link>
+            : '-'}
+        </td>
         <td className='align-middle text-uppercase'>{data?.province ? data.province.name : '-'}</td>
         <td className='align-middle text-uppercase'>{data?.surface ? data.surface : '-'}</td>
         <td className='align-middle text-uppercase'>{data?.pieces ? data.pieces : '-'}</td>

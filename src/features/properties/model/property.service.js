@@ -40,6 +40,9 @@ export const propertyErrors = {
 
 export const onPropertyActionsFilter = (event, data, navigate): void => {
   switch (event) {
+    case 'show':
+      navigate(`/app/properties/${data.id}/show`)
+      break
     case 'edit':
       navigate(`/app/properties/${data.id}/edit`)
       break

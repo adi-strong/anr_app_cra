@@ -132,7 +132,13 @@ const
   CurrentAssignments =
     lazy(() => import('../features/staff/view/currentAssignments')),
   NearExpAssignments =
-    lazy(() => import('../features/staff/view/nearExpAssignments'))
+    lazy(() => import('../features/staff/view/nearExpAssignments')),
+  Refueling =
+    lazy(() => import('../features/refueling/view/refueling')),
+  ShowVehicle =
+    lazy(() => import('../features/vehicles/view/showVehicle')),
+  ShowProperty =
+    lazy(() => import('../features/properties/view/showProperty'))
 
 const routes = [
   {
@@ -211,6 +217,10 @@ const routes = [
       {path: 'current-assignments', element: <CurrentAssignments/>},
       {path: 'current-assignments', element: <CurrentAssignments/>},
       {path: 'assignments-near-expirations', element: <NearExpAssignments/>},
+      {path: 'assignments-near-expirations', element: <NearExpAssignments/>},
+      {path: 'refueling', element: <Refueling/>},
+      {path: 'vehicles/:id/show', element: <ShowVehicle/>},
+      {path: 'properties/:id/show', element: <ShowProperty/>},
     ]
   },
 ]

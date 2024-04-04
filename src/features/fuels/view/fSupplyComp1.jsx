@@ -26,7 +26,7 @@ function ConfirmModal({show, onHide, onSubmit}) {
           <i className='bi bi-x'/> Annuler
         </Button>
         
-        <Button variant='warning' onClick={onSubmit}>
+        <Button autoFocus variant='warning' onClick={onSubmit}>
           <i className='bi bi-check'/> Valider
         </Button>
       </Modal.Footer>
