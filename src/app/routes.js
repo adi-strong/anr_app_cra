@@ -138,7 +138,13 @@ const
   ShowVehicle =
     lazy(() => import('../features/vehicles/view/showVehicle')),
   ShowProperty =
-    lazy(() => import('../features/properties/view/showProperty'))
+    lazy(() => import('../features/properties/view/showProperty')),
+  ShowSociety =
+    lazy(() => import('../features/recoveries/view/showSociety')),
+  ShowRecovery =
+    lazy(() => import('../features/recoveries/view/showRecovery')),
+  RecoveryReports =
+    lazy(() => import('../features/recoveries/view/recoveryReports'))
 
 const routes = [
   {
@@ -221,6 +227,9 @@ const routes = [
       {path: 'refueling', element: <Refueling/>},
       {path: 'vehicles/:id/show', element: <ShowVehicle/>},
       {path: 'properties/:id/show', element: <ShowProperty/>},
+      {path: 'societies/:id/show', element: <ShowSociety/>},
+      {path: 'societies/recovery/:id/show', element: <ShowRecovery/>},
+      {path: 'recovery-reports', element: <RecoveryReports/>},
     ]
   },
 ]

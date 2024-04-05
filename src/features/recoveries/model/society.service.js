@@ -33,7 +33,7 @@ export const onSocietyActionsFilter = (event, data, navigate, toggleShow): void 
       toggleShow()
       break
     default:
-      // navigate(`/app/agents/${data.id}/show`)
+      navigate(`/app/societies/${data.id}/show`)
       break
   }
 }

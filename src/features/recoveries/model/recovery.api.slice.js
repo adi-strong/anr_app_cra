@@ -1,4 +1,4 @@
-import {api, apiPath} from "../../../app/store";
+import {api, apiPath, jsonLdHead} from "../../../app/store";
 
 const recoveryApiSlice = api.injectEndpoints({
   endpoints: build => ({
@@ -19,11 +19,22 @@ const recoveryApiSlice = api.injectEndpoints({
       }),
       invalidatesTags: ['LIST'],
     }),
+    
+    searchRecoveriesResources: build.mutation({
+      query: data => ({
+        method: 'POST',
+        headers: jsonLdHead,
+        url: apiPath+'/search_recoveries_resources',
+        body: JSON.stringify(data),
+      }),
+    }),
   
   })
 })
 
 export const {
   useGetUniqueRecoveryQuery,
+  
+  useSearchRecoveriesResourcesMutation,
   usePostNewRecoveryMutation,
 } = recoveryApiSlice

@@ -8,7 +8,7 @@ export default function RowContent2({xxl=12, title, content}) {
     <ErrorBoundary fallbackRender={FallBackRender}>
       <Col xxl={xxl} className="mb-5">
         <h6 className="text-uppercase fs-5 ls-2">{title}</h6>
-        <p className="mb-0">{content}</p>
+        <div className="mb-0">{content}</div>
       </Col>
     </ErrorBoundary>
   )

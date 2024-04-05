@@ -18,7 +18,7 @@ export default function SocietyItem({data, onRefresh}) {
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
         <th className='align-middle'>
-          <Link to={`#!`}>
+          <Link to={`/app/societies/${data.id}/show`}>
             {data.name}
           </Link>
         </th>

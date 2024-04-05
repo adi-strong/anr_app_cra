@@ -1,5 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, MapComponent, PageHeading, RowContent2} from "../../../components";
+import {AppBreadcrumb, AppOffCanvas, FallBackRender, MapComponent, PageHeading, RowContent2} from "../../../components";
 import {memo, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
@@ -11,6 +11,8 @@ import {Button, Card, Col, Modal, Row, Spinner} from "react-bootstrap";
 import {FadeSpinLoader} from "../../../loaders";
 import {entrypoint} from "../../../app/store";
 import avatar2 from "../../../assets/images/avatar/default_profile.jpg";
+import PropertyAssForm from "./propertyAssForm";
+import VehicleAssignmentsList from "../../vehicles/view/vehicleAssignmentsList";
 
 const ConfirmDisUsedModal = ({show, onHide, onSubmit, data}) => {
   return (
@@ -206,10 +208,28 @@ const ShowProperty = () => {
             {isLoading && <FadeSpinLoader loading={isLoading}/>}
           </Card.Body>
         </Card>
+        
+        <Card className='mt-4'>
+          <Card.Body>
+            <h4 className="card-title mt-3">
+              <i className='bi bi-clock-history'/> Historique des affectations
+            </h4>
+            
+            {!(isError && isLoading) && data && data?.propertyAssignments && data.propertyAssignments.length > 0 &&
+              <VehicleAssignmentsList assignments={data.propertyAssignments}/>}
+          </Card.Body>
+        </Card>
       </PageLayout>
       
       {!isError && data &&
         <ConfirmDisUsedModal data={data} show={confirm} onHide={toggleConfirm} onSubmit={onDisUsedSubmit}/>}
+      
+      {!isError && data &&
+        <AppOffCanvas
+          title={<><i className='bi bi-person-plus'/> Nouvelle affectation propriété</>}
+          children={<PropertyAssForm onHide={toggleClick} onRefresh={onRefresh} vehicle={data}/>}
+          show={click}
+          onHide={toggleClick}/>}
     </ErrorBoundary>
   )
 }

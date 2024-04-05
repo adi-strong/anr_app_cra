@@ -76,9 +76,9 @@ const menus = [
     isActive: false,
     isOpen: false,
     subItems: [
+      {label: 'Rapports', to: '/app/recovery-reports'},
       {label: 'Sociétés', to: '/app/societies'},
       {label: 'Contrôle sécuritaire', to: '/app/security-control'},
-      {label: 'Rapports', to: '/app/recovery-reports'},
     ],
   },
   {
