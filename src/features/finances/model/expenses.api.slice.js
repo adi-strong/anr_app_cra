@@ -45,7 +45,7 @@ const expensesApiSlice = api.injectEndpoints({
     // ****************************************************************************
     
     
-    editDepartment: build.mutation({
+    editExpense: build.mutation({
       query: data => ({
         method: 'PATCH',
         headers: patchHead,
@@ -67,16 +67,6 @@ const expensesApiSlice = api.injectEndpoints({
       }
     }),
     
-    addDepartment: build.mutation({
-      query: data => ({
-        method: 'POST',
-        headers: jsonLdHead,
-        url: apiPath+'/expenses',
-        body: JSON.stringify(data)
-      }),
-      invalidatesTags: ['LIST'],
-    }),
-    
     addExpense: build.mutation({
       query: data => ({
         method: 'POST',
@@ -87,12 +77,12 @@ const expensesApiSlice = api.injectEndpoints({
       invalidatesTags: ['LIST'],
     }),
     
-    deleteDepartment: build.mutation({
+    deleteExpense: build.mutation({
       query: ({ id }) => ({
-        headers: patchHead,
-        method: 'PATCH',
+        // headers: patchHead,
+        method: 'DELETE',
         url: apiPath+`/expenses/${id}`,
-        body: JSON.stringify({ isDeleted: true }),
+        body: id,
       }),
       invalidatesTags: ['LIST'],
       async onQueryStarted(args, {
@@ -116,6 +106,15 @@ const expensesApiSlice = api.injectEndpoints({
       }
     }),
     
+    searchExpenseReportResources: build.mutation({
+      query: data => ({
+        method: 'POST',
+        headers: jsonLdHead,
+        url: apiPath+'/search_expense_resources',
+        body: JSON.stringify(data),
+      }),
+    }),
+    
   })
 })
 
@@ -125,8 +124,8 @@ export const {
   useLazyGetPaginatedExpensesListQuery,
   useLazyGetSearchedExpensesListQuery,
   
-  useEditDepartmentMutation,
-  useAddDepartmentMutation,
-  useDeleteDepartmentMutation,
   useAddExpenseMutation,
+  useEditExpenseMutation,
+  useDeleteExpenseMutation,
+  useSearchExpenseReportResourcesMutation,
 } = expensesApiSlice

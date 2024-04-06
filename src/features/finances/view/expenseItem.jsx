@@ -2,17 +2,18 @@ import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender, RemoveModal} from "../../../components";
 import {Link} from "react-router-dom";
 import {useState} from "react";
-import {useDeleteDepartmentMutation} from "../../configurations/model/department.api.slice";
 import {Dropdown} from "react-bootstrap";
 import {actionItems} from "../../../services";
-import {onDepActionsFilter} from "../../configurations/model/department.service";
 import {handleRemoveProvince} from "../../configurations/model/province.service";
 import moment from "moment";
+import {useDeleteExpenseMutation} from "../model/expenses.api.slice";
+import {onExpenseFilterAction} from "../model/finances.service";
+import EditExpenseModal from "./editExpenseModal";
 
 export default function ExpenseItem({data, onPaginate, parentID, page, pages, name, isPaginated, isSearched, onSearchQuery, onRefresh, navigate}) {
   const [show, setShow] = useState(false)
   const [open, setOpen] = useState(false)
-  const [deleteDepartment] = useDeleteDepartmentMutation()
+  const [deleteExpense] = useDeleteExpenseMutation()
   
   const toggleShow = () => setShow(!show)
   
@@ -22,7 +23,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
         <td className="align-middle">
-          <Link to={`/app/departments/${data.id}/${data?.slug}`}>{data.object}</Link>
+          <Link to={`/app/expenses/${data.id}/show`}>{data.object}</Link>
         </td>
         <td className="align-middle">
           {data.bearer}
@@ -43,7 +44,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
                     <Dropdown.Item
                       key={i}
                       className={f?.className}
-                      onClick={() => onDepActionsFilter(f.event, data, navigate, toggleShow, toggleOpen)}>
+                      onClick={() => onExpenseFilterAction(f.event, data, navigate, toggleShow, toggleOpen)}>
                       {f.title}
                     </Dropdown.Item>)}
                 </Dropdown.Menu>
@@ -51,6 +52,12 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
             }/>}
         </td>
       </tr>
+      
+      <EditExpenseModal
+        data={data}
+        onRefresh={onRefresh}
+        show={show}
+        onHide={toggleShow}/>
       
       <RemoveModal
         onRefresh={() => {}}
@@ -60,7 +67,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
           data,
           page,
           pages,
-          deleteDepartment,
+          deleteExpense,
           onSearchQuery,
           onPaginate,
           toggleOpen,
@@ -68,7 +75,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
           name,
           isSearched
         )}
-        message={`ce département (${data.name?.toUpperCase()})`}
+        message={`cette dépense (${data.object?.toUpperCase()})`}
         onHide={toggleOpen}/>
     </ErrorBoundary>
   )

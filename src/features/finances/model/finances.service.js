@@ -98,3 +98,17 @@ export const onExpTypeActionsFilter = (event, data, navigate, toggleShow, toggle
       break
   }
 }
+
+export const onExpenseFilterAction = (event, data, navigate, toggleShow, toggleOpen): void => {
+  switch (event) {
+    case 'edit':
+      toggleShow()
+      break
+    case 'delete':
+      toggleOpen()
+      break
+    default:
+      navigate(`/app/expenses/${data.id}/show`)
+      break
+  }
+}

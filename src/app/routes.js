@@ -144,7 +144,9 @@ const
   ShowRecovery =
     lazy(() => import('../features/recoveries/view/showRecovery')),
   RecoveryReports =
-    lazy(() => import('../features/recoveries/view/recoveryReports'))
+    lazy(() => import('../features/recoveries/view/recoveryReports')),
+  ExpensesReports =
+    lazy(() => import('../features/finances/view/expensesReports'))
 
 const routes = [
   {
@@ -230,6 +232,7 @@ const routes = [
       {path: 'societies/:id/show', element: <ShowSociety/>},
       {path: 'societies/recovery/:id/show', element: <ShowRecovery/>},
       {path: 'recovery-reports', element: <RecoveryReports/>},
+      {path: 'expenses-reports', element: <ExpensesReports/>},
     ]
   },
 ]

@@ -97,8 +97,8 @@ const menus = [
     isActive: false,
     isOpen: false,
     subItems: [
-      {label: 'Sorties', to: '/app/expenses'},
       {label: 'Rapports', to: '/app/expenses-reports'},
+      {label: 'Sorties', to: '/app/expenses'},
       // {label: 'Entrées', to: '/app/entries'},
       // {label: 'Factures', to: '/app/invoices'},
       // {label: 'Rapports', to: '/app/finances-reports'},
