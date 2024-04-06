@@ -45,10 +45,22 @@ const vehicleApiSlice = api.injectEndpoints({
       query: name => apiPath+`/vehicles?brand=${name}`,
       providesTags: result => result,
       transformResponse: res => {
-        return res?.map(p => ({
-          label: p?.name?.toUpperCase()+' '+(p?.firstName ? p.firstName.toUpperCase()+' ' : ''),
-          value: `/api/vehicles/${p.id}`,
-        }))
+        return res['hydra:member']?.map(p => {
+          const name = p?.agent ? p.agent.name.toUpperCase() : ''
+          const lastName = p?.agent && p.agent?.lastName ? p.agent.lastName.toUpperCase() : ''
+          const firstName = p?.agent && p.agent?.firstName ? p.agent.firstName.toUpperCase() : ''
+          
+          const agent = p?.agent ? {
+            label: name+' '+lastName+' '+firstName,
+            value: p.agent['@id'],
+          } : null
+          
+          return {
+            label: p?.brand?.toUpperCase(),
+            value: `/api/vehicles/${p.id}`,
+            agent,
+          }
+        })
       }
     }),
     

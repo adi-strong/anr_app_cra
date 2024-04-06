@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import {ErrorBoundary} from "react-error-boundary";
 import {AppOffCanvas, FallBackRender} from "../../../components";
 import {Button, Card, Col, Form, Row, Table} from "react-bootstrap";
-import {serviceItems} from "../model/department.service";
 import SimplePagination from "../../../components/paginations/SimplePagination";
 import {data} from "../../dashboard/view/sections/FinanceSection";
 import PropTypes from "prop-types";
@@ -67,10 +66,7 @@ export default function GradesList({grades = [], onRefresh, department}) {
           <Table className='text-nowrap'>
             <thead className='table-light'>
             <tr>
-              {serviceItems.map(t =>
-                <th key={t.label} className='align-middle'>
-                  {t.label}
-                </th>)}
+              <th className='align-middle'>Désignation</th>
               <th className='text-end text-primary'/>
             </tr>
             </thead>

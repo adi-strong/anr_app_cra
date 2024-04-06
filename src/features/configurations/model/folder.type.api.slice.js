@@ -3,6 +3,27 @@ import toast from "react-hot-toast";
 
 export let nbFolderTypesPages = 1
 
+export const folderTypeActionItems = [
+  // {title: 'Voir', event: 'show'},
+  {title: 'Modifier', event: 'edit'},
+  {title: 'Supprimer', event: 'delete', className: 'text-danger'},
+]
+
+export const onFolderTypeActionsFilter = (event, data, navigate, toggleShow, toggleOpen): void => {
+  switch (event) {
+    case 'edit':
+      // navigate(`/app/agents/${data.id}/edit`)
+      toggleShow()
+      break
+    case 'delete':
+      toggleOpen()
+      break
+    default:
+      // navigate(`/app/agents/${data.id}/show`)
+      break
+  }
+}
+
 const folderTypeApiSlice = api.injectEndpoints({
   endpoints: build => ({
     
@@ -34,10 +55,10 @@ const folderTypeApiSlice = api.injectEndpoints({
     }),
     
     getSearchedFolderTypesList: build.query({
-      query: keyword => apiPath+`/search_folder_types/${keyword}`,
+      query: name => apiPath+`/folder_types?name=${name}`,
       transformResponse: res => {
         nbFolderTypesPages = 1
-        return res?.map(p => p)
+        return res['hydra:member']?.map(p => p)
       }
     }),
     

@@ -406,7 +406,7 @@ const AgentStats = () => {
             loader={isNearExpAssignmentsFetch}
             total={nearExpAssignments.length}
             md={4}
-            title='Missions proches expiration'
+            title='Affectations proche expiration'
             icon='bi bi-bookmark'/>
           
           {/*<DashHeadingCardSection

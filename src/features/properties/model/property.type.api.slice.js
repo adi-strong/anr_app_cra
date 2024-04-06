@@ -43,6 +43,14 @@ const propertyTypeApiSlice = api.injectEndpoints({
       }
     }),
     
+    getSearchedPropertyTypesList: build.query({
+      query: name => apiPath+`/property_types?name=${name}`,
+      transformResponse: res => {
+        nbPropertyTypesPages = 1
+        return res['hydra:member']?.map(p => p)
+      }
+    }),
+    
     
     // ****************************************************************************
     
@@ -116,6 +124,7 @@ export const {
   useGetUniquePropertyTypeQuery,
   useLazyGetPaginatedPropertyTypesListQuery,
   useLazyGetLoadPropertyTypesQuery,
+  useLazyGetSearchedPropertyTypesListQuery,
   
   usePostNewPropertyTypeMutation,
   useEditPropertyTypeMutation,

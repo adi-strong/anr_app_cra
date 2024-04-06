@@ -117,6 +117,24 @@ const fuelSiteApiService = api.injectEndpoints({
         }
       }
     }),
+    
+    searchFuelSupplyReportsResources: build.mutation({
+      query: data => ({
+        method: 'POST',
+        headers: jsonLdHead,
+        url: apiPath+'/search_fuel_supply_resources',
+        body: JSON.stringify(data),
+      }),
+    }),
+    
+    searchRefuelingResources: build.mutation({
+      query: data => ({
+        method: 'POST',
+        headers: jsonLdHead,
+        url: apiPath+'/search_refueling_resources',
+        body: JSON.stringify(data),
+      }),
+    }),
   
   })
 })
@@ -127,6 +145,9 @@ export const {
   useLazyGetPaginatedFuelSitesListQuery,
   useLazyGetSearchedFuelSitesListQuery,
   useLazyGetLoadFuelSitesQuery,
+  
+  useSearchFuelSupplyReportsResourcesMutation,
+  useSearchRefuelingResourcesMutation,
   
   usePostNewFuelSiteMutation,
   useEditFuelSiteMutation,

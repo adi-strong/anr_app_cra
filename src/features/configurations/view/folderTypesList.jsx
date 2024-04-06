@@ -1,24 +1,25 @@
 import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {onSetNbPages} from "../../config/config.slice";
+import toast from "react-hot-toast";
 import {ErrorBoundary} from "react-error-boundary";
 import {APIPagination, AppOffCanvas, FallBackRender} from "../../../components";
 import {Alert, Button, Card, Col, Form, Row, Spinner, Table} from "react-bootstrap";
-import {onSetNbPages} from "../../config/config.slice";
 import {nbPageOptions} from "../../../services";
-import JobItem from "./jobItem";
-import {useNavigate} from "react-router-dom";
-import toast from "react-hot-toast";
 import {RepeatableTableRowsLoader} from "../../../loaders";
 import SimplePagination from "../../../components/paginations/SimplePagination";
+import {folderTypeItems} from "../model/folder.service";
+import FoldertTypeItem from "./foldertTypeItem";
 import {
-  nbJobsPages,
-  useGetJobsListQuery,
-  useLazyGetPaginatedJobsListQuery,
-  useLazyGetSearchedJobsListQuery
-} from "../../jobs/model/job.api.service";
-import AddJobsForm from "./addJobsForm";
+  nbFolderTypesPages,
+  useGetFolderTypesListQuery,
+  useLazyGetPaginatedFolderTypesListQuery,
+  useLazyGetSearchedFolderTypesListQuery
+} from "../model/folder.type.api.slice";
+import AddFolderTypesForm from "./addFolderTypesForm";
 
-export default function JobsList() {
+export default function FolderTypesList() {
   const [search, setSearch] = useState({keyword: '', temp: ''})
   const [show, setShow] = useState(false)
   const [page, setPage] = useState(1)
@@ -30,20 +31,20 @@ export default function JobsList() {
     isFetching: isPaginatedFetching,
     isError: isPaginatedError,
     error: paginatedError,
-  }] = useLazyGetPaginatedJobsListQuery()
+  }] = useLazyGetPaginatedFolderTypesListQuery()
   
   const [getSearchedDepartmentsList, {
     data: searchedItems = [],
     isFetching: isSearchedFetching,
     isError: isSearchedError,
     error: searchedError,
-  }] = useLazyGetSearchedJobsListQuery()
+  }] = useLazyGetSearchedFolderTypesListQuery()
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
   const {nbPages} = useSelector(state => state.config)
-  const {data: departments = [], isLoading, isFetching, isError, error, refetch} = useGetJobsListQuery(nbPages)
+  const {data: departments = [], isLoading, isFetching, isError, error, refetch} = useGetFolderTypesListQuery(nbPages)
   
   const onTogglePages = async ({target}): void => {
     dispatch(onSetNbPages(target.value))
@@ -176,7 +177,7 @@ export default function JobsList() {
               className='bi bi-arrow-clockwise text-primary me-1'
               onClick={onRefresh}
               style={{ cursor: 'pointer' }} />}
-          Liste de fonctions
+          Liste de types des dossiers
         </Card.Title>
         
         <Row>
@@ -216,15 +217,17 @@ export default function JobsList() {
         <Table className='text-nowrap'>
           <thead className='table-light'>
           <tr>
-            <th className='align-middle'>FONCTION</th>
-            <th className='align-middle'>SERVICE</th>
-            <th className='text-end align-middle text-primary'/>
+            {folderTypeItems && folderTypeItems.map(t =>
+              <th key={t.label} className='align-middle'>
+                {t.label}
+              </th>)}
+            <th className='text-end text-primary'/>
           </tr>
           </thead>
           
           <tbody>
           {!isError && !isSearched && items.length > 0 && items.map(p =>
-            <JobItem
+            <FoldertTypeItem
               key={p.id}
               isSearched={isSearched}
               onSearchQuery={onSearchQuery}
@@ -238,7 +241,7 @@ export default function JobsList() {
               onRefresh={onProvinceRefresh}/>)}
           
           {isSearched && currentItems?.length > 0 && currentItems.map(p =>
-            <JobItem
+            <FoldertTypeItem
               key={p.id}
               isSearched={isSearched}
               onSearchQuery={onSearchQuery}
@@ -255,7 +258,7 @@ export default function JobsList() {
         {isLoading && <RepeatableTableRowsLoader/>}
         {!isLoading && isError && <Alert variant='danger'>{error?.error}</Alert>}
         
-        {!isSearched && nbJobsPages > 1 &&
+        {!isSearched && nbFolderTypesPages > 1 &&
           <Row className='mt-3 px-3 pe-3'>
             <Col>
               {isPaginatedFetching && <Spinner animation='border' size='sm' className='text-primary'/>}
@@ -266,7 +269,7 @@ export default function JobsList() {
                 page={page - 1}
                 setPage={setPage}
                 onPaginate={onPaginateQuery}
-                count={nbJobsPages}/>
+                count={nbFolderTypesPages}/>
             </Col>
           </Row>}
         
@@ -282,8 +285,8 @@ export default function JobsList() {
       <AppOffCanvas
         show={show}
         onHide={toggleShow}
-        title={<><i className='bi bi-plus'/> Enregistrement de fonctions</>}
-        children={<AddJobsForm onHide={toggleShow} pages={nbPages} onRefresh={onProvinceRefresh}/>}/>
+        title={<><i className='bi bi-plus'/> Enregistrement types de dossiers</>}
+        children={<AddFolderTypesForm onHide={toggleShow} pages={nbPages} onRefresh={onProvinceRefresh}/>}/>
     </ErrorBoundary>
   )
 }

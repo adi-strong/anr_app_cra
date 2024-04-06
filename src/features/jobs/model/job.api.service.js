@@ -1,4 +1,7 @@
 import {api, apiPath, jsonLdHead, patchHead} from "../../../app/store";
+import toast from "react-hot-toast";
+
+export let nbJobsPages = 1
 
 export const jobApiService = api.injectEndpoints({
   endpoints: build => ({
@@ -11,6 +14,33 @@ export const jobApiService = api.injectEndpoints({
       }],
     }),
     
+    getJobsList: build.query({
+      query: pages => apiPath+`/jobs?itemsPerPage=${pages}`,
+      providesTags: result => result
+        ? [...result?.map(({ id }) => ({ type: 'LIST', id }))]
+        : ['LIST'],
+      transformResponse: res => {
+        nbJobsPages = res['hydra:view'] ? parseInt(res['hydra:view']['hydra:last']?.split('=')[2]) : 1
+        return res['hydra:member'].map(p => p)
+      }
+    }),
+    
+    getPaginatedJobsList: build.query({
+      query: ({page, pages}) => apiPath+`/jobs?page=${page}&itemsPerPage=${pages}`,
+      transformResponse: res => {
+        nbJobsPages = res['hydra:view'] ? parseInt(res['hydra:view']['hydra:last']?.split('=')[2]) : 1
+        return res['hydra:member'].map(p => p)
+      }
+    }),
+    
+    getSearchedJobsList: build.query({
+      query: name => apiPath+`/jobs?name=${name}`,
+      transformResponse: res => {
+        nbJobsPages = 1
+        return res['hydra:member']?.map(p => p)
+      }
+    }),
+    
     
     // ****************************************************************************
     
@@ -20,7 +50,7 @@ export const jobApiService = api.injectEndpoints({
         url: apiPath+`/jobs`,
         headers: jsonLdHead,
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify({...data, service: data?.service ? data.service?.value : null})
       }),
       invalidatesTags: ['LIST'],
     }),
@@ -30,7 +60,7 @@ export const jobApiService = api.injectEndpoints({
         method: 'PATCH',
         headers: patchHead,
         url: apiPath+`/jobs/${data.id}`,
-        body: JSON.stringify(data)
+        body: JSON.stringify({...data, service: data?.service ? data.service?.value : null})
       }),
       invalidatesTags: ['LIST'],
       async onQueryStarted(args, {
@@ -55,12 +85,12 @@ export const jobApiService = api.injectEndpoints({
         body: JSON.stringify({ isDeleted: true }),
       }),
       invalidatesTags: ['LIST'],
-      /*async onQueryStarted(args, {
+      async onQueryStarted(args, {
         dispatch,
         queryFulfilled}) {
         const patchResult = dispatch(
           jobApiService.util.updateQueryData(
-            'getAssignmentsList', args?.pages, draft => {
+            'getJobsList', args?.pages, draft => {
               const p = draft?.find(item => item.id === args.id)
               if (p) return draft?.filter(item => item.id !== args.id)
             })
@@ -73,7 +103,7 @@ export const jobApiService = api.injectEndpoints({
         catch {
           patchResult.undo()
         }
-      }*/
+      }
     }),
   
   })
@@ -81,6 +111,9 @@ export const jobApiService = api.injectEndpoints({
 
 export const {
   useGetUniqueJobQuery,
+  useGetJobsListQuery,
+  useLazyGetPaginatedJobsListQuery,
+  useLazyGetSearchedJobsListQuery,
   
   usePostNewJobMutation,
   useEditJobMutation,

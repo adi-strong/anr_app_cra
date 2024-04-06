@@ -25,8 +25,8 @@ const menus = [
     isActive: false,
     isOpen: false,
     subItems: [
+      {label: 'Rapports', to: '/app/fuels-reports'},
       {label: 'Stock', to: '/app/fuels-stock'},
-      // {label: 'Sites', to: '/app/fuels-sites'},
       {label: 'Approvisionnement', to: '/app/fuels-supply'},
       {label: 'Ravitaillement', to: '/app/refueling'},
     ],
@@ -116,6 +116,7 @@ const menus = [
       {label: 'Agents', to: '/app/agents'},
       {label: 'Affectations', to: '/app/assignments'},
       {label: 'Salaires', to: '/app/salaries'},
+      {label: 'Fonctions', to: '/app/jobs'},
       {label: 'Utilisateurs', to: '/app/users'},
     ],
   },

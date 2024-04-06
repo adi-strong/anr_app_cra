@@ -56,7 +56,7 @@ const vehicleTypeApiSlice = api.injectEndpoints({
     // ****************************************************************************
     
     
-    postNewVehicle: build.mutation({
+    postNewTypeVehicle: build.mutation({
       query: data => ({
         url: apiPath+`/vehicle_types`,
         method: 'POST',
@@ -65,7 +65,7 @@ const vehicleTypeApiSlice = api.injectEndpoints({
       invalidatesTags: ['LIST'],
     }),
     
-    editVehicle: build.mutation({
+    editVehicleType: build.mutation({
       query: data => ({
         method: 'PATCH',
         headers: patchHead,
@@ -87,7 +87,7 @@ const vehicleTypeApiSlice = api.injectEndpoints({
       }
     }),
     
-    deleteVehicle: build.mutation({
+    deleteVehicleType: build.mutation({
       query: ({ id }) => ({
         headers: patchHead,
         method: 'PATCH',
@@ -126,7 +126,7 @@ export const {
   useLazyGetSearchedVehicleTypesListQuery,
   useLazyGetLoadVehicleTypesQuery,
   
-  usePostNewVehicleMutation,
-  useEditVehicleMutation,
-  useDeleteVehicleMutation,
+  usePostNewVehicleTypeMutation,
+  useEditVehicleTypeMutation,
+  useDeleteVehicleTypeMutation,
 } = vehicleTypeApiSlice

@@ -6,11 +6,9 @@ export default function GradeItem({data, navigate, onRefresh}) {
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle">
+        <td className="align-middle text-uppercase">
           <Link to={`/app/grades/${data.id}/${data?.slug}`}>{data.name}</Link>
         </td>
-        <td className="align-middle">0</td>
-        <td className="align-middle">nom-du-departement</td>
         <td className="align-middle text-end">
           <Link to={`/app/grades/${data.id}/${data?.slug}`}><i className='bi bi-link'/></Link>
         </td>

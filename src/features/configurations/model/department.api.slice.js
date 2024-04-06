@@ -57,6 +57,31 @@ const departmentApiSlice = api.injectEndpoints({
     
     // ****************************************************************************
     
+    getServicesList: build.query({
+      query: pages => apiPath+`/department_services?itemsPerPage=${pages}`,
+      providesTags: result => result
+        ? [...result?.map(({ id }) => ({ type: 'LIST', id }))]
+        : ['LIST'],
+      transformResponse: res => {
+        // nbDepartmentsPages = res['hydra:view'] ? parseInt(res['hydra:view']['hydra:last']?.split('=')[2]) : 1
+        return res['hydra:member'].map(p => p)
+      }
+    }),
+    
+    getLoadServices: build.query({
+      query: name => apiPath+`/department_services?name=${name}`,
+      providesTags: result => result,
+      transformResponse: res => {
+        return res['hydra:member'].map(p => ({
+          label: p?.name?.toUpperCase(),
+          value: p['@id'],
+        }))
+      }
+    }),
+    
+    
+    // ****************************************************************************
+    
     
     editDepartment: build.mutation({
       query: data => ({
@@ -359,6 +384,9 @@ export const {
   useGetUniqueServiceQuery,
   useGetUniqueJobQuery,
   useLazyGetLoadDepartmentsQuery,
+  
+  useGetServicesListQuery,
+  useLazyGetLoadServicesQuery,
   
   useEditDepartmentMutation,
   useAddDepartmentMutation,

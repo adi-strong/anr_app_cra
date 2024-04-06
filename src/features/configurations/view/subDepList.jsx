@@ -4,12 +4,11 @@ import {useNavigate} from "react-router-dom";
 import {ErrorBoundary} from "react-error-boundary";
 import {AppOffCanvas, FallBackRender} from "../../../components";
 import {Button, Card, Col, Form, Row, Table} from "react-bootstrap";
-import {departmentItems} from "../model/department.service";
 import SimplePagination from "../../../components/paginations/SimplePagination";
 import {data} from "../../dashboard/view/sections/FinanceSection";
 import PropTypes from "prop-types";
-import DepartmentItem from "./departmentItem";
 import AddSubDepsForm from "./addSubDepsForm";
+import SubDepItem from "./subDepItem";
 
 export default function SubDepList({departments = [], onRefresh, department}) {
   const [search, setSearch] = useState('')
@@ -42,7 +41,7 @@ export default function SubDepList({departments = [], onRefresh, department}) {
     <ErrorBoundary fallbackRender={FallBackRender}>
       <Card className='mt-5'>
         <Card.Header className='bg-white pt-5'>
-          <Card.Title>Liste des sous-départements</Card.Title>
+          <Card.Title>Directions / Départements</Card.Title>
           
           <Row>
             <Col md={8} className='mb-3'>
@@ -67,17 +66,14 @@ export default function SubDepList({departments = [], onRefresh, department}) {
           <Table className='text-nowrap'>
             <thead className='table-light'>
             <tr>
-              {departmentItems.map(t =>
-                <th key={t.label} className='align-middle'>
-                  {t.label}
-                </th>)}
-              <th className='text-end text-primary'/>
+              <th className='align-middle'>Désignation</th>
+              <th className='align-middle'/>
             </tr>
             </thead>
             
             <tbody>
             {currentItems?.length > 0 && currentItems?.map(s =>
-              <DepartmentItem
+              <SubDepItem
                 key={s.id}
                 data={s}
                 parentID={department.id}

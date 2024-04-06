@@ -1,20 +1,17 @@
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {AppOffCanvas, FallBackRender, RemoveModal} from "../../../components";
-import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
-import {
-  folderTypeActionItems,
-  onFolderTypeActionsFilter,
-} from "../../configurations/model/folder.type.api.slice";
 import {Dropdown} from "react-bootstrap";
-import {useDeleteJobMutation} from "../../jobs/model/job.api.service";
-import EditJobForm from "./editJobForm";
+import {folderTypeActionItems, onFolderTypeActionsFilter} from "../model/folder.type.api.slice";
+import EditSocietyTypeForm from "./editSocietyTypeForm";
+import {useDeleteSocietyTypeMutation} from "../../recoveries/model/society.type.api.service";
 
-export default function JobItem({data, pages, onRefresh}) {
+export default function SocietyTypeItem({data, pages, onRefresh}) {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [open, setOpen] = useState(false)
-  const [deleteJob] = useDeleteJobMutation()
+  const [deleteSocietyType] = useDeleteSocietyTypeMutation()
   
   const toggleShow = () => setShow(!show)
   
@@ -22,16 +19,13 @@ export default function JobItem({data, pages, onRefresh}) {
   
   const onDelete = async () => {
     toggleShow()
-    await deleteJob({...data, pages})
+    await deleteSocietyType({...data, pages})
   }
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle text-uppercase"><Link to={`#!`}>{data.name}</Link></td>
-        <td className="align-middle text-uppercase">
-          {data?.service ? data.service.name : '-'}
-        </td>
+        <td className='align-middle text-uppercase'>{data.name}</td>
         
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
@@ -55,15 +49,15 @@ export default function JobItem({data, pages, onRefresh}) {
       </tr>
       
       <AppOffCanvas
-        title={<><i className='bi bi-pencil-square'/> Modification de la fonction</>}
-        children={<EditJobForm onRefresh={onRefresh} onHide={toggleShow} data={data}/>}
+        title={<><i className='bi bi-pencil-square'/> Modification type d'activités</>}
+        children={<EditSocietyTypeForm onRefresh={onRefresh} onHide={toggleShow} data={data}/>}
         show={show}
         onHide={toggleShow}/>
       
       <RemoveModal
         data={data}
         onRemove={onDelete}
-        message={`cette fonction (${data.name.toUpperCase()})`}
+        message={`ce type de d'activités (${data.name.toUpperCase()})`}
         show={open}
         onHide={toggleOpen}
         onRefresh={onRefresh}/>

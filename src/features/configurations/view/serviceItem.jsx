@@ -29,10 +29,9 @@ export default function ServiceItem({data, navigate, onRefresh}) {const [show, s
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle">
+        <td className="align-middle text-uppercase">
           <Link to={`/app/services/${data.id}/${data?.slug}`}>{data.name}</Link>
         </td>
-        <td className="align-middle">0</td>
         <td className="align-middle">{data?.slug ? data.slug : '-'}</td>
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={

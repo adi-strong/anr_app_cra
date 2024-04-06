@@ -21,13 +21,11 @@ export default function DepartmentItem({data, onPaginate, parentID, page, pages,
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle">
+        <td className='align-middle text-uppercase'>
           <Link to={`/app/departments/${data.id}/${data?.slug}`}>{data.name}</Link>
         </td>
-        <td className="align-middle">
-          0
-        </td>
-        <td className="align-middle">0</td>
+        <td className="align-middle">{data?.nbAgents}</td>
+        <td className="align-middle">{data?.nbServices}</td>
         <td className="align-middle text-end">
           {parentID && <Link to={`/app/departments/${data.id}/${data?.slug}`}><i className='bi bi-link'/></Link>}
           {!parentID &&

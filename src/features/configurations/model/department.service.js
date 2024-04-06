@@ -9,7 +9,6 @@ export const departmentItems = [
 
 export const serviceItems = [
   {label: 'DÉSIGNATION', key: 'name', status: 'desc'},
-  {label: 'TOTAL AGENTS', key: 'left_over', status: 'desc'},
   {label: 'SLUG', key: 'sex', status: 'desc'},
 ]
 
@@ -36,7 +35,7 @@ export const onHandleHideDepModal = (data, setProvince, setErrors, onHide): void
   onHide()
 }
 
-export const onAddDepSubmit = async (e, state = [], setState, onSubmit, onRefresh, onHide, setValidated): void => {
+export const onAddDepSubmit = async (e, state = [], setState, onSubmit, onRefresh, onHide, setValidated, service = null): void => {
   e.preventDefault()
   setValidated(false)
   let obj = [...state]
@@ -44,7 +43,7 @@ export const onAddDepSubmit = async (e, state = [], setState, onSubmit, onRefres
   for (let i = 0; i < items.length; i++) {
     const item = items[i]
     try {
-      const send = await onSubmit(item)
+      const send = await onSubmit({...item, service})
       if (send?.data) {
         obj.pop()
         if (obj.length > 0) setState(obj)

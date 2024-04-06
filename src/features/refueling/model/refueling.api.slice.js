@@ -1,5 +1,4 @@
 import {api, apiPath, jsonLdHead} from "../../../app/store";
-import {nbAssignmentsPages} from "../../staff/model/ass.api.slice";
 
 const refuelingApiSlice = api.injectEndpoints({
   endpoints: build => ({
@@ -15,7 +14,7 @@ const refuelingApiSlice = api.injectEndpoints({
     getPaginatedRefuelingList: build.query({
       query: ({page, pages}) => apiPath+`/refuelings?page=${page}&itemsPerPage=${pages}`,
       transformResponse: res => {
-        nbAssignmentsPages = res['hydra:view'] ? parseInt(res['hydra:view']['hydra:last']?.split('=')[2]) : 1
+        // nbAssignmentsPages = res['hydra:view'] ? parseInt(res['hydra:view']['hydra:last']?.split('=')[2]) : 1
         return res['hydra:member'].map(p => p)
       }
     }),
@@ -29,7 +28,14 @@ const refuelingApiSlice = api.injectEndpoints({
         url: apiPath+`/refuelings`,
         headers: jsonLdHead,
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          ...data,
+          quantity: data?.quantity ? parseFloat(data.quantity) : parseFloat(0),
+          site: data?.site ? data.site?.value : null,
+          vehicle: data?.vehicle ? data.vehicle?.value : null,
+          fuel: data?.fuel ? data.fuel?.data : null,
+          agent: data?.agent ? data.agent?.value : null,
+        })
       }),
       invalidatesTags: ['LIST'],
     }),

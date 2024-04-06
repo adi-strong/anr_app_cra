@@ -1,20 +1,20 @@
-import {ErrorBoundary} from "react-error-boundary";
-import {AppOffCanvas, FallBackRender, RemoveModal} from "../../../components";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {
   folderTypeActionItems,
   onFolderTypeActionsFilter,
-} from "../../configurations/model/folder.type.api.slice";
+} from "../model/folder.type.api.slice";
+import {ErrorBoundary} from "react-error-boundary";
+import {AppOffCanvas, FallBackRender, RemoveModal} from "../../../components";
 import {Dropdown} from "react-bootstrap";
-import {useDeleteJobMutation} from "../../jobs/model/job.api.service";
-import EditJobForm from "./editJobForm";
+import {useDeletePropertyTypeMutation} from "../../properties/model/property.type.api.slice";
+import EditPropertyForm from "./editPropertyForm";
 
-export default function JobItem({data, pages, onRefresh}) {
+export default function PropertyTypeItem({data, pages, onRefresh}) {
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [open, setOpen] = useState(false)
-  const [deleteJob] = useDeleteJobMutation()
+  const [deletePropertyType] = useDeletePropertyTypeMutation()
   
   const toggleShow = () => setShow(!show)
   
@@ -22,16 +22,13 @@ export default function JobItem({data, pages, onRefresh}) {
   
   const onDelete = async () => {
     toggleShow()
-    await deleteJob({...data, pages})
+    await deletePropertyType({...data, pages})
   }
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle text-uppercase"><Link to={`#!`}>{data.name}</Link></td>
-        <td className="align-middle text-uppercase">
-          {data?.service ? data.service.name : '-'}
-        </td>
+        <td className='align-middle text-uppercase'>{data.name}</td>
         
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
@@ -55,15 +52,15 @@ export default function JobItem({data, pages, onRefresh}) {
       </tr>
       
       <AppOffCanvas
-        title={<><i className='bi bi-pencil-square'/> Modification de la fonction</>}
-        children={<EditJobForm onRefresh={onRefresh} onHide={toggleShow} data={data}/>}
+        title={<><i className='bi bi-pencil-square'/> Modification du type de propriétés</>}
+        children={<EditPropertyForm onRefresh={onRefresh} onHide={toggleShow} data={data}/>}
         show={show}
         onHide={toggleShow}/>
       
       <RemoveModal
         data={data}
         onRemove={onDelete}
-        message={`cette fonction (${data.name.toUpperCase()})`}
+        message={`ce type de propriétés (${data.name.toUpperCase()})`}
         show={open}
         onHide={toggleOpen}
         onRefresh={onRefresh}/>

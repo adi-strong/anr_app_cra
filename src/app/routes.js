@@ -146,7 +146,19 @@ const
   RecoveryReports =
     lazy(() => import('../features/recoveries/view/recoveryReports')),
   ExpensesReports =
-    lazy(() => import('../features/finances/view/expensesReports'))
+    lazy(() => import('../features/finances/view/expensesReports')),
+  FolderTypes =
+    lazy(() => import('../features/configurations/view/foldersTypes')),
+  PropertyTypes =
+    lazy(() => import('../features/configurations/view/propertyTypes')),
+  SocietyTypes =
+    lazy(() => import('../features/configurations/view/societyTypes')),
+  VehicleTypes =
+    lazy(() => import('../features/configurations/view/vehicleTypes')),
+  Jobs =
+    lazy(() => import('../features/staff/view/jobs')),
+  FuelsReports =
+    lazy(() => import('../features/fuels/view/fuelsReports'))
 
 const routes = [
   {
@@ -233,6 +245,12 @@ const routes = [
       {path: 'societies/recovery/:id/show', element: <ShowRecovery/>},
       {path: 'recovery-reports', element: <RecoveryReports/>},
       {path: 'expenses-reports', element: <ExpensesReports/>},
+      {path: 'folder-types', element: <FolderTypes/>},
+      {path: 'property-types', element: <PropertyTypes/>},
+      {path: 'society-types', element: <SocietyTypes/>},
+      {path: 'vehicles-types', element: <VehicleTypes/>},
+      {path: 'jobs', element: <Jobs/>},
+      {path: 'fuels-reports', element: <FuelsReports/>},
     ]
   },
 ]

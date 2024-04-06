@@ -73,7 +73,7 @@ const ShowDepartment = () => {
         
         {!(isError && isLoading) && data && data?.paths && data.paths?.length > 0 && (
           <>
-            <Card.Title><i className='bi bi-house-fill'/> Sous-département de :</Card.Title>
+            <Card.Title><i className='bi bi-house-fill'/> Directions :</Card.Title>
             <Breadcrumb>
               <i className='bi bi-house me-1 text-primary'/>
               {data.paths.map(p =>
@@ -104,11 +104,11 @@ const ShowDepartment = () => {
                 </Col>
                 <Col md={4} className='mb-3'>
                   <Card.Title>
-                    <i className='bi bi-server'/> TOTAL SERVICES : {data?.nbServices}
+                    <i className='bi bi-server'/> TOTAL SERVICES : {!(isError && isLoading) && data && data?.nbServices}
                   </Card.Title>
                   
                   <Card.Title>
-                    <i className='bi bi-people-fill'/> TOTAL AGENTS : 0
+                    <i className='bi bi-people-fill'/> TOTAL AGENTS : {!(isError && isLoading) && data && data?.nbAgents}
                   </Card.Title>
                 </Col>
               </Row>}

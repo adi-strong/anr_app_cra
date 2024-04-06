@@ -1,19 +1,18 @@
-import {ErrorBoundary} from "react-error-boundary";
-import {FallBackRender, RemoveModal} from "../../../components";
-import {Link} from "react-router-dom";
 import {useState} from "react";
+import {useDeleteDepartmentMutation} from "../model/department.api.slice";
+import {ErrorBoundary} from "react-error-boundary";
+import {AppOffCanvas, FallBackRender, RemoveModal} from "../../../components";
+import {Link} from "react-router-dom";
 import {Dropdown} from "react-bootstrap";
 import {actionItems} from "../../../services";
-import {handleRemoveProvince} from "../../configurations/model/province.service";
-import moment from "moment";
-import {useDeleteExpenseMutation} from "../model/expenses.api.slice";
-import {onExpenseFilterAction} from "../model/finances.service";
-import EditExpenseModal from "./editExpenseModal";
+import {onDepActionsFilter} from "../model/department.service";
+import EditDepartmentForm from "./editDepartmentForm";
+import {handleRemoveProvince} from "../model/province.service";
 
-export default function ExpenseItem({data, onPaginate, parentID, page, pages, name, isPaginated, isSearched, onSearchQuery, onRefresh, navigate}) {
+export default function SubDepItem({data, onPaginate, parentID, page, pages, name, isPaginated, isSearched, onSearchQuery, onRefresh, navigate}) {
   const [show, setShow] = useState(false)
   const [open, setOpen] = useState(false)
-  const [deleteExpense] = useDeleteExpenseMutation()
+  const [deleteDepartment] = useDeleteDepartmentMutation()
   
   const toggleShow = () => setShow(!show)
   
@@ -22,14 +21,9 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <tr>
-        <td className="align-middle">
-          <Link to={`/app/expenses/${data.id}/show`}>{data.object}</Link>
+        <td className='align-middle text-uppercase'>
+          <Link to={`/app/departments/${data.id}/${data?.slug}`}>{data.name}</Link>
         </td>
-        <td className="align-middle">
-          {data.bearer}
-        </td>
-        <td className="align-middle">{data?.currency && data.currency?.symbol} {data.total}</td>
-        <td className="align-middle">{data?.releasedAt && moment(data.releasedAt).format('ll')}</td>
         <td className="align-middle text-end">
           {parentID && <Link to={`/app/departments/${data.id}/${data?.slug}`}><i className='bi bi-link'/></Link>}
           {!parentID &&
@@ -44,7 +38,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
                     <Dropdown.Item
                       key={i}
                       className={f?.className}
-                      onClick={() => onExpenseFilterAction(f.event, data, navigate, toggleShow, toggleOpen)}>
+                      onClick={() => onDepActionsFilter(f.event, data, navigate, toggleShow, toggleOpen)}>
                       {f.title}
                     </Dropdown.Item>)}
                 </Dropdown.Menu>
@@ -53,9 +47,12 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
         </td>
       </tr>
       
-      <EditExpenseModal
-        data={data}
-        onRefresh={onRefresh}
+      <AppOffCanvas
+        children={<EditDepartmentForm
+          data={data}
+          onRefresh={onRefresh}
+          onHide={toggleShow}/>}
+        title={<><i className='bi bi-pencil-square'/> Modification du département</>}
         show={show}
         onHide={toggleShow}/>
       
@@ -67,7 +64,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
           data,
           page,
           pages,
-          deleteExpense,
+          deleteDepartment,
           onSearchQuery,
           onPaginate,
           toggleOpen,
@@ -75,7 +72,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
           name,
           isSearched
         )}
-        message={`cette dépense (${data.object?.toUpperCase()})`}
+        message={`ce département (${data.name?.toUpperCase()})`}
         onHide={toggleOpen}/>
     </ErrorBoundary>
   )

@@ -5,8 +5,8 @@ export const folderItems = [
 ]
 
 export const folderTypeItems = [
-  {label: 'DÉSIGNATION'},
-  {label: 'SLUG'},
+  {label: 'TYPE'},
+  // {label: 'SLUG'},
 ]
 
 export const folderFields = {
