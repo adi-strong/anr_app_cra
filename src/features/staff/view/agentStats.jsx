@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import DashHeadingCardSection from "../../dashboard/view/sections/DashHeadingCardSection";
-import {Button, Row, Spinner} from "react-bootstrap";
+import {Button, Col, Row, Spinner} from "react-bootstrap";
 import {
   useGetActiveAgentsQuery, useGetDeadAgentsQuery,
   useGetInactiveAgentsQuery, useGetLeaveAgentsQuery, useGetRetiredAgentsQuery,
@@ -14,6 +14,7 @@ import {
 import toast from "react-hot-toast";
 import {useGetCurrentMissionsQuery, useGetMissionsNerExpirationsQuery} from "../model/mission.stats.api.service";
 import {useGetAssignmentsNearExpirationsQuery, useGetCurrentAssignmentsQuery} from "../model/ass.stats.api.slice";
+import {Link} from "react-router-dom";
 
 const AgentStats = () => {
   const dispatch = useDispatch()
@@ -271,22 +272,30 @@ const AgentStats = () => {
       <PageLayout>
         <AppBreadcrumb title='Rapports agents'/>
         
-        <div className='text-end'>
-          <Button
-            disabled={
-            isActAgentsFetch || isInactAgentsFetch || isSickAgentsFetch || isLeaveAgentsFetch ||
-              isDeadAgentsFetch || isUnAgentsFetch || isRetiredAgentsFetch || isSoonRetiredAgentsFetch ||
-              isCurrentMissionsFetch || isMissionNearExpirationsFetch || isAssignmentsFetch ||
-              isNearExpAssignmentsFetch}
-            onClick={onRefresh}>
-            {(isActAgentsFetch || isInactAgentsFetch || isSickAgentsFetch || isLeaveAgentsFetch ||
+        <Row>
+          <Col className='mb-2'>
+            <Link to='/app/others-reports'>
+              <i className='bi bi-activity'/> Rapports paiements salaires
+            </Link>
+          </Col>
+          
+          <Col className='mb-2 text-end'>
+            <Button
+              disabled={
+                isActAgentsFetch || isInactAgentsFetch || isSickAgentsFetch || isLeaveAgentsFetch ||
                 isDeadAgentsFetch || isUnAgentsFetch || isRetiredAgentsFetch || isSoonRetiredAgentsFetch ||
                 isCurrentMissionsFetch || isMissionNearExpirationsFetch || isAssignmentsFetch ||
-                isNearExpAssignmentsFetch) &&
-              <Spinner animation='grow' size='sm' className='me-1'/>}
-            Actualiser
-          </Button>
-        </div>
+                isNearExpAssignmentsFetch}
+              onClick={onRefresh}>
+              {(isActAgentsFetch || isInactAgentsFetch || isSickAgentsFetch || isLeaveAgentsFetch ||
+                  isDeadAgentsFetch || isUnAgentsFetch || isRetiredAgentsFetch || isSoonRetiredAgentsFetch ||
+                  isCurrentMissionsFetch || isMissionNearExpirationsFetch || isAssignmentsFetch ||
+                  isNearExpAssignmentsFetch) &&
+                <Spinner animation='grow' size='sm' className='me-1'/>}
+              Actualiser
+            </Button>
+          </Col>
+        </Row>
         
         <Row>
           <DashHeadingCardSection

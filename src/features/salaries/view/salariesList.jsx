@@ -109,7 +109,7 @@ export default function SalariesList() {
         
         <Row>
           <Col md={6} className='mb-2 d-flex'>
-            <Link to='#!' className='me-1 mb-1 btn btn-primary'>
+            <Link to='/app/salaries-by-group' className='me-1 mb-1 btn btn-primary'>
               Salaire par groupe
             </Link>
             

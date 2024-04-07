@@ -52,6 +52,29 @@ const salaryApiSlice = api.injectEndpoints({
       }),
       invalidatesTags: ['LIST'],
     }),
+    
+    postNewSalaryResource: build.mutation({
+      query: data => ({
+        url: apiPath+`/salary_resources`,
+        headers: jsonLdHead,
+        method: 'POST',
+        body: JSON.stringify({
+          ...data,
+          yearId: data?.yearId ? parseInt(data.yearId) : parseInt(0),
+          month: data?.month ? data.month?.toString() : null,
+        })
+      }),
+      invalidatesTags: ['LIST'],
+    }),
+    
+    searchSalaryResources: build.mutation({
+      query: data => ({
+        headers: jsonLdHead,
+        method: 'POST',
+        url: apiPath+'/search_salary_resources',
+        body: JSON.stringify(data)
+      })
+    }),
   
   })
 })
@@ -62,4 +85,6 @@ export const {
   useLazyGetPaginatedSalariesListQuery,
   
   usePostNewSalaryMutation,
+  usePostNewSalaryResourceMutation,
+  useSearchSalaryResourcesMutation,
 } = salaryApiSlice

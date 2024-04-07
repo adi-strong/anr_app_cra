@@ -160,7 +160,11 @@ const
   FuelsReports =
     lazy(() => import('../features/fuels/view/fuelsReports')),
   ShowUser =
-    lazy(() => import('../features/staff/view/showUser'))
+    lazy(() => import('../features/staff/view/showUser')),
+  SalaryByGroup =
+    lazy(() => import('../features/salaries/view/salaryByGroup')),
+  OtherReports =
+    lazy(() => import('../features/others/view/otherReports'))
 
 const routes = [
   {
@@ -254,6 +258,8 @@ const routes = [
       {path: 'jobs', element: <Jobs/>},
       {path: 'fuels-reports', element: <FuelsReports/>},
       {path: 'users/:id/show', element: <ShowUser/>},
+      {path: 'salaries-by-group', element: <SalaryByGroup/>},
+      {path: 'others-reports', element: <OtherReports/>},
     ]
   },
 ]

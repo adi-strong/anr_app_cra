@@ -64,6 +64,7 @@ const agentApiSlice = api.injectEndpoints({
           grade: p?.grade,
           service: p?.service,
           job: p?.job,
+          id: p?.id,
         }))
       }
     }),

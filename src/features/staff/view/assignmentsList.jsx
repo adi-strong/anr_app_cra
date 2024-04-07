@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {onSetNbPages} from "../../config/config.slice";
 import toast from "react-hot-toast";
 import {ErrorBoundary} from "react-error-boundary";
@@ -109,10 +109,6 @@ export default function AssignmentsList() {
         
         <Row>
           <Col md={6} className='mb-2 d-flex'>
-            <Link to='#!' className='me-1 mb-1 btn btn-primary'>
-              Affectation par groupe
-            </Link>
-            
             <Form.Group className='mb-1'>
               <Form.Select
                 disabled={isLoading}

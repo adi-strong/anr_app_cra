@@ -48,7 +48,8 @@ const yearApiSlice = api.injectEndpoints({
       transformResponse: res => {
         return res['hydra:member'].map(p => ({
           label: p?.name?.toUpperCase(),
-          value: p['@id']
+          value: p['@id'],
+          id: p?.id
         }))
       }
     }),
