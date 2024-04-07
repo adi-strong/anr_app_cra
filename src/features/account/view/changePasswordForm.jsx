@@ -1,28 +1,53 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FeedbackError, FallBackRender} from "../../../components";
-import {useState} from "react";
-import {accountPasswordErrors, accountPasswordFields, onPasswordSubmit} from "../model";
-import {Button, Col, Form} from "react-bootstrap";
+import {useEffect, useState} from "react";
+import {accountPasswordErrors, accountPasswordFields} from "../model";
+import {Button, Col, Form, Spinner} from "react-bootstrap";
 import {onFieldChange} from "../../../services/form.handler.service";
+import {useEditUserPasswordMutation} from "../../staff/model/user.api.slice";
+import toast from "react-hot-toast";
 
-export default function ChangePasswordForm() {
-  const [validated, setValidated] = useState(false)
+export default function ChangePasswordForm({data}) {
   const [fields, setFields] = useState(accountPasswordFields)
   const [errors, setErrors] = useState(accountPasswordErrors)
+  const [editUserPassword, {isLoading, isError, error}] = useEditUserPasswordMutation()
+  
+  const onReset = () => {
+    setErrors(accountPasswordErrors)
+    setFields(accountPasswordFields)
+  }
+  
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    setErrors(accountPasswordErrors)
+    if (fields.password !== fields.repeatPassword) {
+      setErrors(s => ({...s, repeatPassword: 'Mots de passe non identiques.'}))
+    }
+    else {
+      try {
+        const send = await editUserPassword({...fields, id: data.id})
+        if (send?.data) {
+          toast.success('Modification bien efféctuée.')
+          onReset()
+        }
+      } catch (e) {
+        toast.error('Problème de connexion.')
+      }
+    }
+  }
+  
+  useEffect(() => {
+    if (isError) {
+      const {violations} = error?.data
+      if (violations) violations.forEach(({ propertyPath, message }) => {
+        setErrors(s => ({...s, [propertyPath]: message}))
+      })
+    }
+  }, [isError, error])
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={e => onPasswordSubmit(
-          e,
-          fields,
-          setFields,
-          errors,
-          setErrors,
-          setValidated
-        )}>
+      <Form onSubmit={onSubmit}>
         
         <Form.Group className='mb-3 row'>
           <Col md={4} className='mb-1 text-uppercase'>
@@ -34,7 +59,7 @@ export default function ChangePasswordForm() {
               required
               autoFocus
               isInvalid={errors.password !== null}
-              disabled={false}
+              disabled={isLoading}
               autoComplete='off'
               type='password'
               id='password'
@@ -53,7 +78,7 @@ export default function ChangePasswordForm() {
           
           <Col md={8} className='mb-1'>
             <Form.Control
-              disabled={false}
+              disabled={isLoading}
               isInvalid={errors.repeatPassword !== null}
               autoComplete='off'
               type='password'
@@ -67,8 +92,9 @@ export default function ChangePasswordForm() {
         </Form.Group>
         
         <div className='text-end'>
-          <Button disabled={false} type='submit'>
-            Modifier
+          <Button disabled={isLoading} type='submit'>
+            {isLoading && <Spinner animation='grow' size='sm' className='me-1'/>}
+            {isLoading ? 'Veuillez patienter' : 'Modifier'}
           </Button>
         </div>
         

@@ -158,7 +158,9 @@ const
   Jobs =
     lazy(() => import('../features/staff/view/jobs')),
   FuelsReports =
-    lazy(() => import('../features/fuels/view/fuelsReports'))
+    lazy(() => import('../features/fuels/view/fuelsReports')),
+  ShowUser =
+    lazy(() => import('../features/staff/view/showUser'))
 
 const routes = [
   {
@@ -251,6 +253,7 @@ const routes = [
       {path: 'vehicles-types', element: <VehicleTypes/>},
       {path: 'jobs', element: <Jobs/>},
       {path: 'fuels-reports', element: <FuelsReports/>},
+      {path: 'users/:id/show', element: <ShowUser/>},
     ]
   },
 ]

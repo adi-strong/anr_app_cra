@@ -1,17 +1,18 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../index";
 import {Dropdown} from "react-bootstrap";
-import avatar from "../../../assets/images/avatar/avatar-1.jpg";
+import avatar from "../../../assets/images/avatar/default_profile.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 import {onResetConfig} from "../../../features/config/config.slice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../features/auth/services/auth.slice";
 import {api} from "../../../app/store";
 
 export default function HeaderMenu() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const {user: session} = useSelector(state => state.auth)
   
   function onUserMenuClick(to) {
     if (to === '/app/profile') navigate(to)
@@ -45,14 +46,18 @@ export default function HeaderMenu() {
                 as='a'
                 className='rounded-circle'>
                 <div className='avatar avatar-md avatar-indicators avatar-online'>
-                  <img src={avatar} alt='' className='rounded-circle'/>
+                  <img
+                    src={session && session?.image ? session.image : avatar} alt=''
+                    className='rounded-circle'/>
                 </div>
               </Dropdown.Toggle>
               
               <Dropdown.Menu className='dropdown-menu-end'>
                 <div className="px-4 pb-0 pt-2">
                   <div className='lh-1'>
-                    <h5 className="mb-1"> John E. Grainger</h5>
+                    <h5 className="mb-1">
+                      {session && <span className='text-capitalize'>{session?.fullName}</span>}
+                    </h5>
                     <Link to='/app/profile' className='text-inherit fs-6'>Voir mon profil</Link>
                   </div>
                   <Dropdown.Divider className='mt-3 mb-2'/>

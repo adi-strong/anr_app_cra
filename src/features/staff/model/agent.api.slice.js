@@ -56,6 +56,8 @@ const agentApiSlice = api.injectEndpoints({
       transformResponse: res => {
         return res?.map(p => ({
           label: p?.name?.toUpperCase()+' '+(p?.firstName ? p.firstName.toUpperCase()+' ' : ''),
+          pseudo: p?.pseudo,
+          phone: p?.phone,
           value: `/api/agents/${p.id}`,
           province: p?.province,
           department: p?.department,

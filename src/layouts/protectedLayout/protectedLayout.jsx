@@ -10,6 +10,7 @@ import {onAuthUser} from "../../features/staff/model/user.service";
 import toast from "react-hot-toast";
 import {useGetUniqueCurrencyQuery} from "../../features/configurations/model/currency.api.slice";
 import {useGetYearsListQuery} from "../../features/configurations/model/year.api.slice";
+import {entrypoint} from "../../app/store";
 
 function ProtectedLayout() {
   const dispatch = useDispatch()
@@ -43,6 +44,22 @@ function ProtectedLayout() {
     error,
     isCurrencyError,
   ])
+  
+  useEffect(() => {
+    if (session) {
+      dispatch(setAuthUser({
+        id: session.id,
+        username: session.username,
+        fullName: session?.fullName,
+        roles: session?.roles,
+        phone: session?.phone,
+        email: session?.email,
+        image: session?.agentAccount && session.agentAccount?.profile
+          ? entrypoint+session.agentAccount.profile?.contentUrl
+          : null
+      }))
+    }
+  }, [session, dispatch])
   
   function toggleSidebar() {
     const dbWrapper = document.getElementById('db-wrapper')

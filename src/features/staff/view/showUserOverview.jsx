@@ -1,10 +1,10 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../../components";
 import {Card, Col, Row} from "react-bootstrap";
-import {FadeSpinLoader} from "../../../loaders";
 import PropTypes from "prop-types";
+import {FadeSpinLoader} from "../../../loaders";
 
-export default function ProfileOverviewTab({loader, error, data}) {
+export default function ShowUserOverview({loader, error, data}) {
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <Col xxl={12}>
@@ -82,7 +82,7 @@ export default function ProfileOverviewTab({loader, error, data}) {
   )
 }
 
-ProfileOverviewTab.propTypes = {
+ShowUserOverview.propTypes = {
   loader: PropTypes.bool,
   error: PropTypes.bool,
   data: PropTypes.any

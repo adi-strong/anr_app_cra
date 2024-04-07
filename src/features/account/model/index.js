@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 export const profileTabs = [
   {title: 'Aperçu', event: 'overview'},
   {title: 'Mot de Passe', event: 'password'},
-  {title: 'Rendez-Vous', event: 'rendezvous'},
 ]
 
 export const accountPasswordFields = {

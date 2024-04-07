@@ -44,7 +44,7 @@ const authSlice = createSlice({
         roles: action.payload.roles,
         phone: action.payload.phone,
         email: action.payload.email,
-        image: null,
+        image: action.payload.image,
       }
     },
   }
