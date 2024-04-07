@@ -1,5 +1,5 @@
-import {useDispatch} from "react-redux";
-import {memo, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {memo, useEffect, useMemo, useState} from "react";
 import {onToggleMenu} from "../../config/config.slice";
 import {ErrorBoundary} from "react-error-boundary";
 import {AppBreadcrumb, AppOffCanvas, FallBackRender, PageHeading, RemoveModal} from "../../../components";
@@ -15,6 +15,7 @@ import {agentItems} from "../../staff/model/agent.service";
 import GradeAgentItem from "./gradeAgentItem";
 import {FadeSpinLoader} from "../../../loaders";
 import EditGradeForm from "./editGradeForm";
+import SimplePagination from "../../../components/paginations/SimplePagination";
 
 const ShowGrade = () => {
   const dispatch = useDispatch()
@@ -55,6 +56,31 @@ const ShowGrade = () => {
     }
     catch (e) { toast.error('Problème de connexion.')}
   }
+  
+  const {nbPages} = useSelector(state => state.config)
+  let items, currentItems
+  
+  items = useMemo(() => {
+    let obj = []
+    if (!isError && data && data?.agents && data.agents?.length > 0) {
+      obj = data.agents?.filter(a =>
+        (a.name.toLowerCase().includes(search.toLowerCase())) ||
+        (a.pseudo.toLowerCase().includes(search.toLowerCase())) ||
+        (a?.lastName && a.lastName.toLowerCase().includes(search.toLowerCase())) ||
+        (a?.firstName && a.firstName.toLowerCase().includes(search.toLowerCase()))
+      )
+    }
+    
+    return obj
+  }, [data, isError, search])
+  
+  const [itemOffset, setItemOffset] = useState(0)
+  
+  const endOffset = itemOffset + nbPages
+  
+  currentItems = useMemo(() => {
+    return items?.slice(itemOffset, endOffset)
+  }, [items, endOffset, itemOffset])
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -130,10 +156,18 @@ const ShowGrade = () => {
               </thead>
               
               <tbody>
-              <GradeAgentItem/>
+              {!(isError && isLoading) && currentItems && currentItems?.length > 0 && currentItems?.map(a =>
+                <GradeAgentItem key={a.id} data={a} grade={data}/>)}
               </tbody>
             </Table>
             {isLoading && <FadeSpinLoader loading={isLoading}/>}
+          </div>
+          
+          <div className='mt-3 px-3 pe-3'>
+            <SimplePagination
+              items={items}
+              setItemOffset={setItemOffset}
+              itemsPerPage={nbPages}/>
           </div>
         </Card>
       </PageLayout>
