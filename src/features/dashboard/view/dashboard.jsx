@@ -4,13 +4,12 @@ import {memo, useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {Container, Row} from "react-bootstrap";
-import ConsultationSection from "./sections/ConsultationSection";
-import TurnOverSection from "./sections/TurnOverSection";
-import PatientSection from "./sections/PatientSection";
-import AccountSection from "./sections/AccountSection";
+import AgentsSection from "./sections/AgentsSection";
+import ExpensesSection from "./sections/ExpensesSection";
+import AccountstSection from "./sections/AccountstSection";
+import MissionsSection from "./sections/MissionsSection";
 import SynthesisSection from "./sections/SynthesisSection";
 import FinanceSection from "./sections/FinanceSection";
-import ConsultationsPercentSection from "./sections/ConsultationsPercentSection";
 import LastUserSection from "./sections/LastUserSection";
 
 const Dashboard = () => {
@@ -37,16 +36,15 @@ const Dashboard = () => {
             </div>
           </div>
           
-          <ConsultationSection/>
-          <TurnOverSection/>
-          <PatientSection/>
-          <AccountSection/>
+          <AgentsSection/>
+          <AccountstSection/>
+          <MissionsSection/>
+          <ExpensesSection/>
         </Row>
         
         <Row className='mt-5'>
           <SynthesisSection/>
           <FinanceSection/>
-          <ConsultationsPercentSection/>
           <LastUserSection/>
         </Row>
       </Container>

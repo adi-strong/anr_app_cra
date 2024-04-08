@@ -127,10 +127,23 @@ const userApiSlice = api.injectEndpoints({
       }
     }),
     
+    
+    // **************************************************************************** STATS
+    
+    
+    getCountUsers: build.query({
+      query: () => apiPath+'/get_count_users',
+    }),
+    
+    
+    // **************************************************************************** END STATS
+    
   })
 })
 
 export const {
+  useGetCountUsersQuery,
+  
   useGetUniqueUserQuery,
   useGetUsersListQuery,
   useLazyGetPaginatedUsersListQuery,

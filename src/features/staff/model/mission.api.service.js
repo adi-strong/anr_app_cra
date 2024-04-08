@@ -75,10 +75,23 @@ export const missionApiService = api.injectEndpoints({
       }*/
     }),
     
+    
+    // **************************************************************************** STATS
+    
+    
+    getCountMissions: build.query({
+      query: () => apiPath+'/get_count_missions',
+    }),
+    
+    
+    // **************************************************************************** END STATS
+    
   })
 })
 
 export const {
+  useGetCountMissionsQuery,
+  
   useGetUniqueMissionQuery,
   
   usePostNewMissionMutation,

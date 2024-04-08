@@ -186,10 +186,23 @@ const agentApiSlice = api.injectEndpoints({
       invalidatesTags: ['LIST'],
     }),
     
+    
+    // **************************************************************************** STATS
+    
+    
+    getCountAgents: build.query({
+      query: () => apiPath+'/get_count_agents',
+    }),
+    
+    
+    // **************************************************************************** END STATS
+    
   })
 })
 
 export const {
+  useGetCountAgentsQuery,
+  
   usePostNewAgentMutation,
   useEditAgentMutation,
   useDeleteAgentMutation,

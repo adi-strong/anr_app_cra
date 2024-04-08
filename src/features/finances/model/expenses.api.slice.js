@@ -115,10 +115,23 @@ const expensesApiSlice = api.injectEndpoints({
       }),
     }),
     
+    
+    // **************************************************************************** STATS
+    
+    
+    getThisYearExpenses: build.query({
+      query: () => apiPath+'/get_this_year_expenses_sum',
+    }),
+    
+    
+    // **************************************************************************** END STATS
+    
   })
 })
 
 export const {
+  useGetThisYearExpensesQuery,
+  
   useGetExpensesListQuery,
   useGetUniqueExpenseQuery,
   useLazyGetPaginatedExpensesListQuery,

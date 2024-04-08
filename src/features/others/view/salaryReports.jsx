@@ -187,7 +187,7 @@ export default function SalaryReports() {
                     {monthOptions.length > 0 && monthOptions.map(m =>
                       <option key={m.label} value={m.value}>{m.label}</option>)}
                   </Form.Select>
-                  <Button type='submit' disabled={isLoading}>
+                  <Button type='submit' disabled={isLoading} variant='secondary'>
                     <i className='bi bi-search'/>
                   </Button>
                 </InputGroup>
