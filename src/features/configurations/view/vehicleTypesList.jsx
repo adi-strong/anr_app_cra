@@ -10,12 +10,12 @@ import {nbPageOptions} from "../../../services";
 import {folderTypeItems} from "../model/folder.service";
 import {RepeatableTableRowsLoader} from "../../../loaders";
 import SimplePagination from "../../../components/paginations/SimplePagination";
-import AddSocietyTypesForm from "./addSocietyTypesForm";
 import {
   nbVehicleTypesPages, useGetVehicleTypesListQuery,
   useLazyGetPaginatedVehicleTypesListQuery, useLazyGetSearchedVehicleTypesListQuery
 } from "../../vehicles/model/vehicle.type.api.slice";
 import VehicleTypeItem from "./vehicleTypeItem";
+import AddVehicleTypesForm from "./addVehicleTypesForm";
 
 export default function VehicleTypesList() {
   const [search, setSearch] = useState({keyword: '', temp: ''})
@@ -284,7 +284,7 @@ export default function VehicleTypesList() {
         show={show}
         onHide={toggleShow}
         title={<><i className='bi bi-plus'/> Enregistrment Types de véhicules</>}
-        children={<AddSocietyTypesForm onHide={toggleShow} pages={nbPages} onRefresh={onProvinceRefresh}/>}/>
+        children={<AddVehicleTypesForm onHide={toggleShow} pages={nbPages} onRefresh={onProvinceRefresh}/>}/>
     </ErrorBoundary>
   )
 }

@@ -15,8 +15,10 @@ import ReactSelectField from "./ReactSelectField";
 import UpdateImageFields from "./updateImageFields";
 import RowContent2 from "./RowContent2";
 import MapComponent from "./mapComponent";
+import QRCodeComponent from "./QRCodeComponent";
 
 export {
+  QRCodeComponent,
   MapComponent,
   RowContent2,
   UpdateImageFields,

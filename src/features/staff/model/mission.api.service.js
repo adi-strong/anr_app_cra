@@ -29,7 +29,7 @@ export const missionApiService = api.injectEndpoints({
         method: 'PATCH',
         headers: patchHead,
         url: apiPath+`/missions/${data.id}`,
-        body: JSON.stringify(data)
+        body: JSON.stringify({observation: data?.observation})
       }),
       invalidatesTags: ['LIST'],
       async onQueryStarted(args, {

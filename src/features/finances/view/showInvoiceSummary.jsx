@@ -4,7 +4,7 @@ import ShowInvoiceHeader from "./showInvoiceHeader";
 import {useRef} from "react";
 import {useReactToPrint} from "react-to-print";
 import {Button, Card, Col, Row} from "react-bootstrap";
-import logo from "../../../assets/images/logo.png";
+import logo from "../../../assets/images/background/logo.png";
 
 const nStyle = {
   fontWeight: 800,

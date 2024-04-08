@@ -26,10 +26,9 @@ const medicalApiSlice = api.injectEndpoints({
     
     editMedical: build.mutation({
       query: data => ({
-        method: 'PATCH',
-        headers: patchHead,
-        url: apiPath+`/medicals/${data.id}`,
-        body: JSON.stringify(data)
+        method: 'POST',
+        url: apiPath+`/medical_resources`,
+        body: data
       }),
       invalidatesTags: ['LIST'],
       async onQueryStarted(args, {

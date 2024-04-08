@@ -30,7 +30,7 @@ const Item = ({a}) => {
             </div>
             <div className="ms-3 lh-1">
               <h5 className=" mb-1">
-                <Link to={`/app/agents/${a.id}/show`} className='text-dark'>
+                <Link to={`/app/missions/${a.id}/show`} className='text-dark'>
                   {a.name.toUpperCase()+' '}
                   {a?.lastName && a.lastName?.toUpperCase()+' '}
                   <span className='text-capitalize'>{a?.firstName && a.firstName}</span>
@@ -50,7 +50,7 @@ const Item = ({a}) => {
         </td>
         
         <td className='align-middle'>
-          <Link to={`/app/agents/${a.id}/show`}>
+          <Link to={`/app/missions/${a?.mission}/show`}>
             <i className='bi bi-eye'/>
           </Link>
         </td>

@@ -2,8 +2,6 @@
 const title = document.querySelector('title')
 
 export const nbPageOptions = [
-  {label: '1', value: 1},
-  {label: '5', value: 5},
   {label: '15', value: 15},
   {label: '25', value: 25},
   {label: '50', value: 50},
@@ -103,7 +101,7 @@ export const deleteMessage = 'Suppression bien efféctuée'
 
 // FUNCTIONS
 export const setPageTitle = (str: string): void => {
-  title.innerText = 'CO | ' + str
+  title.innerText = 'ANR | ' + str
 }
 
 export const onArrayChange = (e, index, item: string, items = [], state, setState): void => {
@@ -134,5 +132,13 @@ export const onRemoveArrayItem = (index, item: string, items = [], state, setSta
   const values = [...items]
   values.splice(index, 1)
   setState({...state, [item]: values})
+}
+
+export const subStr = (length: number = 2, str: string): string => {
+  return str.length <= length ? str : str.substring(0, length) + '...'
+}
+
+export const strTotoLimit = (begin: number = 2, limit: number = 2, str: string): string => {
+  return str.substring(begin, limit) + '...'
 }
 // END FUNCTIONS

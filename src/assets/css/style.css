@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'electrica-light';
+  src: url("../fonts/electrica/electrica-light.ttf")
+  format('embedded-opentype'),
+  url("../fonts/electrica/electrica-light.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'electrica-bold';
+  src: url("../fonts/electrica/electrica-extrabold.ttf")
+  format('embedded-opentype'),
+  url("../fonts/electrica/electrica-extrabold.ttf") format('truetype');
+}
+
+* {
+  font-family: 'electrica-light', sans-serif;
+}
+
+.fs-07rem {
+  font-size: 0.7rem;
+}
+
+.card-title {
+  font-family: 'electrica-bold', sans-serif;
+}

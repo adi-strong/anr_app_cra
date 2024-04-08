@@ -6,7 +6,7 @@ import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Row, Spinner, Tab, Tabs} from "react-bootstrap";
-import bgImg from "../../../assets/images/background/profile-cover.jpg";
+import bgImg from "../../../assets/images/background/logo.png";
 import avatar1 from "../../../assets/images/avatar/default_profile.jpg";
 import {useDeleteAgentMutation, useGetUniqueAgentQuery} from "../model/agent.api.slice";
 import {entrypoint} from "../../../app/store";
@@ -65,10 +65,11 @@ const ShowAgent = () => {
         <Row className='align-items-center'>
           <Col xxl={12}>
             <div
-              className='pt-20 rounded-top'
+              className='rounded-top'
               style={{
                 background: `url(${bgImg}) no-repeat`,
                 backgroundSize: 'cover',
+                paddingTop: '25rem',
               }}/>
             
             <div className='bg-white rounded-bottom smooth-shadow-sm'>

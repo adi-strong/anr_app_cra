@@ -18,7 +18,7 @@ export default function MedicalItem({data}) {
           {data?.releasedAt && moment(data.releasedAt).calendar()}
         </td>
         <td className='align-middle text-end'>
-          <Link to={`#!`}><i className='bi bi-link'/></Link>
+          <Link to={`/app/medical-file/${data?.id}/show`}><i className='bi bi-link'/></Link>
         </td>
       </tr>
     </ErrorBoundary>

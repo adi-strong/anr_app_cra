@@ -7,7 +7,7 @@ import {PageLayout} from "../../../layouts";
 import {Link} from "react-router-dom";
 import {Button, Card, Table} from "react-bootstrap";
 import {useReactToPrint} from "react-to-print";
-import logo from '../../../assets/images/logo.png';
+import logo from '../../../assets/images/background/logo.png';
 
 const nStyle = {
   fontWeight: 800,

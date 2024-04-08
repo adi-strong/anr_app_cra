@@ -39,7 +39,7 @@ const Item = ({a}) => {
               {a?.grade &&
                 <p className="mb-0">
                   {a.grade.name.toLowerCase()+' '}/{' '}
-                  <Link to={`/app/grades/${a.grade.id}/show`}><i className='bi bi-link'/></Link>
+                  <Link to={`/app/grades/${a?.assignment}/show`}><i className='bi bi-link'/></Link>
                 </p>}
             </div>
           </div>
@@ -50,7 +50,7 @@ const Item = ({a}) => {
         </td>
         
         <td className='align-middle'>
-          <Link to={`/app/agents/${a.id}/show`}>
+          <Link to={`/app/assignments/${a?.assignment}/show`}>
             <i className='bi bi-eye'/>
           </Link>
         </td>

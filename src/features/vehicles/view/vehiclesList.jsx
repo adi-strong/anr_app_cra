@@ -214,7 +214,7 @@ export default function VehiclesList() {
       </Card.Header>
       
       <div>
-        <Table className='text-nowrap'>
+        <Table responsive className='text-nowrap'>
           <thead className='table-light'>
           <tr>
             {vehicleItems.length > 0 && vehicleItems.map(t =>

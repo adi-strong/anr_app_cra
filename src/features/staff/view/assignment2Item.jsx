@@ -23,7 +23,6 @@ export default function Assignment2Item({data}) {
               <h5 className=" mb-1">
                 <Link to={`#!`}>
                   {agent.name.toUpperCase()+' '}
-                  {agent?.lastName && agent.lastName?.toUpperCase()+' '}
                   <span className='text-capitalize'>{agent?.firstName && agent.firstName}</span>
                 </Link>
               </h5>

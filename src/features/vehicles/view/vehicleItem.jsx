@@ -8,6 +8,7 @@ import {useState} from "react";
 import {onVehicleActionsFilter} from "../model/vehicle.service";
 import VehicleForm from "./vehicleForm";
 import avatar2 from "../../../assets/images/avatar/default_profile.jpg";
+import {strTotoLimit} from "../../../services";
 
 export default function VehicleItem({data, onRefresh}) {
   const file = data?.certificate ? data.certificate?.contentUrl : null
@@ -37,7 +38,7 @@ export default function VehicleItem({data, onRefresh}) {
             <>
               <i className='bi bi-cloud-download me-1'/>
               <a href={entrypoint+file} target='_blank' rel='noreferrer'>
-                {file.substring(12)}
+                {strTotoLimit(12, 40, file)}
               </a>
             </>
           )}

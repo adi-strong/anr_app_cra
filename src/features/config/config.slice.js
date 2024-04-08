@@ -124,7 +124,7 @@ const menus = [
 
 const initialState = {
   menus,
-  nbPages: 5,
+  nbPages: 25,
   provinceOptions: [],
   departentOptions: [],
   // currencies,

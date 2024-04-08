@@ -50,7 +50,7 @@ const Item = ({a}) => {
         </td>
         
         <td className='align-middle'>
-          <Link to={`/app/agents/${a.id}/show`}>
+          <Link to={`/app/missions/${a?.mission}/show`}>
             <i className='bi bi-eye'/>
           </Link>
         </td>

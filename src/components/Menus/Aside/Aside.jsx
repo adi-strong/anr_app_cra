@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../index";
 import {Link} from "react-router-dom";
-import logo from '../../../assets/images/logo_2.png';
+import logo from '../../../assets/images/logo512.png';
 import AsideMenu from "./AsideMenu";
 
 export default function Aside() {
@@ -11,7 +11,7 @@ export default function Aside() {
         <div className='slimScrollDiv'>
           <div className='nav-scroller'>
             <Link className="navbar-brand text-light fw-bold" to='/app/dashboard'>
-              <img src={logo} className='me-1' alt=''/>
+              <img src={logo} className='me-1 rounded-circle' alt=''/>
               ANR
             </Link>
             

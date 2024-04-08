@@ -123,7 +123,7 @@ export default function AssignmentsList() {
       </Card.Header>
       
       <div>
-        <Table className='text-nowrap'>
+        <Table responsive className='text-nowrap'>
           <thead className='table-light'>
           <tr>
             {assignment2Items.length > 0 && assignment2Items.map(t =>

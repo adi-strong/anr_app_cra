@@ -1,6 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../../components";
-import {Link} from "react-router-dom";
 
 export default function AgentSalaryItem({data}) {
   return (
@@ -13,14 +12,10 @@ export default function AgentSalaryItem({data}) {
         </th>
         <td className='align-middle'>{data?.riskPremiumAmount ? data.riskPremiumAmount : '-'}</td>
         <td className='align-middle'>{data?.functionBonusAmount ? data.functionBonusAmount : '-'}</td>
-        <th className='align-middle'>
+        <th className='align-middle' colSpan={2}>
           {data?.total && data.total+' '  }
           {data?.currency && data.currency?.symbol}
         </th>
-        
-        <td className='align-middle text-end'>
-          <Link to={`#!`}><i className='bi bi-link'/></Link>
-        </td>
       </tr>
     </ErrorBoundary>
   )

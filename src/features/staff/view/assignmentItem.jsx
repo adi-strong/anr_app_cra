@@ -27,7 +27,7 @@ export default function AssignmentItem({data}) {
           )}
         </td>
         <td className='align-middle text-end'>
-          <Link to={`#!`}><i className='bi bi-link'/></Link>
+          <Link to={`/app/assignments/${data?.id}/show`}><i className='bi bi-link'/></Link>
         </td>
       </tr>
     </ErrorBoundary>

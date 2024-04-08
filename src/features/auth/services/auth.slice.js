@@ -45,6 +45,7 @@ const authSlice = createSlice({
         phone: action.payload.phone,
         email: action.payload.email,
         image: action.payload.image,
+        grade: action.payload.grade,
       }
     },
   }

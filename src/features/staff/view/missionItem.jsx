@@ -3,10 +3,12 @@ import {FallBackRender} from "../../../components";
 import moment from "moment";
 import {Link} from "react-router-dom";
 
+const date = new Date()
+
 export default function MissionItem({mission}) {
   const startAt = mission?.startAt ? mission.startAt : null
   const endAt = mission?.endAt ? mission.endAt : null
-  const duration = (startAt && endAt) ? moment(endAt).diff(startAt, 'days') : null
+  const duration = (startAt && endAt) ? moment(endAt).diff(date, 'days') : null
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -19,7 +21,7 @@ export default function MissionItem({mission}) {
         </td>
         
         <td className='align-middle text-end'>
-          <Link to={`#!`}><i className='bi bi-link'/></Link>
+          <Link to={`/app/missions/${mission.id}/show`}><i className='bi bi-link'/></Link>
         </td>
       </tr>
     </ErrorBoundary>

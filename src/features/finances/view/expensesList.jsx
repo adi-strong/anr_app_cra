@@ -213,7 +213,7 @@ export default function ExpensesList() {
       </Card.Header>
       
       <div>
-        <Table className='text-nowrap'>
+        <Table responsive className='text-nowrap'>
           <thead className='table-light'>
           <tr>
             {finItems.map(t =>

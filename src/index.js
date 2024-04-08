@@ -14,6 +14,7 @@ import './assets/libs/dropzone/dist/dropzone.css';
 import './assets/libs/prismjs/themes/prism-okaidia.min.css';
 import './assets/css/theme.min.css';
 import './assets/css/custom.style.css';
+import './assets/css/style.css';
 
 
 moment.locale('fr', {

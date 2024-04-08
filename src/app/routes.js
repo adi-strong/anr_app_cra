@@ -164,7 +164,13 @@ const
   SalaryByGroup =
     lazy(() => import('../features/salaries/view/salaryByGroup')),
   OtherReports =
-    lazy(() => import('../features/others/view/otherReports'))
+    lazy(() => import('../features/others/view/otherReports')),
+  ShowMission =
+    lazy(() => import('../features/staff/view/showMission')),
+  ShowAssignment =
+    lazy(() => import('../features/staff/view/showAssignment')),
+  ShowMedicalFile =
+    lazy(() => import('../features/staff/view/showMedicalFile'))
 
 const routes = [
   {
@@ -260,6 +266,9 @@ const routes = [
       {path: 'users/:id/show', element: <ShowUser/>},
       {path: 'salaries-by-group', element: <SalaryByGroup/>},
       {path: 'others-reports', element: <OtherReports/>},
+      {path: 'missions/:id/show', element: <ShowMission/>},
+      {path: 'assignments/:id/show', element: <ShowAssignment/>},
+      {path: 'medical-file/:id/show', element: <ShowMedicalFile/>},
     ]
   },
 ]

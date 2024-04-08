@@ -10,12 +10,14 @@ import {
   onRemoveExpenseCatItem
 } from "../../finances/model/expense.categoy.service";
 import PropTypes from "prop-types";
-import {usePostNewVehicleTypeMutation} from "../../vehicles/model/vehicle.type.api.slice";
+import {
+  usePostNewTypeVehicleMutation,
+} from "../../vehicles/model/vehicle.type.api.slice";
 
 export default function AddVehicleTypesForm({onHide, pages, onRefresh}) {
   const [validated, setValidated] = useState(false)
   const [fields, setFields] = useState(finCategories)
-  const [postNewTypeVehicle, {isLoading}] = usePostNewVehicleTypeMutation()
+  const [postNewTypeVehicle, {isLoading}] = usePostNewTypeVehicleMutation()
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>

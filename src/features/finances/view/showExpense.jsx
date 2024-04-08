@@ -1,13 +1,13 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
-import {memo, useEffect, useRef} from "react";
-import {useDispatch} from "react-redux";
+import {AppBreadcrumb, FallBackRender, PageHeading, QRCodeComponent} from "../../../components";
+import {memo, useEffect, useMemo, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Link, useParams} from "react-router-dom";
 import {Button, Card, Col, Row, Spinner, Table} from "react-bootstrap";
 import {useReactToPrint} from "react-to-print";
-import logo from "../../../assets/images/logo.png";
+import logo from "../../../assets/images/background/logo.png";
 import {useGetUniqueExpenseQuery} from "../model/expenses.api.slice";
 import toast from "react-hot-toast";
 import {RepeatableTableRowsLoader} from "../../../loaders";
@@ -24,6 +24,7 @@ const uStyle2 = { borderBottom: '2px solid #0909b0' }
 
 const ShowExpense = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector(state => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'finances' }))
@@ -46,6 +47,17 @@ const ShowExpense = () => {
       if (error?.data && error.data['hydra:description']) toast.error(error.data['hydra:description'])
     }
   }, [isError, error])
+  
+  let qrCodeValue
+  qrCodeValue = useMemo(() => {
+    let str = ""
+    if (session) {
+      str += "NOM : " + session?.fullName + "\n"
+      str += "GRADE : " + session?.grade ? session.grade : ''
+    }
+    
+    return str
+  }, [session])
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -77,7 +89,7 @@ const ShowExpense = () => {
               <div className='mt-5 pt-10 px-10 pe-10 mb-3' style={uStyle2}>
                 <Row>
                   <Col sm={6} className='mb-3'>
-                    <img src={logo} width={80} height={80} alt=''/>
+                    <img src={logo} className='rounded-circle' width={80} height={80} alt=''/>
                   </Col>
                   
                   <Col sm={6} className='mb-3 text-end text-dark'>
@@ -86,7 +98,9 @@ const ShowExpense = () => {
                   </Col>
                 </Row>
                 
-                <h2 style={nStyle} className='text-center'>CLINIC OFFICE</h2>
+                <h2 style={nStyle} className='text-center'>
+                  AGENCE NATIONALE DE RENSEIGNEMENTS
+                </h2>
                 <h6 className='text-center'>rue Philippe 49 731 Dumas-sur-Lebrun</h6>
               </div>
               
@@ -149,7 +163,8 @@ const ShowExpense = () => {
               
               <Row className='mt-5 mb-3'>
                 <Col sm={6}>
-                  {/*<Card.Title>SECRÉTARIAT</Card.Title>*/}
+                  {session &&
+                    <QRCodeComponent value={qrCodeValue}/>}
                 </Col>
                 
                 <Col sm={6} className='text-end'>

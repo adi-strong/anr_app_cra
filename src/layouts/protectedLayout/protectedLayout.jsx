@@ -54,6 +54,7 @@ function ProtectedLayout() {
         roles: session?.roles,
         phone: session?.phone,
         email: session?.email,
+        grade: session?.agentAccount && session.agentAccount?.grade ? session.agentAccount?.grade.name?.toUpperCase() : null,
         image: session?.agentAccount && session.agentAccount?.profile
           ? entrypoint+session.agentAccount.profile?.contentUrl
           : null

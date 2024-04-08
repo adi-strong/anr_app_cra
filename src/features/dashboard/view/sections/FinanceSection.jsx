@@ -82,7 +82,7 @@ export default function FinanceSection() {
         ...s,
         datasets: [{
           label: '$',
-          data: [monthly.missions, monthly.others],
+          data: [parseFloat(monthly.missions).toFixed(2), parseFloat(monthly.others).toFixed(2)],
           backgroundColor: [
             'rgb(8,239,20)',
             'rgb(255, 99, 132)',
@@ -100,7 +100,7 @@ export default function FinanceSection() {
         ...s,
         datasets: [{
           label: '$',
-          data: [lastMonth.missions, lastMonth.others],
+          data: [parseFloat(lastMonth.missions).toFixed2, parseFloat(lastMonth.others).toFixed2],
           backgroundColor: [
             'rgb(8,239,20)',
             'rgb(255, 99, 132)',
@@ -118,7 +118,7 @@ export default function FinanceSection() {
         ...s,
         datasets: [{
           label: '$',
-          data: [thisYear.missions, thisYear.others],
+          data: [parseFloat(thisYear.missions).toFixed(2), parseFloat(thisYear.others).toFixed(2)],
           backgroundColor: [
             'rgb(8,239,20)',
             'rgb(255, 99, 132)',

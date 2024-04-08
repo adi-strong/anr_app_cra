@@ -1,4 +1,4 @@
-import {api, apiPath, patchHead} from "../../../app/store";
+import {api, apiPath, jsonLdHead, patchHead} from "../../../app/store";
 import toast from "react-hot-toast";
 
 export let nbVehicleTypesPages = 1
@@ -58,9 +58,10 @@ const vehicleTypeApiSlice = api.injectEndpoints({
     
     postNewTypeVehicle: build.mutation({
       query: data => ({
+        headers: jsonLdHead,
         url: apiPath+`/vehicle_types`,
         method: 'POST',
-        body: data
+        body: JSON.stringify(data)
       }),
       invalidatesTags: ['LIST'],
     }),
@@ -126,7 +127,7 @@ export const {
   useLazyGetSearchedVehicleTypesListQuery,
   useLazyGetLoadVehicleTypesQuery,
   
-  usePostNewVehicleTypeMutation,
+  usePostNewTypeVehicleMutation,
   useEditVehicleTypeMutation,
   useDeleteVehicleTypeMutation,
 } = vehicleTypeApiSlice
