@@ -49,7 +49,7 @@ export default function VehicleTypeItem({data, pages, onRefresh}) {
       </tr>
       
       <AppOffCanvas
-        title={<><i className='bi bi-pencil-square'/> Modification type d'activités</>}
+        title={<><i className='bi bi-pencil-square'/> Modification type de véhicule</>}
         children={<EditVehicleTypeForm onRefresh={onRefresh} onHide={toggleShow} data={data}/>}
         show={show}
         onHide={toggleShow}/>
