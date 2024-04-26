@@ -6,9 +6,11 @@ import {agentActionItems} from "../../staff/model/agent.service";
 import {onSocietyActionsFilter} from "../model/society.service";
 import {useState} from "react";
 import SocietyForm from "./societyForm";
+import {useSelector} from "react-redux";
 
 export default function SocietyItem({data, onRefresh}) {
   const navigate = useNavigate()
+  const {show: theme} = useSelector(state => state.theme)
   
   const [show, setShow] = useState(false)
   
@@ -29,7 +31,7 @@ export default function SocietyItem({data, onRefresh}) {
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
             <>
-              <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                 <i className='bi bi-three-dots-vertical text-primary'/>
               </Dropdown.Toggle>
               

@@ -131,7 +131,7 @@ const ShowAgent = () => {
                       
                       <Link
                         to={`/app/agents/${data.id}/edit`}
-                        className="d-none d-md-block btn btn-outline-primary">
+                        className="d-none d-md-block btn btn-primary">
                         Modifier
                       </Link>
                       

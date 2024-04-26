@@ -2,9 +2,11 @@ import {configureStore} from '@reduxjs/toolkit';
 import {createApi, fetchBaseQuery, setupListeners} from "@reduxjs/toolkit/query/react";
 import configReducer from '../features/config/config.slice';
 import authReducer from '../features/auth/services/auth.slice';
+import themeReducer from '../features/config/theme.slice';
 
 // export const entrypoint = 'https://localhost:8000'
 // https://test-ops-api.mdeservicesdrc.com/
+// https://anrapi.test/
 export const entrypoint = 'https://localhost:8000'
 
 export const apiPath = '/api'
@@ -49,6 +51,7 @@ export const store = configureStore({
   reducer: {
     config: configReducer,
     auth: authReducer,
+    theme: themeReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: gDM => gDM().concat(api.middleware),

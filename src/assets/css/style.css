@@ -23,3 +23,94 @@
 .card-title {
   font-family: 'electrica-bold', sans-serif;
 }
+
+/* ********************************************************************************************* */
+/* ********************************************************************************************* */
+
+#dark {
+  background-color: #2b342c;
+}
+
+#dark .card {
+  border-radius: 9px;
+  border: 1px solid #404e41;
+  background-color: #404e41;
+}
+
+#dark .card-body, #dark .dropdown-menu {
+  background-color: #404e41;
+  border: 1px solid #404e41;
+  border-radius: 9px;
+  color: #8efd8e;
+}
+
+#dark .dropdown-menu h5 {
+  color: #fff;
+}
+
+#dark .dropdown-menu li a:hover {
+  background-color: #345e35;
+}
+
+#dark h1, #dark h2, #dark h3, #dark h4, #dark h5, #dark h6 {
+  color: #04d304!important;
+}
+
+#dark .nav-lt-tab button[aria-selected=true] {
+  color: #8f8dff !important;
+}
+
+#dark hr {
+  background-color: #8efd8e;
+}
+
+#dark .card-body, #dark .card-header, #dark .profile-card {
+  background-color: #113913!important;
+}
+
+.bg-dark-green {
+  background-color: #113913!important;
+}
+
+.bg-dark-green-o {
+  background-color: #414e42 !important;
+}
+
+.bg-dark-green button:before {
+  content: ""!important;
+  border: 0!important;
+  display: none!important;
+}
+
+#dark .card-body, #dark a {
+  color: #fff;
+}
+
+#dark .form-label, #dark p, #dark tbody td, #dark tbody td a, #dark tbody td h5 {
+  color: #8efd8e!important;
+}
+
+#dark .form-control, #dark .navbar-classic {
+  background-color: #164418;
+  border: 1px solid #737373;
+  color: #8efd8e;
+}
+
+#dark .form-control:focus {
+  border: 1px solid #8efd8e;
+}
+
+#dark .pagination .disabled a {
+  color: lightgray;
+}
+
+#dark .text-success-o {
+  color: #8efd8e;
+}
+
+#dark .pagination .page-item a {
+  color: #000;
+}
+
+/* ********************************************************************************************* */
+/* ********************************************************************************************* */

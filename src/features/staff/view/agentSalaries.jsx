@@ -67,7 +67,7 @@ export default function AgentSalaries({agent, isError, loader, onRefresh}) {
             </Row>
             
             <div>
-              <Table responsive striped>
+              <Table responsive>
                 <thead className='bg-primary'>
                 <tr>
                   {salaryItems.length > 0 && salaryItems.map(t =>

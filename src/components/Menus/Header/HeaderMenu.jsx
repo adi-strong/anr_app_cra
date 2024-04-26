@@ -1,6 +1,6 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../index";
-import {Dropdown} from "react-bootstrap";
+import {Dropdown, Form} from "react-bootstrap";
 import avatar from "../../../assets/images/avatar/default_profile.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
@@ -8,11 +8,13 @@ import {onResetConfig} from "../../../features/config/config.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../features/auth/services/auth.slice";
 import {api} from "../../../app/store";
+import {toggleShowTheme} from "../../../features/config/theme.slice";
 
 export default function HeaderMenu() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user: session} = useSelector(state => state.auth)
+  const {show} = useSelector(state => state.theme)
   
   function onUserMenuClick(to) {
     if (to === '/app/profile') navigate(to)
@@ -110,6 +112,12 @@ export default function HeaderMenu() {
               </Dropdown.Menu>
             </>
           }/>
+        
+        <li className='justify-content-center d-flex pt-2 mx-3'>
+          <i className={`bi bi-sun${!show ? '-fill text-primary' : ''} me-2`}/>
+          <Form.Switch value={show} checked={show} onChange={() => dispatch(toggleShowTheme())}/>
+          <i className={`bi bi-moon${show ? '-fill text-primary' : ''}`}/>
+        </li>
       </ul>
     </ErrorBoundary>
   )

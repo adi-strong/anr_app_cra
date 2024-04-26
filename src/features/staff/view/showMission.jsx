@@ -88,6 +88,8 @@ const ShowMission = () => {
     return str
   }, [session])
   
+  const {show: theme} = useSelector(state => state.theme)
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <PageHeading title={`Mission n° ${id}`}/>
@@ -212,7 +214,7 @@ const ShowMission = () => {
                       <td
                         className='align-middle bg-light-primary text-dark p-1 text-center text-uppercase'
                         style={style} colSpan={2}>
-                        {data?.place ? data.place : '-'}
+                        <span className={`text-${theme ? 'dark' : 'dark'}`}>{data?.place}</span>
                       </td>
                     </tr>
                     

@@ -8,6 +8,7 @@ import {
   useLazyGetLastMonthFinancesStatsQuery
 } from "../../model/stats.api.slice";
 import toast from "react-hot-toast";
+import {useSelector} from "react-redux";
 
 const items = [
   {title: 'Ce Mois', event: 'month'},
@@ -149,6 +150,8 @@ export default function FinanceSection() {
     setFilter(event)
   }
   
+  const {show} = useSelector(state => state.theme)
+  
   return (
     <Col md={4} className='mb-3'>
       <Card className='h-100'>
@@ -169,7 +172,7 @@ export default function FinanceSection() {
             
             <Dropdown className='dropstart' children={
               <>
-                <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+                <Dropdown.Toggle className={`bg-${show ? 'dark-green' : 'white'} border-0 shadow-none`}>
                   <i className='bi bi-three-dots-vertical text-primary'/>
                 </Dropdown.Toggle>
                 

@@ -43,7 +43,7 @@ const Profile = () => {
                 backgroundSize: 'cover',
             }}/>
             
-            <div className='bg-white rounded-bottom smooth-shadow-sm'>
+            <div className='bg-white profile-card rounded-bottom smooth-shadow-sm'>
               <div className='d-flex align-items-center justify-content-between pt-4 pb-6 px-4'>
                 <div className='d-flex align-items-center'>
                   <div className='avatar-xxl avatar-indicators avatar-online me-2

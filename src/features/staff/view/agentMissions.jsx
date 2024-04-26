@@ -86,7 +86,7 @@ export default function AgentMissions({agent, isError, loader, onRefresh}) {
             </Row>
             
             <div>
-              <Table responsive striped>
+              <Table responsive>
                 <thead className='bg-primary'>
                 <tr>
                   {missionItems.length > 0 && missionItems.map(t =>

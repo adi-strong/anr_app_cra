@@ -9,6 +9,7 @@ import moment from "moment";
 import {useDeleteExpenseMutation} from "../model/expenses.api.slice";
 import {onExpenseFilterAction} from "../model/finances.service";
 import EditExpenseModal from "./editExpenseModal";
+import {useSelector} from "react-redux";
 
 export default function ExpenseItem({data, onPaginate, parentID, page, pages, name, isPaginated, isSearched, onSearchQuery, onRefresh, navigate}) {
   const [show, setShow] = useState(false)
@@ -18,6 +19,8 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
   const toggleShow = () => setShow(!show)
   
   const toggleOpen = () => setOpen(!open)
+  
+  const {show: theme} = useSelector(state => state.theme)
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -35,7 +38,7 @@ export default function ExpenseItem({data, onPaginate, parentID, page, pages, na
           {!parentID &&
             <Dropdown className='dropstart' children={
               <>
-                <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+                <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                   <i className='bi bi-three-dots-vertical text-primary'/>
                 </Dropdown.Toggle>
                 

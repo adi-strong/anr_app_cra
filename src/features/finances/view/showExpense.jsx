@@ -59,6 +59,8 @@ const ShowExpense = () => {
     return str
   }, [session])
   
+  const {show: theme} = useSelector(state => state.theme)
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <PageHeading title={'Dépense n°' + id}/>
@@ -106,12 +108,12 @@ const ShowExpense = () => {
               
               <div className='mt-5 px-10 pe-10 mb-3 text-center'>
                 <div className='mt-8 text-start'>
-                  <Card.Title className='mb-6'>
+                  <Card.Title className={`mb-6 text-${theme ? 'success-o' : 'dark'}`}>
                     <span className="fw-bold">Objet :</span> <br/>
                     {!(isError && isLoading) && data && data.object.toUpperCase()}
                   </Card.Title>
                   
-                  <Card.Title>
+                  <Card.Title className={`text-${theme ? 'success-o' : 'dark'}`}>
                     <span className="fw-bold">Bénéficiaire</span> : <br/>
                     {!(isError && isLoading) && data && data.bearer.toUpperCase()}
                   </Card.Title>

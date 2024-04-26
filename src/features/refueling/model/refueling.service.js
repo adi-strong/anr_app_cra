@@ -4,6 +4,7 @@ export const refuelingFields = {
   site: null,
   fuel: null,
   quantity: 0,
+  qty: 0,
 }
 
 export const refuelingErrors = {
@@ -12,4 +13,5 @@ export const refuelingErrors = {
   site: null,
   fuel: null,
   quantity: null,
+  qty: null,
 }

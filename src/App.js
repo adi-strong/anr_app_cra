@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import Contents from "./app/Contents";
 import toast, {Toaster, ToastBar} from "react-hot-toast";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setup} from "./features/auth/services/auth.slice";
 
 function App() {
   const dispatch = useDispatch()
+  const {theme} = useSelector(state => state.theme)
   
   useEffect(() => { dispatch(setup()) }, [dispatch])
   
   return (
-    <>
+    <div id={theme}>
       <Contents/>
       <Toaster
         position="top-center"
@@ -43,7 +44,7 @@ function App() {
           </ToastBar>
         )}
       </Toaster>
-    </>
+    </div>
   );
 }
 

@@ -8,8 +8,11 @@ import {Badge, Dropdown} from "react-bootstrap";
 import {agentActionItems, onAgentActionsFilter} from "../model/agent.service";
 import {useState} from "react";
 import {useDeleteAgentMutation} from "../model/agent.api.slice";
+import {useSelector} from "react-redux";
 
 export default function AgentItem({data, pages, onRefresh}) {
+  const {show: theme} = useSelector(state => state.theme)
+  
   const profile = data?.profile ? entrypoint+data.profile?.contentUrl : avatar2
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
@@ -61,7 +64,7 @@ export default function AgentItem({data, pages, onRefresh}) {
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
             <>
-              <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                 <i className='bi bi-three-dots-vertical text-primary'/>
               </Dropdown.Toggle>
               

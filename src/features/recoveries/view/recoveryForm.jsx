@@ -38,6 +38,8 @@ function ConfirmModal({show, onHide, onSubmit}) {
 }
 
 export default function RecoveryForm() {
+  const {show: theme} = useSelector(state => state.theme)
+  
   const [fields, setFields] = useState(recoveryFields)
   const [errors, setErrors] = useState(recoveryErrors)
   const [show, setShow] = useState(false)
@@ -234,7 +236,7 @@ export default function RecoveryForm() {
                 </div>}
             </Col>
             
-            <Col md={7} className='mb-3 bg-light p-3'>
+            <Col md={7} className={`mb-3 ${!theme ? 'bg-light' : ''} p-3`}>
               <div className='mb-3'>
                 <Form.Label htmlFor='certificateFile'><code>*</code> Homologation de sécurité</Form.Label>
                 <Form.Control

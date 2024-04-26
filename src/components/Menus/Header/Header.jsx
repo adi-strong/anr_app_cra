@@ -3,13 +3,19 @@ import {FallBackRender} from "../../index";
 import AppSearch from "./AppSearch";
 import HeaderMenu from "./HeaderMenu";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 export default function Header({toggleSidebar}) {
+  const {show} = useSelector(state => state.theme)
+  
   return (
     <ErrorBoundary fallback={FallBackRender}>
       <div className='header @@classList'>
         <nav className='navbar-classic navbar navbar-expand-lg'>
-          <span id='nav-toggle' onClick={toggleSidebar} style={{ cursor: 'pointer' }}>
+          <span id='nav-toggle' onClick={toggleSidebar} style={{
+            cursor: 'pointer',
+            color: show ? '#8efd8e' : ''
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

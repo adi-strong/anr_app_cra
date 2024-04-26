@@ -4,9 +4,11 @@ import {Badge, Dropdown} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {agentActionItems} from "../../staff/model/agent.service";
 import {onPropertyActionsFilter} from "../model/property.service";
+import {useSelector} from "react-redux";
 
 export default function PropertyItem({data}) {
   const navigate = useNavigate()
+  const {show: theme} = useSelector(state => state.theme)
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -26,7 +28,7 @@ export default function PropertyItem({data}) {
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
             <>
-              <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                 <i className='bi bi-three-dots-vertical text-primary'/>
               </Dropdown.Toggle>
               

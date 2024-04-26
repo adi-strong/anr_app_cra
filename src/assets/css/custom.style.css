@@ -1,5 +1,5 @@
 .dropdown-toggle:after {
-  border: 2px solid #fff;
+  /* border: 2px solid #fff; */
   border-radius: 50%;
   bottom: 0;
   content: "";
@@ -8,4 +8,20 @@
   position: absolute;
   right: 5%;
   width: 30%;
+}
+
+#dark .dropdown-toggle:before {
+  /* border: 2px solid #fff; */
+  /* border-radius: 50%; */
+  bottom: 0;
+  content: "";
+  display: none;
+  /* height: 30%;
+  position: absolute;
+  right: 5%;
+  width: 30%;*/
+}
+
+#dark .dropdown a:hover {
+  background-color: #345e35;
 }

@@ -2,6 +2,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../../components";
 import {Button, Form, Modal, Spinner, Table} from "react-bootstrap";
 import {onFieldChange} from "../../../services/form.handler.service";
+import {useSelector} from "react-redux";
 
 const thItems = [
   {label: 'Qté'},
@@ -35,6 +36,8 @@ function ConfirmModal({show, onHide, onSubmit}) {
 }
 
 export default function FSupplyComp1({state, setState, onReset, onRemoveItem, onSubmit, loader = false, show, toggleShow}) {
+  const {show: theme} = useSelector(state => state.theme)
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <h4 className="card-title">Formulaire d'approvisionnement</h4>
@@ -65,7 +68,7 @@ export default function FSupplyComp1({state, setState, onReset, onRemoveItem, on
           <tbody>
           {state?.items?.length > 0 && state.items?.map((f, i) =>
             <tr key={i}>
-              <th className='align-middle text-center p-1'>{f?.quantity} litre(s)</th>
+              <th className={`align-middle text-center p-1 text-${theme ? 'light-success' : 'dark'}`}>{f?.quantity} litre(s)</th>
               <td className='align-middle text-center p-1'>{f?.site?.label}</td>
               <td className='align-middle text-center p-1'>{f?.fuel?.label}</td>
               <td className='align-middle text-center p-1'>

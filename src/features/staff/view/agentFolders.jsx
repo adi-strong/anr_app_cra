@@ -67,7 +67,7 @@ export default function AgentFolders({agent, isError, loader, onRefresh}) {
             </Row>
             
             <div>
-              <Table responsive striped>
+              <Table responsive>
                 <thead className='bg-primary'>
                 <tr>
                   {folderItems.length > 0 && folderItems.map(t =>

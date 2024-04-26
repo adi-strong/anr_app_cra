@@ -63,9 +63,9 @@ const menus = [
       {label: 'Provinces', to: '/app/provinces'},
       {label: 'Départements', to: '/app/departments'},
       {label: 'Types de dossiers', to: '/app/folder-types'},
-      {label: 'Types de propriétés', to: '/app/property-types'},
+      {label: 'Types pro.', to: '/app/property-types'},
       {label: "Type d'activités", to: '/app/society-types'},
-      {label: 'Types de véhicules', to: '/app/vehicles-types'},
+      {label: 'Types de V.', to: '/app/vehicles-types'},
     ],
   },
   {

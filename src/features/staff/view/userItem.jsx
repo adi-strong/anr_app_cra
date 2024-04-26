@@ -11,6 +11,8 @@ import EditUserPassForm from "./editUserPassForm";
 import {useSelector} from "react-redux";
 
 export default function UserItem({data, pages, onRefresh}) {
+  const {show: theme} = useSelector(state => state.theme)
+  
   const role = data?.roles[0]
   const profile = data?.agentAccount && data.agentAccount?.profile ? data.agentAccount.profile?.contentUrl : null
   const navigate = useNavigate()
@@ -54,7 +56,7 @@ export default function UserItem({data, pages, onRefresh}) {
           <td className="align-middle text-end">
             <Dropdown className='dropstart' children={
               <>
-                <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+                <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                   <i className='bi bi-three-dots-vertical text-primary'/>
                 </Dropdown.Toggle>
                 

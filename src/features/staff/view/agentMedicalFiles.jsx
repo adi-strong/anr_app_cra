@@ -67,7 +67,7 @@ export default function AgentMedicalFiles({agent, isError, loader, onRefresh}) {
             </Row>
             
             <div>
-              <Table responsive striped>
+              <Table responsive>
                 <thead className='bg-primary'>
                 <tr>
                   {medicalItems.length > 0 && medicalItems.map(t =>

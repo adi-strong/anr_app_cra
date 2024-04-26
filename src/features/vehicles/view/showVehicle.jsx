@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {AppBreadcrumb, AppOffCanvas, FallBackRender, PageHeading, RowContent2} from "../../../components";
 import {memo, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Button, Card, Col, Modal, Row, Spinner} from "react-bootstrap";
@@ -102,6 +102,8 @@ const ShowVehicle = () => {
     }
   }, [isDisUsedError, disUsedError])
   
+  const {show: theme} = useSelector(state => state.theme)
+  
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
       <PageHeading title={`Véhicule`}/>
@@ -174,7 +176,9 @@ const ShowVehicle = () => {
                                 src={data.agent?.profile ? entrypoint+data.agent.profile?.contentUrl : avatar2}
                                 alt=""
                                 className="avatar-md avatar rounded-circle me-1"/>
-                              <Link to={`/app/agents/${data.agent.id}/show`} className='text-dark'>
+                              <Link
+                                to={`/app/agents/${data.agent.id}/show`}
+                                className={`text-${theme ? 'light-success' : 'dark'}`}>
                                 {data.agent.name?.toUpperCase()+' '}
                                 {data.agent?.lastName && data.agent.lastName?.toUpperCase()+' '}
                                 {data.agent?.firstName && data.agent.firstName?.toUpperCase()}

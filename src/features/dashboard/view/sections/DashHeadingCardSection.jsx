@@ -1,8 +1,24 @@
 import {Card, Col, Spinner} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
-export default function DashHeadingCardSection({title, onRefresh, total, nb, show, isVisible, icon, wording, md = 12, loader, to='#!'}) {
+export default function DashHeadingCardSection(
+  {
+    title,
+    onRefresh,
+    total,
+    nb,
+    show,
+    isVisible,
+    icon,
+    wording,
+    md = 12,
+    loader,
+    to='#!'
+  }) {
+  const {show: open} = useSelector(state => state.theme)
+  
   return (
     <Col md={md} className='col-12 mt-6'>
       <Card style={{ height: 175 }}>
@@ -34,7 +50,7 @@ export default function DashHeadingCardSection({title, onRefresh, total, nb, sho
             <p className="mb-0 d-flex justify-content-between">
               {show &&
                 <span>
-                  <span className="text-dark me-2">{nb}</span>{wording}
+                  <span className={`text-light-${open ? 'success' : 'dark'} me-2`}>{nb}</span>{wording}
                 </span>}
               
               <span/>

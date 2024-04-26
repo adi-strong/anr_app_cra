@@ -9,8 +9,11 @@ import {onVehicleActionsFilter} from "../model/vehicle.service";
 import VehicleForm from "./vehicleForm";
 import avatar2 from "../../../assets/images/avatar/default_profile.jpg";
 import {strTotoLimit} from "../../../services";
+import {useSelector} from "react-redux";
 
 export default function VehicleItem({data, onRefresh}) {
+  const {show: theme} = useSelector(state => state.theme)
+  
   const file = data?.certificate ? data.certificate?.contentUrl : null
   const navigate = useNavigate()
   const agent = data?.agent ? {
@@ -63,7 +66,7 @@ export default function VehicleItem({data, onRefresh}) {
         <td className="align-middle text-end">
           <Dropdown className='dropstart' children={
             <>
-              <Dropdown.Toggle className='bg-white border-0 shadow-none'>
+              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                 <i className='bi bi-three-dots-vertical text-primary'/>
               </Dropdown.Toggle>
               

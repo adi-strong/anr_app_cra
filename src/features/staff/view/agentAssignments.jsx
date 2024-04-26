@@ -67,7 +67,7 @@ export default function AgentAssignments({agent, isError, loader, onRefresh}) {
             </Row>
             
             <div>
-              <Table responsive striped>
+              <Table responsive>
                 <thead className='bg-primary'>
                 <tr>
                   {assignmentItems.length > 0 && assignmentItems.map(t =>
