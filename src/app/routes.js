@@ -170,7 +170,11 @@ const
   ShowAssignment =
     lazy(() => import('../features/staff/view/showAssignment')),
   ShowMedicalFile =
-    lazy(() => import('../features/staff/view/showMedicalFile'))
+    lazy(() => import('../features/staff/view/showMedicalFile')),
+  News =
+    lazy(() => import('../features/news/view/news')),
+  ShowNews =
+    lazy(() => import('../features/news/view/showNews'))
 
 const routes = [
   {
@@ -269,6 +273,8 @@ const routes = [
       {path: 'missions/:id/show', element: <ShowMission/>},
       {path: 'assignments/:id/show', element: <ShowAssignment/>},
       {path: 'medical-file/:id/show', element: <ShowMedicalFile/>},
+      {path: 'news', element: <News/>},
+      {path: 'news/:id/show', element: <ShowNews/>},
     ]
   },
 ]

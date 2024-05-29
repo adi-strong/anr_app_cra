@@ -2,7 +2,7 @@ export const vehicleItems = [
   {label: 'TYPE'},
   {label: 'MARQUE'},
   {label: 'IMMATRICULATION'},
-  {label: 'CERTIFICAT'},
+  {label: 'ATTESTATION'},
   {label: 'AFFECTATION'},
 ]
 

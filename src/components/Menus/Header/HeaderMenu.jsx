@@ -1,6 +1,6 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {FallBackRender} from "../../index";
-import {Dropdown, Form} from "react-bootstrap";
+import {Button, Dropdown, Form} from "react-bootstrap";
 import avatar from "../../../assets/images/avatar/default_profile.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
@@ -9,12 +9,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../features/auth/services/auth.slice";
 import {api} from "../../../app/store";
 import {toggleShowTheme} from "../../../features/config/theme.slice";
+import {useState} from "react";
+import CreateNewsModal from "../../../features/news/view/createNewsModal";
 
 export default function HeaderMenu() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user: session} = useSelector(state => state.auth)
   const {show} = useSelector(state => state.theme)
+  const [open, setOpen] = useState(false);
+  
+  const toggleOpen = () => setOpen(!open);
   
   function onUserMenuClick(to) {
     if (to === '/app/profile') navigate(to)
@@ -38,6 +43,15 @@ export default function HeaderMenu() {
   return (
     <ErrorBoundary fallback={FallBackRender}>
       <ul className='navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap'>
+        <li>
+          <Button
+            variant='light'
+            onClick={toggleOpen}
+            className='btn-icon rounded-circle indicator indicator-primary text-muted'>
+            <i className='bi bi-file-earmark-plus icon-xs'/>
+          </Button>
+        </li>
+        
         <Dropdown
           as='li'
           className='ms-2'
@@ -119,6 +133,8 @@ export default function HeaderMenu() {
           <i className={`bi bi-moon${show ? '-fill text-primary' : ''}`}/>
         </li>
       </ul>
+      
+      <CreateNewsModal show={open} onHide={toggleOpen}/>
     </ErrorBoundary>
   )
 }

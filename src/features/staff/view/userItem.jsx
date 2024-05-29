@@ -14,7 +14,8 @@ export default function UserItem({data, pages, onRefresh}) {
   const {show: theme} = useSelector(state => state.theme)
   
   const role = data?.roles[0]
-  const profile = data?.agentAccount && data.agentAccount?.profile ? data.agentAccount.profile?.contentUrl : null
+  const profile = data?.agentAccount && data.agentAccount?.profile
+    ? data.agentAccount.profile?.contentUrl : null
   const navigate = useNavigate()
   const {user: session} = useSelector(state => state.auth)
   
@@ -32,7 +33,10 @@ export default function UserItem({data, pages, onRefresh}) {
           <td className="align-middle">
             <div className="d-flex align-items-center">
               <div>
-                <img src={profile ? entrypoint+profile : avatar2} alt="" className="avatar-md avatar rounded-circle"/>
+                <img
+                  src={profile ? entrypoint+profile : avatar2}
+                  alt=""
+                  className="avatar-md avatar rounded-circle"/>
               </div>
               <div className="ms-3 lh-1">
                 <h5 className="text-capitalize mb-1">{data?.username}</h5>
@@ -56,7 +60,8 @@ export default function UserItem({data, pages, onRefresh}) {
           <td className="align-middle text-end">
             <Dropdown className='dropstart' children={
               <>
-                <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
+                <Dropdown.Toggle
+                  className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
                   <i className='bi bi-three-dots-vertical text-primary'/>
                 </Dropdown.Toggle>
                 
@@ -65,7 +70,8 @@ export default function UserItem({data, pages, onRefresh}) {
                     <Dropdown.Item
                       key={i}
                       className={f?.className}
-                      onClick={() => onUserActionsFilter(f.event, data, navigate, toggleShow, toggleOpen)}>
+                      onClick={() =>
+                        onUserActionsFilter(f.event, data, navigate, toggleShow, toggleOpen)}>
                       {f.title}
                     </Dropdown.Item>)}
                 </Dropdown.Menu>

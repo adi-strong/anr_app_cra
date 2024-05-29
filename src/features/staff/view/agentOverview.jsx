@@ -58,7 +58,7 @@ export default function AgentOverview({agent, isError, loader}) {
                 </Col>
                 
                 <Col className='mb-3'>
-                  <RowContent2 title='Province' content={agent.province.name.toUpperCase()}/>
+                  <RowContent2 title='Origine Province' content={agent.province.name.toUpperCase()}/>
                   
                   <RowContent2
                     title='Département / Direction'

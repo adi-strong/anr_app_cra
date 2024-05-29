@@ -1,32 +1,31 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
-import {useDispatch} from "react-redux";
 import {memo, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Card, Tab, Tabs} from "react-bootstrap";
-import FuelSupplyReportsList from "./fuelSupplyReportsList";
-import FuelConsumeReportsList from "./fuelConsumeReportsList";
+import NewsList from "./newsList";
+import NewsReportsList from "./newsReportsList";
 
 const tabs = [
-  {title: 'Approvisionnements en carburant', event: 'supply'},
-  {title: 'Consommations carburant', event: 'consumption'},
+  {title: 'Historique', event: 'historic'},
+  {title: 'Rapport(s)', event: 'reports'},
 ]
 
-const FuelsReports = () => {
+const News = () => {
   const dispatch = useDispatch()
+  const [key, setKey] = useState('historic')
   
   useEffect(() => {
-    dispatch(onToggleMenu({ menuKey: 'fuels' }))
+    dispatch(onToggleMenu({ menuKey: 'dashboard' }))
   }, [dispatch])
   
-  const [key, setKey] = useState('supply')
-  
   return (
-    <ErrorBoundary fallbackRender={FallBackRender}>
-      <PageHeading title='Rapports stocks carburant'/>
+    <ErrorBoundary fallback={FallBackRender}>
+      <PageHeading title='Informations'/>
       <PageLayout>
-        <AppBreadcrumb title='Rapports stocks carburant'/>
+        <AppBreadcrumb title='Informations'/>
         <Card>
           <Card.Body>
             <Tabs
@@ -34,10 +33,10 @@ const FuelsReports = () => {
               activeKey={key}
               variant='pills'
               className='nav-lb-tab'>
-              {tabs.length > 0 && tabs.map(t =>
+              {tabs.length > 0 && tabs.map((t, i) =>
                 <Tab key={t.event} title={t.title} eventKey={t.event}>
-                  {t.event === 'supply' && <FuelSupplyReportsList/>}
-                  {t.event === 'consumption' && <FuelConsumeReportsList/>}
+                  {t.event === 'historic' && <NewsList/>}
+                  {t.event === 'reports' && <NewsReportsList/>}
                 </Tab>)}
             </Tabs>
           </Card.Body>
@@ -47,4 +46,4 @@ const FuelsReports = () => {
   )
 }
 
-export default memo(FuelsReports)
+export default memo(News)

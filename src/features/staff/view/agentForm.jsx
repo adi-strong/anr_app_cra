@@ -107,6 +107,7 @@ export default function AgentForm({data, onRefresh, loader = false}) {
     setFields({...fields, file: imageList})
   }
   
+  
   const onUpdateImageChange = async (imageList, addUpdateIndex) => {
     if (data) {
       setImage(imageList)
@@ -384,7 +385,7 @@ export default function AgentForm({data, onRefresh, loader = false}) {
                     <Form.Label htmlFor='register'><code>*</code> Matricule</Form.Label>
                     <Form.Control
                       required
-                      isInvalid={errors.pseudo !== null}
+                      isInvalid={errors.register !== null}
                       disabled={isLoading || loader || isEditLoading}
                       autoComplete='off'
                       id='register'
@@ -541,7 +542,7 @@ export default function AgentForm({data, onRefresh, loader = false}) {
                   </Col>
                   
                   <Col md={4} className='mb-3'>
-                    <Form.Label htmlFor='origin'><code>*</code> Origine</Form.Label>
+                    <Form.Label htmlFor='origin'><code>*</code> Origine Province</Form.Label>
                     <Form.Control
                       required
                       isInvalid={errors.origin !== null}

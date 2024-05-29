@@ -1,13 +1,25 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const menus = [
-  {
+  /*{
     label: 'Tableau de bord',
     to: '/app/dashboard',
     key: 'dashboard',
     icon: 'bi bi-grid',
     isActive: false,
     isOpen: false,
+  },*/
+  {
+    label: 'Tableau de bord',
+    to: '#!',
+    key: 'dashboard',
+    icon: 'bi bi-grid',
+    isActive: false,
+    isOpen: false,
+    subItems: [
+      {label: 'Analytique', to: '/app/dashboard'},
+      {label: 'Informations', to: '/app/news'},
+    ],
   },
   /*{
     label: 'Réception',

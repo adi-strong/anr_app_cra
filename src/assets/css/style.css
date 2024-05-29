@@ -114,3 +114,16 @@
 
 /* ********************************************************************************************* */
 /* ********************************************************************************************* */
+
+/* Custom size for original images
+.image-gallery-slide img {
+  width: 100%; /* Set your desired width
+  height: 241px; /* Maintain aspect ratio
+}
+
+/* Custom size for thumbnails
+.image-gallery-thumbnail img {
+  width: 100px; /* Set your desired width
+  height: 50px; /* Maintain aspect ratio
+}*/
+

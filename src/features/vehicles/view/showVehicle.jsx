@@ -153,7 +153,7 @@ const ShowVehicle = () => {
                     
                     <Col className='mb-3'>
                       <RowContent2
-                        title='Certificat de conformité'
+                        title='Attestation de véhicule'
                         content={(
                           <>
                             <i className='bi bi-cloud-download me-1'/>

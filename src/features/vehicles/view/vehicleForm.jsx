@@ -185,7 +185,7 @@ export default function VehicleForm({data, onHide, onRefresh}) {
         
         {!data &&
           <div>
-            <Form.Label htmlFor='certificateFile'>Certificat</Form.Label>
+            <Form.Label htmlFor='certificateFile'>Attestation du véhicule</Form.Label>
             <Form.Control
               isInvalid={errors.certificateFile !== null}
               disabled={isLoading || isEditLoad}

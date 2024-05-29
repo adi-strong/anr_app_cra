@@ -5,7 +5,7 @@ import authReducer from '../features/auth/services/auth.slice';
 import themeReducer from '../features/config/theme.slice';
 
 // export const entrypoint = 'https://localhost:8000'
-// https://test-ops-api.mdeservicesdrc.com/
+// https://test-ops-api.mdeservicesdrc.com
 // https://anrapi.test/
 export const entrypoint = 'https://test-ops-api.mdeservicesdrc.com'
 
