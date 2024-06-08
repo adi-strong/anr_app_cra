@@ -1,6 +1,22 @@
 // VAR & CONST
 const title = document.querySelector('title')
 
+export const allowedImgExtensions = [
+  'jpeg',
+  'jpg',
+  'png',
+  'gif',
+  'bmp',
+  'tiff',
+  'svg',
+  'raw',
+  'nef',
+  'cr2',
+  'webp'
+]
+
+export const allowedVideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm', 'mpeg']
+
 export const nbPageOptions = [
   {label: '15', value: 15},
   {label: '25', value: 25},
@@ -140,5 +156,19 @@ export const subStr = (length: number = 2, str: string): string => {
 
 export const strTotoLimit = (begin: number = 2, limit: number = 2, str: string): string => {
   return str.substring(begin, limit) + '...'
+}
+
+export const isValidFileExtension = (filename, allowedImgExtensions, allowedVideoExtensions) => {
+  const extension = filename.split('.').pop().toLowerCase();
+  
+  if (allowedImgExtensions.includes(extension)) {
+    return 'photo';
+  }
+  else if (allowedVideoExtensions.includes(extension)) {
+    return 'video';
+  }
+  else {
+    return 'document';
+  }
 }
 // END FUNCTIONS

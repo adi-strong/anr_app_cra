@@ -98,8 +98,19 @@ const Profile = () => {
             
             <div className='py-6'>
               <Row>
-                {key === 'overview' && <ProfileOverviewTab loader={isLoading} error={isError} data={data}/>}
-                {key === 'password' && <ProfilePasswordTab loader={isLoading} err={isError} data={data}/>}
+                {key === 'overview' &&
+                  <ProfileOverviewTab
+                    loader={isLoading}
+                    error={isError}
+                    data={data}
+                  />}
+                
+                {key === 'password' &&
+                  <ProfilePasswordTab
+                    loader={isLoading}
+                    err={isError}
+                    data={data}
+                  />}
               </Row>
             </div>
           </Col>

@@ -4,16 +4,16 @@ import {memo, useEffect, useRef, useState} from "react";
 import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
-import {Button, Card, Col, Row, Spinner} from "react-bootstrap";
+import {Button, Card, Spinner} from "react-bootstrap";
 import {Link, useParams} from "react-router-dom";
 import {useGetUniqueNewsQuery} from "../services/news.api.slice";
 import {FadeSpinLoader} from "../../../loaders";
 import htmlParser from "html-react-parser";
 import moment from "moment";
 import {useReactToPrint} from "react-to-print";
-import ImageGallery from 'react-image-gallery';
 import {entrypoint} from "../../../app/store";
 import "react-image-gallery/styles/css/image-gallery.css";
+import {allowedImgExtensions, allowedVideoExtensions, isValidFileExtension} from "../../../services";
 
 const ShowNews = () => {
   const dispatch = useDispatch()
@@ -103,18 +103,36 @@ const ShowNews = () => {
                     </ul>
                   </div>
                   <hr/>
-                  <Row className='text-dark'>
-                    <Col className='mb-3'>
-                      {data?.content && htmlParser(data?.content)}
-                    </Col>
+                  
+                  <div className='text-dark mb-4'>
+                    {data?.content && htmlParser(data?.content)}
                     
-                    {data?.images && data.images?.length > 0 &&
-                      <Col md={5} className='mb-3'>
-                        <div className='bg-light p-2 pb-3' style={{ borderRadius: 6 }}>
-                          <ImageGallery items={images}/>
+                    <div className='bg-light shadow-sm p-2' style={{ borderRadius: 9 }}>
+                      <h4 className='mt-3'><i className='bi bi-paperclip'/> Fichier(s) joint(s)</h4>
+                      <hr/>
+                      
+                      {data?.images && data?.images.length > 0 && data.images.map((file, index) => (
+                        <div key={index}>
+                          <a href={entrypoint+file?.contentUrl} target='_blank' rel='noreferrer'>
+                            {isValidFileExtension(
+                              file?.contentUrl,
+                              allowedImgExtensions,
+                              allowedVideoExtensions
+                            ) === 'photo'
+                              ? <i className='bi bi-file-earmark-image me-1'/>
+                              : isValidFileExtension(
+                              file?.contentUrl,
+                              allowedImgExtensions,
+                              allowedVideoExtensions
+                            ) === 'video'
+                                ? <i className='bi bi-file-earmark-play-fill me-1'/>
+                                : <i className='bi bi-file-earmark-text me-1'/>}
+                            {file?.contentUrl?.substring(12)}
+                          </a>
                         </div>
-                      </Col>}
-                  </Row>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </>
             )}
