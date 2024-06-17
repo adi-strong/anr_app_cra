@@ -76,7 +76,32 @@ const newsApiSlice = api.injectEndpoints({
         method: 'PATCH',
         headers: patchHead,
         url: apiPath+`/news/${data.id}`,
-        body: JSON.stringify({...data, service: data?.service ? data.service?.value : null})
+        body: JSON.stringify({
+          ...data,
+          department: data?.department ? data.department?.value : null
+        })
+      }),
+      invalidatesTags: ['LIST'],
+      async onQueryStarted(args, {
+        dispatch,
+        queryFulfilled}) {
+        try {
+          const { data: patchResult } = await queryFulfilled
+          
+          dispatch(newsApiSlice.util.updateQueryData('getUniqueNews', args?.id?.toString(), draft => {
+            Object.assign(draft, {...patchResult})
+          }))
+        }
+        catch (e) { }
+      }
+    }),
+    
+    editNewsAssignment: build.mutation({
+      query: data => ({
+        method: 'PATCH',
+        headers: patchHead,
+        url: apiPath+`/news/${data.id}`,
+        body: JSON.stringify({ department: data?.department ? data.department?.value : null })
       }),
       invalidatesTags: ['LIST'],
       async onQueryStarted(args, {
@@ -137,4 +162,5 @@ export const {
   useEditNewsMutation,
   useDeleteNewsMutation,
   useGetSearchNewsResourceMutation,
+  useEditNewsAssignmentMutation,
 } = newsApiSlice

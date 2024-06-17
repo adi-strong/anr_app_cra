@@ -174,7 +174,9 @@ const
   News =
     lazy(() => import('../features/news/view/news')),
   ShowNews =
-    lazy(() => import('../features/news/view/showNews'))
+    lazy(() => import('../features/news/view/showNews')),
+  NewsTreatments =
+    lazy(() => import('../features/newsTreatments/view/newsTreatments'))
 
 const routes = [
   {
@@ -275,6 +277,7 @@ const routes = [
       {path: 'medical-file/:id/show', element: <ShowMedicalFile/>},
       {path: 'news', element: <News/>},
       {path: 'news/:id/show', element: <ShowNews/>},
+      {path: 'news-treatments', element: <NewsTreatments/>},
     ]
   },
 ]

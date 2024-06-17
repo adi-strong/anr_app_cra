@@ -132,7 +132,7 @@ export default function CreateNewsModal({ show, onHide }) {
     onHide()
   }
   
-  const onPictureChange = (imageList, updateIndex) => {
+  const onPictureChange = (imageList, updateIndex): void => {
     const images = imageList?.length > 0 ? imageList.map(img => ({
       data_url: img?.data_url,
       file: img?.file,

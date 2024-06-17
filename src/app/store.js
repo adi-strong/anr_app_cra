@@ -7,7 +7,6 @@ import themeReducer from '../features/config/theme.slice';
 // export const entrypoint = 'https://localhost:8000'
 // https://test-ops-api.mdeservicesdrc.com
 // https://anr-api.test/
-// https://anrapi.test/
 export const entrypoint = 'https://localhost:8000'
 
 export const apiPath = '/api'

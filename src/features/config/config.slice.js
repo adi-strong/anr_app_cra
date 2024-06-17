@@ -19,6 +19,7 @@ const menus = [
     subItems: [
       {label: 'Analytique', to: '/app/dashboard'},
       {label: 'Informations', to: '/app/news'},
+      {label: 'Traitements', to: '/app/news-treatments'},
     ],
   },
   /*{

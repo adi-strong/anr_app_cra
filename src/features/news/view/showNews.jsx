@@ -1,6 +1,6 @@
 import {ErrorBoundary} from "react-error-boundary";
 import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
-import {memo, useEffect, useRef, useState} from "react";
+import {memo, useEffect, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
@@ -22,7 +22,6 @@ const ShowNews = () => {
     dispatch(onToggleMenu({ menuKey: 'dashboard' }))
   }, [dispatch])
   
-  const [images, setImages] = useState([])
   const {id} = useParams()
   const printRef = useRef()
   const {data, isLoading, isFetching, isError, refetch} = useGetUniqueNewsQuery(id)
@@ -32,19 +31,6 @@ const ShowNews = () => {
   })
   
   const onRefresh = async () => await refetch()
-  
-  useEffect(() => {
-    let obj = []
-    if (!isError && data && data?.images && data.images.length > 0) {
-      obj = data.images.map(d => ({
-        original: entrypoint+d?.contentUrl,
-        thumbnail: entrypoint+d?.contentUrl,
-        originalClass: 'img-fluid'
-      }))
-    }
-    else obj = []
-    setImages(obj)
-  }, [isError, data])
   
   return (
     <ErrorBoundary fallback={FallBackRender}>
