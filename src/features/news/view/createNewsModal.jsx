@@ -61,8 +61,8 @@ export default function CreateNewsModal({ show, onHide }) {
   const handleDataAvailable = (event) => {
     if (event.data && event.data.size > 0) {
       const videoBlob = new Blob([event.data], { type: 'video/webm' });
-      const videoURL = URL.createObjectURL(videoBlob);
-      setVideoURL(videoURL);
+      const videoURI = URL.createObjectURL(videoBlob);
+      setVideoURL(videoURI);
       setFields({
         ...fields,
         pictures: [...fields.pictures, {type: 'video', data_url: videoURL, file: videoBlob}]

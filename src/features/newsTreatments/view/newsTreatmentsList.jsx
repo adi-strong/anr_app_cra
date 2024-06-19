@@ -10,7 +10,7 @@ import NewsTreatmentItem from "./newsTreatmentItem";
 
 export default function NewsTreatmentsList() {
   const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
+  // const [page, setPage] = useState(1)
   const {data: news=[], isLoading, isFetching, isError, error, refetch} = useGetDepartmentNewsQuery()
   
   const onRefresh = async (): void => { await refetch() }
