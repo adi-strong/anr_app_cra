@@ -1,5 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppOffCanvas, FallBackRender} from "../../../components";
+import {AppOffCanvas, AuthorizedNode, FallBackRender} from "../../../components";
 import {Link, useNavigate} from "react-router-dom";
 import {entrypoint} from "../../../app/store";
 import {Dropdown} from "react-bootstrap";
@@ -13,6 +13,7 @@ import {useSelector} from "react-redux";
 
 export default function VehicleItem({data, onRefresh}) {
   const {show: theme} = useSelector(state => state.theme)
+  const {user: session} = useSelector((state) => state.auth)
   
   const file = data?.certificate ? data.certificate?.contentUrl : null
   const navigate = useNavigate()
@@ -64,23 +65,27 @@ export default function VehicleItem({data, onRefresh}) {
         </td>
         
         <td className="align-middle text-end">
-          <Dropdown className='dropstart' children={
-            <>
-              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
-                <i className='bi bi-three-dots-vertical text-primary'/>
-              </Dropdown.Toggle>
-              
-              <Dropdown.Menu>
-                {agentActionItems.length > 0 && agentActionItems.map((f, i) =>
-                  <Dropdown.Item
-                    key={i}
-                    className={f?.className}
-                    onClick={() => onVehicleActionsFilter(f.event, data, navigate, toggleShow)}>
-                    {f.title}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            </>
-          }/>
+          {session && session?.roles && session.roles.length > 0 && (
+            <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+              <Dropdown className='dropstart' children={
+                <>
+                  <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
+                    <i className='bi bi-three-dots-vertical text-primary'/>
+                  </Dropdown.Toggle>
+                  
+                  <Dropdown.Menu>
+                    {agentActionItems.length > 0 && agentActionItems.map((f, i) =>
+                      <Dropdown.Item
+                        key={i}
+                        className={f?.className}
+                        onClick={() => onVehicleActionsFilter(f.event, data, navigate, toggleShow)}>
+                        {f.title}
+                      </Dropdown.Item>)}
+                  </Dropdown.Menu>
+                </>
+              }/>
+            </AuthorizedNode>
+          )}
         </td>
       </tr>
       

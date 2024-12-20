@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {FallBackRender, PageHeading} from "../../../components";
+import {AuthorizedComponent, FallBackRender, PageHeading} from "../../../components";
 import {memo, useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {Container, Row} from "react-bootstrap";
 import AgentsSection from "./sections/AgentsSection";
@@ -14,6 +14,7 @@ import LastUserSection from "./sections/LastUserSection";
 
 const Dashboard = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'dashboard' }))
@@ -24,30 +25,35 @@ const Dashboard = () => {
       <PageHeading title='Tableau de bord'/>
       
       <div className='bg-primary pt-10 pb-21'/>
-      <Container fluid className='mt-n22 px-6'>
-        <Row className='my-6'>
-          <div className="col-lg-12 col-md-12 col-12">
-            <div>
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="mb-2 mb-lg-0">
-                  <h3 className="mb-0  text-white">Tableau de bord</h3>
+      
+      {session && session?.roles && session.roles.length > 0 && (
+        <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+          <Container fluid className='mt-n22 px-6'>
+            <Row className='my-6'>
+              <div className="col-lg-12 col-md-12 col-12">
+                <div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="mb-2 mb-lg-0">
+                      <h3 className="mb-0  text-white">Tableau de bord</h3>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          
-          <AgentsSection/>
-          <AccountstSection/>
-          <MissionsSection/>
-          <ExpensesSection/>
-        </Row>
-        
-        <Row className='mt-5'>
-          <SynthesisSection/>
-          <FinanceSection/>
-          <LastUserSection/>
-        </Row>
-      </Container>
+              
+              <AgentsSection/>
+              <AccountstSection/>
+              <MissionsSection/>
+              <ExpensesSection/>
+            </Row>
+            
+            <Row className='mt-5'>
+              <SynthesisSection/>
+              <FinanceSection/>
+              <LastUserSection/>
+            </Row>
+          </Container>
+        </AuthorizedComponent>
+      )}
     </ErrorBoundary>
   )
 }

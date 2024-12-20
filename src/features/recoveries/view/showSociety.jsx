@@ -1,7 +1,14 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, AppOffCanvas, FallBackRender, PageHeading, RowContent2} from "../../../components";
+import {
+  AppBreadcrumb,
+  AppOffCanvas,
+  AuthorizedNode,
+  FallBackRender,
+  PageHeading,
+  RowContent2
+} from "../../../components";
 import {memo, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Button, Card, Col, Row, Spinner} from "react-bootstrap";
@@ -15,6 +22,7 @@ import RecoveriesList from "./recoveriesList";
 
 const ShowSociety = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'recovery' }))
@@ -46,15 +54,19 @@ const ShowSociety = () => {
         <AppBreadcrumb title='Société'/>
         
         <Row>
-          <Col className='mb-3'>
-            <Button disabled={isFetching} variant='danger' onClick={toggleOpen} className='me-1'>
-              <i className='bi bi-trash'/> Supprimer
-            </Button>
-            
-            <Button disabled={isFetching} onClick={toggleShow}>
-              <i className='bi bi-pencil-square'/> Modifier
-            </Button>
-          </Col>
+          {session && session?.roles && session.roles.length > 0 && (
+            <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+              <Col className='mb-3'>
+                <Button disabled={isFetching} variant='danger' onClick={toggleOpen} className='me-1'>
+                  <i className='bi bi-trash'/> Supprimer
+                </Button>
+                
+                <Button disabled={isFetching} onClick={toggleShow}>
+                  <i className='bi bi-pencil-square'/> Modifier
+                </Button>
+              </Col>
+            </AuthorizedNode>
+          )}
           
           <Col className='mb-3 text-md-end'>
             <Link className='btn btn-link' to='/app/societies'>

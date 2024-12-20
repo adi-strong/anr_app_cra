@@ -2,9 +2,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {memo, useEffect, useMemo, useState} from "react";
 import {onSetNbPages, onToggleMenu} from "../../config/config.slice";
 import {useGetInactiveAgentsQuery} from "../model/agent.stats.api.service";
-import toast from "react-hot-toast";
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
+import {AppBreadcrumb, AuthorizedComponent, FallBackRender, PageHeading} from "../../../components";
 import {PageLayout} from "../../../layouts";
 import {Button, Card, Col, Form, Row, Spinner, Table} from "react-bootstrap";
 import {nbPageOptions} from "../../../services";
@@ -61,19 +60,13 @@ const Item = ({a}) => {
 
 const InactiveAgents = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'staff' }))
   }, [dispatch])
   
-  const {data: agents=[], isLoading, isFetching, isError, error, refetch} = useGetInactiveAgentsQuery('LIST')
-  
-  useEffect(() => {
-    if (isError) {
-      if (error?.error) toast.error(error.error)
-      if (error?.data && error.data['hydra:description']) toast.error(error.data['hydra:description'])
-    }
-  }, [isError, error])
+  const {data: agents=[], isLoading, isFetching, isError, refetch} = useGetInactiveAgentsQuery('LIST')
   
   const {nbPages} = useSelector(state => state.config)
   const [search, setSearch] = useState('')
@@ -106,72 +99,76 @@ const InactiveAgents = () => {
       <PageLayout>
         <AppBreadcrumb title='Agents inactifs'/>
         
-        <Card>
-          <Card.Header className='bg-white pt-5'>
-            <Card.Title>
-              {isFetching && <Spinner animation='grow' size='sm' className='text-primary me-1'/>}
-              {!isFetching &&
-                <i
-                  className='bi bi-arrow-clockwise text-primary me-1'
-                  onClick={onRefresh}
-                  style={{ cursor: 'pointer' }} />}
-              <i className='bi bi-person-dash text-primary'/> Liste des agents inactifs
-            </Card.Title>
-            
-            <Row>
-              <Col md={5} className='mb-3 d-flex'>
-                <Button disabled={isLoading} className='me-1 mb-1'>
-                  <i className='bi bi-printer-fill'/> Imprimer
-                </Button>
+        {session && session?.roles && session.roles.length > 0 && (
+          <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+            <Card>
+              <Card.Header className='bg-white pt-5'>
+                <Card.Title>
+                  {isFetching && <Spinner animation='grow' size='sm' className='text-primary me-1'/>}
+                  {!isFetching &&
+                    <i
+                      className='bi bi-arrow-clockwise text-primary me-1'
+                      onClick={onRefresh}
+                      style={{ cursor: 'pointer' }} />}
+                  <i className='bi bi-person-dash text-primary'/> Liste des agents inactifs
+                </Card.Title>
                 
-                <Form.Group className='mb-1'>
-                  <Form.Select
-                    disabled={isLoading}
-                    value={nbPages}
-                    onChange={({target}) => dispatch(onSetNbPages(target.value))}>
-                    {nbPageOptions.map(o =>
-                      <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
+                <Row>
+                  <Col md={5} className='mb-3 d-flex'>
+                    <Button disabled={isLoading} className='me-1 mb-1'>
+                      <i className='bi bi-printer-fill'/> Imprimer
+                    </Button>
+                    
+                    <Form.Group className='mb-1'>
+                      <Form.Select
+                        disabled={isLoading}
+                        value={nbPages}
+                        onChange={({target}) => dispatch(onSetNbPages(target.value))}>
+                        {nbPageOptions.map(o =>
+                          <option key={o.value} value={o.value}>{o.label}</option>)}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  
+                  <Col md={7} className='mb-3 justify-content-md-end'>
+                    <Form.Control
+                      disabled={isFetching}
+                      autoComplete='off'
+                      placeholder='Rechercher'
+                      value={search}
+                      onChange={({target}) => setSearch(target.value)}/>
+                  </Col>
+                </Row>
+              </Card.Header>
               
-              <Col md={7} className='mb-3 justify-content-md-end'>
-                <Form.Control
-                  disabled={isFetching}
-                  autoComplete='off'
-                  placeholder='Rechercher'
-                  value={search}
-                  onChange={({target}) => setSearch(target.value)}/>
-              </Col>
-            </Row>
-          </Card.Header>
-          
-          <div>
-            <Table responsive>
-              <thead className='table-light'>
-              <tr>
-                {agentStatItems.length > 0 && agentStatItems.map(t =>
-                  <th key={t.label} className='align-middle'>{t.label}</th>)}
-                <th className='align-middle'/>
-              </tr>
-              </thead>
+              <div>
+                <Table responsive>
+                  <thead className='table-light'>
+                  <tr>
+                    {agentStatItems.length > 0 && agentStatItems.map(t =>
+                      <th key={t.label} className='align-middle'>{t.label}</th>)}
+                    <th className='align-middle'/>
+                  </tr>
+                  </thead>
+                  
+                  <tbody>
+                  {!isError && currentItems?.length > 0 && currentItems?.map(a =>
+                    <Item key={a.id} a={a}/>)}
+                  </tbody>
+                </Table>
+              </div>
               
-              <tbody>
-              {!isError && currentItems?.length > 0 && currentItems?.map(a =>
-                <Item key={a.id} a={a}/>)}
-              </tbody>
-            </Table>
-          </div>
-          
-          {!isError && agents &&
-            <div className='mt-3 px-3 pe-3'>
-              <SimplePagination
-                items={items}
-                setItemOffset={setItemOffset}
-                itemsPerPage={nbPages}/>
-            </div>}
-          {isLoading && <RepeatableTableRowsLoader/>}
-        </Card>
+              {!isError && agents &&
+                <div className='mt-3 px-3 pe-3'>
+                  <SimplePagination
+                    items={items}
+                    setItemOffset={setItemOffset}
+                    itemsPerPage={nbPages}/>
+                </div>}
+              {isLoading && <RepeatableTableRowsLoader/>}
+            </Card>
+          </AuthorizedComponent>
+        )}
       </PageLayout>
     </ErrorBoundary>
   )

@@ -1,6 +1,13 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, AppOffCanvas, FallBackRender, PageHeading, RemoveModal} from "../../../components";
-import {useDispatch} from "react-redux";
+import {
+  AppBreadcrumb,
+  AppOffCanvas,
+  AuthorizedComponent,
+  FallBackRender,
+  PageHeading,
+  RemoveModal
+} from "../../../components";
+import {useDispatch, useSelector} from "react-redux";
 import {memo, useEffect, useState} from "react";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
@@ -21,6 +28,7 @@ const tabs = [
 const ShowUser = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'staff' }))
@@ -58,94 +66,98 @@ const ShowUser = () => {
       <PageHeading title='Mon Profile'/>
       <PageLayout>
         <AppBreadcrumb title='Compte utilisateur'/>
-        <Row className='align-items-center'>
-          <Col xxl={12}>
-            <div
-              className='pt-20 rounded-top'
-              style={{
-                background: `url(${bgImg}) no-repeat`,
-                backgroundSize: 'cover',
-              }}/>
-            
-            <div className='bg-white rounded-bottom smooth-shadow-sm'>
-              <div className='d-flex align-items-center justify-content-between pt-4 pb-6 px-4'>
-                <div className='d-flex align-items-center'>
-                  <div className='avatar-xxl avatar-indicators avatar-online me-2
+        {session && session?.roles && session.roles.length > 0 && (
+          <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+            <Row className='align-items-center'>
+              <Col xxl={12}>
+                <div
+                  className='pt-20 rounded-top'
+                  style={{
+                    background: `url(${bgImg}) no-repeat`,
+                    backgroundSize: 'cover',
+                  }}/>
+                
+                <div className='bg-white rounded-bottom smooth-shadow-sm'>
+                  <div className='d-flex align-items-center justify-content-between pt-4 pb-6 px-4'>
+                    <div className='d-flex align-items-center'>
+                      <div className='avatar-xxl avatar-indicators avatar-online me-2
                       position-relative d-flex justify-content-end
                       align-items-end mt-n10'>
-                    <img
-                      src={!isError && data && data?.agentAccount && data.agentAccount?.profile
-                        ? entrypoint+data.agentAccount.profile?.contentUrl
-                        : avatar1}
-                      className="avatar-xxl rounded-circle border border-4 border-white-color-40" alt=""/>
+                        <img
+                          src={!isError && data && data?.agentAccount && data.agentAccount?.profile
+                            ? entrypoint+data.agentAccount.profile?.contentUrl
+                            : avatar1}
+                          className="avatar-xxl rounded-circle border border-4 border-white-color-40" alt=""/>
+                      </div>
+                      
+                      <div className='lh-1'>
+                        <h2 className="mb-0">
+                          {isLoading && <small className='fw-normal'>Chargement en cours...</small>}
+                          {!(isError && isLoading) && data && <span className="text-capitalize">{data?.fullName}</span>}
+                          <Link
+                            to="#!"
+                            className="text-decoration-none"
+                            data-bs-toggle="tooltip"
+                            data-placement="top"
+                            title="" data-original-title="Beginner"/>
+                        </h2>
+                        
+                        <p className="mb-0 d-block">
+                          {!(isError && isLoading) && data && `@${data.username}`} <br/> <br/>
+                          
+                          {!(isError && isLoading) && data && (
+                            <>
+                              {data?.agentAccount &&
+                                <><Link to={`/app/agents/${data.agentAccount.id}/show`}>
+                                  <i className='bi bi-person-fill'/> Voir les détails de l'agent</Link> | </>}
+                              <span className='text-primary' style={{ cursor: 'pointer' }} onClick={onRefresh}>
+                            {!isFetching && <i className='bi bi-arrow-clockwise me-1'/>}
+                                {isFetching && <Spinner animation='grow' size='sm' className='me-1'/>}
+                                Actualiser cette page
+                          </span>
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Button
+                        disabled={isLoading || isDelLoading}
+                        variant='danger'
+                        className="me-1"
+                        onClick={toggleShow}>
+                        Supprimer
+                      </Button>
+                      
+                      <Button
+                        disabled={isLoading || isDelLoading}
+                        variant='outline-primary'
+                        onClick={toggleOpen}>
+                        Éditer ce compte
+                      </Button>
+                    </div>
                   </div>
                   
-                  <div className='lh-1'>
-                    <h2 className="mb-0">
-                      {isLoading && <small className='fw-normal'>Chargement en cours...</small>}
-                      {!(isError && isLoading) && data && <span className="text-capitalize">{data?.fullName}</span>}
-                      <Link
-                        to="#!"
-                        className="text-decoration-none"
-                        data-bs-toggle="tooltip"
-                        data-placement="top"
-                        title="" data-original-title="Beginner"/>
-                    </h2>
-                    
-                    <p className="mb-0 d-block">
-                      {!(isError && isLoading) && data && `@${data.username}`} <br/> <br/>
-                      
-                      {!(isError && isLoading) && data && (
-                        <>
-                          {data?.agentAccount &&
-                            <><Link to={`/app/agents/${data.agentAccount.id}/show`}>
-                              <i className='bi bi-person-fill'/> Voir les détails de l'agent</Link> | </>}
-                          <span className='text-primary' style={{ cursor: 'pointer' }} onClick={onRefresh}>
-                            {!isFetching && <i className='bi bi-arrow-clockwise me-1'/>}
-                            {isFetching && <Spinner animation='grow' size='sm' className='me-1'/>}
-                            Actualiser cette page
-                          </span>
-                        </>
-                      )}
-                    </p>
-                  </div>
+                  <Tabs
+                    onSelect={k => setKey(k)}
+                    activeKey={key}
+                    variant='pills'
+                    className='nav-lt-tab px-4'>
+                    {tabs.length > 0 && tabs.map((p, i) =>
+                      <Tab key={i} title={p.title} eventKey={p.event}/>)}
+                  </Tabs>
                 </div>
                 
-                <div>
-                  <Button
-                    disabled={isLoading || isDelLoading}
-                    variant='danger'
-                    className="me-1"
-                    onClick={toggleShow}>
-                    Supprimer
-                  </Button>
-                  
-                  <Button
-                    disabled={isLoading || isDelLoading}
-                    variant='outline-primary'
-                    onClick={toggleOpen}>
-                    Éditer ce compte
-                  </Button>
+                <div className='py-6'>
+                  <Row>
+                    {key === 'overview' && <ShowUserOverview error={isError} loader={isLoading} data={data}/>}
+                  </Row>
                 </div>
-              </div>
-              
-              <Tabs
-                onSelect={k => setKey(k)}
-                activeKey={key}
-                variant='pills'
-                className='nav-lt-tab px-4'>
-                {tabs.length > 0 && tabs.map((p, i) =>
-                  <Tab key={i} title={p.title} eventKey={p.event}/>)}
-              </Tabs>
-            </div>
-            
-            <div className='py-6'>
-              <Row>
-                {key === 'overview' && <ShowUserOverview error={isError} loader={isLoading} data={data}/>}
-              </Row>
-            </div>
-          </Col>
-        </Row>
+              </Col>
+            </Row>
+          </AuthorizedComponent>
+        )}
       </PageLayout>
       
       {!(isError && isLoading) && data &&

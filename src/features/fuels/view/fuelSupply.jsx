@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
+import {AppBreadcrumb, AuthorizedComponent, FallBackRender, PageHeading} from "../../../components";
 import {memo, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
 import {Card, Col, Row} from "react-bootstrap";
@@ -12,6 +12,7 @@ import {usePostNewFuelSupplyMutation} from "../model/fuel.api.slice";
 
 const FuelSupply = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'fuels' }))
@@ -78,37 +79,41 @@ const FuelSupply = () => {
       <PageLayout>
         <AppBreadcrumb title='Approvisionnement carburants'/>
         
-        <Row>
-          <Col md={8} className='mb-3'>
-            <Card>
-              <Card.Body>
-                <FSupplyComp1
-                  toggleShow={toggleShow}
-                  show={show}
-                  loader={isLoading}
-                  state={state}
-                  setState={setState}
-                  onSubmit={onSubmit}
-                  onRemoveItem={onRemoveItem}
-                  onReset={onReset}/>
-              </Card.Body>
-            </Card>
-          </Col>
-          
-          <Col md={4} className='mb-3'>
-            <Card>
-              <Card.Body>
-                <FSupplyComp2
-                  loader={isLoading}
-                  fields={fields}
-                  setFields={setFields}
-                  state={state}
-                  setState={setState}
-                  onAddItem={onAddItem}/>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        {session && session?.roles && session.roles.length > 0 && (
+          <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+            <Row>
+              <Col md={8} className='mb-3'>
+                <Card>
+                  <Card.Body>
+                    <FSupplyComp1
+                      toggleShow={toggleShow}
+                      show={show}
+                      loader={isLoading}
+                      state={state}
+                      setState={setState}
+                      onSubmit={onSubmit}
+                      onRemoveItem={onRemoveItem}
+                      onReset={onReset}/>
+                  </Card.Body>
+                </Card>
+              </Col>
+              
+              <Col md={4} className='mb-3'>
+                <Card>
+                  <Card.Body>
+                    <FSupplyComp2
+                      loader={isLoading}
+                      fields={fields}
+                      setFields={setFields}
+                      state={state}
+                      setState={setState}
+                      onAddItem={onAddItem}/>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </AuthorizedComponent>
+        )}
       </PageLayout>
     </ErrorBoundary>
   )

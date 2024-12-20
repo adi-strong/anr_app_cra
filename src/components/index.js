@@ -16,8 +16,12 @@ import UpdateImageFields from "./updateImageFields";
 import RowContent2 from "./RowContent2";
 import MapComponent from "./mapComponent";
 import QRCodeComponent from "./QRCodeComponent";
+import AuthorizedComponent from "./AuthorizedComponent";
+import AuthorizedNode from "./AuthorizedNode";
 
 export {
+  AuthorizedNode,
+  AuthorizedComponent,
   QRCodeComponent,
   MapComponent,
   RowContent2,

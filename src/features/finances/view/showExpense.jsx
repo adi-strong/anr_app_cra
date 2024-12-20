@@ -1,5 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading, QRCodeComponent} from "../../../components";
+import {AppBreadcrumb, AuthorizedComponent, FallBackRender, PageHeading, QRCodeComponent} from "../../../components";
 import {memo, useEffect, useMemo, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
@@ -67,117 +67,121 @@ const ShowExpense = () => {
       <PageLayout>
         <AppBreadcrumb title={`Bon de sorties n°${id}`}/>
         
-        <div className='d-flex justify-content-between'>
-          <div>
-            <Button disabled={isFetching} variant='link' onClick={onRefresh}>
-              {isFetching && <Spinner animation='grow' size='sm' className='me-1'/>}
-              {!isFetching && <i className='bi bi-arrow-clockwise me-1'/>}
-              Actualiser
-            </Button>
-            
-            <Link to='/app/expenses' className='mx-1'>
-              <i className='bi bi-box-arrow-in-down-left'/> Retour à la liste
-            </Link>
-          </div>
-          
-          <Button disabled={isFetching} variant='info' className='text-light' onClick={handlePrint}>
-            <i className='bi bi-printer-fill'/> Imprimer
-          </Button>
-        </div>
-        
-        <Card className='mt-5'>
-          <Card.Body>
-            <div className='container-fluid' ref={printRef}>
-              <div className='mt-5 pt-10 px-10 pe-10 mb-3' style={uStyle2}>
-                <Row>
-                  <Col sm={6} className='mb-3'>
-                    <img src={logo} className='rounded-circle' width={80} height={80} alt=''/>
-                  </Col>
-                  
-                  <Col sm={6} className='mb-3 text-end text-dark'>
-                    N° 1 | le{' '}
-                    {!(isError && isLoading) && data && data?.releasedAt && moment(data.releasedAt).format('ll')}
-                  </Col>
-                </Row>
+        {session && session?.roles && session.roles.length > 0 && (
+          <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+            <div className='d-flex justify-content-between'>
+              <div>
+                <Button disabled={isFetching} variant='link' onClick={onRefresh}>
+                  {isFetching && <Spinner animation='grow' size='sm' className='me-1'/>}
+                  {!isFetching && <i className='bi bi-arrow-clockwise me-1'/>}
+                  Actualiser
+                </Button>
                 
-                <h2 style={nStyle} className='text-center'>
-                  AGENCE NATIONALE DE RENSEIGNEMENTS
-                </h2>
-                <h6 className='text-center'>rue Philippe 49 731 Dumas-sur-Lebrun</h6>
+                <Link to='/app/expenses' className='mx-1'>
+                  <i className='bi bi-box-arrow-in-down-left'/> Retour à la liste
+                </Link>
               </div>
               
-              <div className='mt-5 px-10 pe-10 mb-3 text-center'>
-                <div className='mt-8 text-start'>
-                  <Card.Title className={`mb-6 text-${theme ? 'success-o' : 'dark'}`}>
-                    <span className="fw-bold">Objet :</span> <br/>
-                    {!(isError && isLoading) && data && data.object.toUpperCase()}
-                  </Card.Title>
-                  
-                  <Card.Title className={`text-${theme ? 'success-o' : 'dark'}`}>
-                    <span className="fw-bold">Bénéficiaire</span> : <br/>
-                    {!(isError && isLoading) && data && data.bearer.toUpperCase()}
-                  </Card.Title>
-                </div>
-                
-                <h4 className='card-title fw-bold'>BON DE DÉPENSES</h4>
-              </div>
-              
-              <div className='mt-5 mb-3'>
-                <Table responsive bordered>
-                  <thead>
-                  <tr>
-                    <th className="text-center align-middle p-1" style={style}>DÉSIGNATION</th>
-                    <th className="text-center align-middle p-1" style={style}>NOMBRE</th>
-                    <th className="text-end align-middle p-1" style={style}>
-                      MONTANT{' '}
-                      {!(isError && isLoading) && data && data?.currency && <>({data.currency?.symbol})</>}
-                    </th>
-                  </tr>
-                  </thead>
-                  
-                  <tbody>
-                  {!(isError && isLoading) && data && data?.operations && data.operations?.length > 0 &&
-                    data.operations?.map((o, i) =>
-                      <tr key={i}>
-                        <td className='align-middle p-1 text-center' style={style}>{o?.type && o.type?.label}</td>
-                        <td className='align-middle p-1 text-center' style={style}>{o?.qty && o.qty}</td>
-                        <td className='align-middle p-1 text-end' style={style}>
-                          {o?.amount && o.amount}
-                        </td>
-                      </tr>)}
-                  </tbody>
-                  
-                  <tfoot>
-                  <tr>
-                    <td className='align-middle p-1' style={{ fontSize: '0.7rem', fontWeight: 800 }} colSpan={2}>
-                      TOTAL
-                    </td>
-                    <td className='align-middle p-1 text-end' style={{ fontSize: '0.7rem', fontWeight: 800 }}>
-                      {data?.total+' '}
-                      {data?.currency && data.currency?.symbol}
-                    </td>
-                  </tr>
-                  </tfoot>
-                </Table>
-                
-                {isLoading && <RepeatableTableRowsLoader/>}
-              </div>
-              
-              <Row className='mt-5 mb-3'>
-                <Col sm={6}>
-                  {session &&
-                    <QRCodeComponent value={qrCodeValue}/>}
-                </Col>
-                
-                <Col sm={6} className='text-end'>
-                  <div className='w-30 float-end text-dark' style={{ borderBottom: 'solid 1px #000' }}>
-                    <span>SIGNATURE</span>
-                  </div>
-                </Col>
-              </Row>
+              <Button disabled={isFetching} variant='info' className='text-light' onClick={handlePrint}>
+                <i className='bi bi-printer-fill'/> Imprimer
+              </Button>
             </div>
-          </Card.Body>
-        </Card>
+            
+            <Card className='mt-5'>
+              <Card.Body>
+                <div className='container-fluid' ref={printRef}>
+                  <div className='mt-5 pt-10 px-10 pe-10 mb-3' style={uStyle2}>
+                    <Row>
+                      <Col sm={6} className='mb-3'>
+                        <img src={logo} className='rounded-circle' width={80} height={80} alt=''/>
+                      </Col>
+                      
+                      <Col sm={6} className='mb-3 text-end text-dark'>
+                        N° 1 | le{' '}
+                        {!(isError && isLoading) && data && data?.releasedAt && moment(data.releasedAt).format('ll')}
+                      </Col>
+                    </Row>
+                    
+                    <h2 style={nStyle} className='text-center'>
+                      AGENCE NATIONALE DE RENSEIGNEMENTS
+                    </h2>
+                    <h6 className='text-center'>rue Philippe 49 731 Dumas-sur-Lebrun</h6>
+                  </div>
+                  
+                  <div className='mt-5 px-10 pe-10 mb-3 text-center'>
+                    <div className='mt-8 text-start'>
+                      <Card.Title className={`mb-6 text-${theme ? 'success-o' : 'dark'}`}>
+                        <span className="fw-bold">Objet :</span> <br/>
+                        {!(isError && isLoading) && data && data.object.toUpperCase()}
+                      </Card.Title>
+                      
+                      <Card.Title className={`text-${theme ? 'success-o' : 'dark'}`}>
+                        <span className="fw-bold">Bénéficiaire</span> : <br/>
+                        {!(isError && isLoading) && data && data.bearer.toUpperCase()}
+                      </Card.Title>
+                    </div>
+                    
+                    <h4 className='card-title fw-bold'>BON DE DÉPENSES</h4>
+                  </div>
+                  
+                  <div className='mt-5 mb-3'>
+                    <Table responsive bordered>
+                      <thead>
+                      <tr>
+                        <th className="text-center align-middle p-1" style={style}>DÉSIGNATION</th>
+                        <th className="text-center align-middle p-1" style={style}>NOMBRE</th>
+                        <th className="text-end align-middle p-1" style={style}>
+                          MONTANT{' '}
+                          {!(isError && isLoading) && data && data?.currency && <>({data.currency?.symbol})</>}
+                        </th>
+                      </tr>
+                      </thead>
+                      
+                      <tbody>
+                      {!(isError && isLoading) && data && data?.operations && data.operations?.length > 0 &&
+                        data.operations?.map((o, i) =>
+                          <tr key={i}>
+                            <td className='align-middle p-1 text-center' style={style}>{o?.type && o.type?.label}</td>
+                            <td className='align-middle p-1 text-center' style={style}>{o?.qty && o.qty}</td>
+                            <td className='align-middle p-1 text-end' style={style}>
+                              {o?.amount && o.amount}
+                            </td>
+                          </tr>)}
+                      </tbody>
+                      
+                      <tfoot>
+                      <tr>
+                        <td className='align-middle p-1' style={{fontSize: '0.7rem', fontWeight: 800}} colSpan={2}>
+                          TOTAL
+                        </td>
+                        <td className='align-middle p-1 text-end' style={{fontSize: '0.7rem', fontWeight: 800}}>
+                          {data?.total + ' '}
+                          {data?.currency && data.currency?.symbol}
+                        </td>
+                      </tr>
+                      </tfoot>
+                    </Table>
+                    
+                    {isLoading && <RepeatableTableRowsLoader/>}
+                  </div>
+                  
+                  <Row className='mt-5 mb-3'>
+                    <Col sm={6}>
+                      {session &&
+                        <QRCodeComponent value={qrCodeValue}/>}
+                    </Col>
+                    
+                    <Col sm={6} className='text-end'>
+                      <div className='w-30 float-end text-dark' style={{borderBottom: 'solid 1px #000'}}>
+                        <span>SIGNATURE</span>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </Card.Body>
+            </Card>
+          </AuthorizedComponent>
+        )}
       </PageLayout>
     </ErrorBoundary>
   )

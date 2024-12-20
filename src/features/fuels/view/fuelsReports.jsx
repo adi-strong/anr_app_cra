@@ -1,6 +1,6 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
-import {useDispatch} from "react-redux";
+import {AppBreadcrumb, AuthorizedComponent, FallBackRender, PageHeading} from "../../../components";
+import {useDispatch, useSelector} from "react-redux";
 import {memo, useEffect, useState} from "react";
 import {onToggleMenu} from "../../config/config.slice";
 import {PageLayout} from "../../../layouts";
@@ -15,6 +15,7 @@ const tabs = [
 
 const FuelsReports = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'fuels' }))
@@ -29,17 +30,21 @@ const FuelsReports = () => {
         <AppBreadcrumb title='Rapports stocks carburant'/>
         <Card>
           <Card.Body>
-            <Tabs
-              onSelect={k => setKey(k)}
-              activeKey={key}
-              variant='pills'
-              className='nav-lb-tab'>
-              {tabs.length > 0 && tabs.map(t =>
-                <Tab key={t.event} title={t.title} eventKey={t.event}>
-                  {t.event === 'supply' && <FuelSupplyReportsList/>}
-                  {t.event === 'consumption' && <FuelConsumeReportsList/>}
-                </Tab>)}
-            </Tabs>
+            {session && session?.roles && session.roles.length > 0 && (
+              <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+                <Tabs
+                  onSelect={k => setKey(k)}
+                  activeKey={key}
+                  variant='pills'
+                  className='nav-lb-tab'>
+                  {tabs.length > 0 && tabs.map(t =>
+                    <Tab key={t.event} title={t.title} eventKey={t.event}>
+                      {t.event === 'supply' && <FuelSupplyReportsList/>}
+                      {t.event === 'consumption' && <FuelConsumeReportsList/>}
+                    </Tab>)}
+                </Tabs>
+              </AuthorizedComponent>
+            )}
           </Card.Body>
         </Card>
       </PageLayout>

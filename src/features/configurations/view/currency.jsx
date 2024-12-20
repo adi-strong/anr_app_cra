@@ -1,14 +1,16 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {FallBackRender} from "../../../components";
+import {AuthorizedComponent, FallBackRender} from "../../../components";
 import {PageLayout} from "../../../layouts";
 import {Card, Col, Row} from "react-bootstrap";
 import CurrencyForm from "./currencyForm";
 import {useGetUniqueCurrencyQuery} from "../model/currency.api.slice";
 import {useEffect} from "react";
 import toast from "react-hot-toast";
+import {useSelector} from "react-redux";
 
 export default function Currency() {
   const {data, isLoading, isError, error, refetch} = useGetUniqueCurrencyQuery(1)
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     if (isError) {
@@ -39,7 +41,11 @@ export default function Currency() {
                   <h4 className="mb-1">Configuration</h4>
                 </div>
                 
-                <CurrencyForm data={data} loader={isLoading} onRefresh={onRefresh}/>
+                {session && session?.roles && session.roles.length > 0 && (
+                  <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+                    <CurrencyForm data={data} loader={isLoading} onRefresh={onRefresh}/>
+                  </AuthorizedComponent>
+                )}
               </Card.Body>
             </Card>
           </Col>

@@ -1,5 +1,5 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {FallBackRender} from "../../../components";
+import {AuthorizedNode, FallBackRender} from "../../../components";
 import {Badge, Dropdown} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {agentActionItems} from "../../staff/model/agent.service";
@@ -9,6 +9,7 @@ import {useSelector} from "react-redux";
 export default function PropertyItem({data}) {
   const navigate = useNavigate()
   const {show: theme} = useSelector(state => state.theme)
+  const {user: session} = useSelector((state) => state.auth)
   
   return (
     <ErrorBoundary fallbackRender={FallBackRender}>
@@ -26,23 +27,27 @@ export default function PropertyItem({data}) {
         </td>
         
         <td className="align-middle text-end">
-          <Dropdown className='dropstart' children={
-            <>
-              <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
-                <i className='bi bi-three-dots-vertical text-primary'/>
-              </Dropdown.Toggle>
-              
-              <Dropdown.Menu>
-                {agentActionItems.length > 0 && agentActionItems.map((f, i) =>
-                  <Dropdown.Item
-                    key={i}
-                    className={f?.className}
-                    onClick={() => onPropertyActionsFilter(f.event, data, navigate)}>
-                    {f.title}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            </>
-          }/>
+          {session && session?.roles && session.roles.length > 0 && (
+            <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+              <Dropdown className='dropstart' children={
+                <>
+                  <Dropdown.Toggle className={`bg-${theme ? 'dark-green-o' : 'white'} border-0 shadow-none`}>
+                    <i className='bi bi-three-dots-vertical text-primary'/>
+                  </Dropdown.Toggle>
+                  
+                  <Dropdown.Menu>
+                    {agentActionItems.length > 0 && agentActionItems.map((f, i) =>
+                      <Dropdown.Item
+                        key={i}
+                        className={f?.className}
+                        onClick={() => onPropertyActionsFilter(f.event, data, navigate)}>
+                        {f.title}
+                      </Dropdown.Item>)}
+                  </Dropdown.Menu>
+                </>
+              }/>
+            </AuthorizedNode>
+          )}
         </td>
       </tr>
     </ErrorBoundary>

@@ -1,7 +1,7 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, FallBackRender, PageHeading} from "../../../components";
+import {AppBreadcrumb, AuthorizedComponent, FallBackRender, PageHeading} from "../../../components";
 import {memo, useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
 import {Card} from "react-bootstrap";
 import ExpensesList from "./expensesList";
@@ -10,6 +10,7 @@ import ExpenseCategoriesList from "./expenseCategoriesList";
 
 const Expenses = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'finances' }))
@@ -20,13 +21,17 @@ const Expenses = () => {
       <PageHeading title='Dépenses'/>
       <PageLayout>
         <AppBreadcrumb title='Dépenses'/>
-        <Card>
-          <ExpensesList/>
-        </Card>
-        
-        <Card className='mt-8'>
-          <ExpenseCategoriesList/>
-        </Card>
+        {session && session?.roles && session.roles.length > 0 && (
+          <AuthorizedComponent userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+            <Card>
+              <ExpensesList/>
+            </Card>
+            
+            <Card className='mt-8'>
+              <ExpenseCategoriesList/>
+            </Card>
+          </AuthorizedComponent>
+        )}
       </PageLayout>
     </ErrorBoundary>
   )

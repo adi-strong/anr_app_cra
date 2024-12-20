@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {onSetNbPages} from "../../config/config.slice";
 import toast from "react-hot-toast";
 import {ErrorBoundary} from "react-error-boundary";
-import {APIPagination, AppOffCanvas, FallBackRender} from "../../../components";
+import {APIPagination, AppOffCanvas, AuthorizedNode, FallBackRender} from "../../../components";
 import {Alert, Card, Col, Form, Row, Spinner, Table} from "react-bootstrap";
 import {nbPageOptions} from "../../../services";
 import {RepeatableTableRowsLoader} from "../../../loaders";
@@ -20,6 +20,7 @@ import {
 } from "../model/property.api.slice";
 
 export default function PropertiesList() {
+  const {user: session} = useSelector((state) => state.auth)
   const [search, setSearch] = useState({keyword: '', temp: ''})
   const [page, setPage] = useState(1)
   const [isPaginated, setIsPaginated] = useState(false)
@@ -175,9 +176,13 @@ export default function PropertiesList() {
         
         <Row>
           <Col md={6} className='mb-2 d-flex'>
-            <Link to='/app/properties/add' className='btn btn-primary me-1 mb-1'>
-              Enregistrer
-            </Link>
+            {session && session?.roles && session.roles.length > 0 && (
+              <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+                <Link to='/app/properties/add' className='btn btn-primary me-1 mb-1'>
+                  Enregistrer
+                </Link>
+              </AuthorizedNode>
+            )}
             
             <Form.Group className='mb-1'>
               <Form.Select

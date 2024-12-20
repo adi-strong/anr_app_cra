@@ -1,5 +1,13 @@
 import {ErrorBoundary} from "react-error-boundary";
-import {AppBreadcrumb, AppOffCanvas, FallBackRender, MapComponent, PageHeading, RowContent2} from "../../../components";
+import {
+  AppBreadcrumb,
+  AppOffCanvas,
+  AuthorizedNode,
+  FallBackRender,
+  MapComponent,
+  PageHeading,
+  RowContent2
+} from "../../../components";
 import {memo, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {onToggleMenu} from "../../config/config.slice";
@@ -47,6 +55,7 @@ const ConfirmDisUsedModal = ({show, onHide, onSubmit, data}) => {
 
 const ShowProperty = () => {
   const dispatch = useDispatch()
+  const {user: session} = useSelector((state) => state.auth)
   
   useEffect(() => {
     dispatch(onToggleMenu({ menuKey: 'patrimony' }))
@@ -107,15 +116,19 @@ const ShowProperty = () => {
         <AppBreadcrumb title={`Propriété`}/>
         
         <Row>
-          <Col className='mb-3'>
-            <Button disabled={isFetching} variant='danger' onClick={toggleShow} className='me-1'>
-              <i className='bi bi-trash'/> Supprimer
-            </Button>
-            
-            <Link to={`/app/properties/${data ? data.id+'/edit' : '#!'}`} className='btn btn-primary'>
-              <i className='bi bi-pencil-square'/> Modifier
-            </Link>
-          </Col>
+          {session && session?.roles && session.roles.length > 0 && (
+            <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+              <Col className='mb-3'>
+                <Button disabled={isFetching} variant='danger' onClick={toggleShow} className='me-1'>
+                  <i className='bi bi-trash'/> Supprimer
+                </Button>
+                
+                <Link to={`/app/properties/${data ? data.id+'/edit' : '#!'}`} className='btn btn-primary'>
+                  <i className='bi bi-pencil-square'/> Modifier
+                </Link>
+              </Col>
+            </AuthorizedNode>
+          )}
           
           <Col className='mb-3 text-md-end'>
             <Link className='btn btn-link' to='/app/properties'>
@@ -169,41 +182,45 @@ const ShowProperty = () => {
                   </Col>
                   
                   <Col className='mb-3'>
-                    <RowContent2 title='Affectation' content={(
-                      <>
-                        {!data?.agent &&
-                          <Button disabled={isFetching} onClick={toggleClick}>
-                            Nouvelle affectation <i className='bi bi-chevron-right'/>
-                          </Button>}
-                        
-                        {data?.agent && (
+                    {session && session?.roles && session.roles.length > 0 && (
+                      <AuthorizedNode userRoles={session.roles} allowedRoles={['ROLE_AG', 'ROLE_SUPER_ADMIN']}>
+                        <RowContent2 title='Affectation' content={(
                           <>
-                            <img
-                              src={data.agent?.profile ? entrypoint+data.agent.profile?.contentUrl : avatar2}
-                              alt=""
-                              className="avatar-md avatar rounded-circle me-1"/>
-                            <Link
-                              to={`/app/agents/${data.agent.id}/show`}
-                              className={`text-${theme ? 'light-success' : 'dark'}`}>
-                              {data.agent.name?.toUpperCase()+' '}
-                              {data.agent?.lastName && data.agent.lastName?.toUpperCase()+' '}
-                              {data.agent?.firstName && data.agent.firstName?.toUpperCase()}
-                            </Link>
-                            <span className='mx-2'>
+                            {!data?.agent &&
+                              <Button disabled={isFetching} onClick={toggleClick}>
+                                Nouvelle affectation <i className='bi bi-chevron-right'/>
+                              </Button>}
+                            
+                            {data?.agent && (
+                              <>
+                                <img
+                                  src={data.agent?.profile ? entrypoint+data.agent.profile?.contentUrl : avatar2}
+                                  alt=""
+                                  className="avatar-md avatar rounded-circle me-1"/>
+                                <Link
+                                  to={`/app/agents/${data.agent.id}/show`}
+                                  className={`text-${theme ? 'light-success' : 'dark'}`}>
+                                  {data.agent.name?.toUpperCase()+' '}
+                                  {data.agent?.lastName && data.agent.lastName?.toUpperCase()+' '}
+                                  {data.agent?.firstName && data.agent.firstName?.toUpperCase()}
+                                </Link>
+                                <span className='mx-2'>
                                 <small>
                                   ({data.agent?.grade && data.agent.grade.name?.toUpperCase()})
                                 </small>
                               </span>
-                            
-                            <br/> <br/>
-                            <Button disabled={isFetching || isDisUsedLoading} variant='danger' onClick={toggleConfirm}>
-                              <i className='bi bi-x-circle me-1'/>
-                              Désaffecter
-                            </Button>
+                                
+                                <br/> <br/>
+                                <Button disabled={isFetching || isDisUsedLoading} variant='danger' onClick={toggleConfirm}>
+                                  <i className='bi bi-x-circle me-1'/>
+                                  Désaffecter
+                                </Button>
+                              </>
+                            )}
                           </>
-                        )}
-                      </>
-                    )}/>
+                        )}/>
+                      </AuthorizedNode>
+                    )}
                   </Col>
                 </Row>
               </>
